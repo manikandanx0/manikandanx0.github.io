@@ -9,79 +9,79 @@
 
 @layer base {
   :root {
-    /* Base colors - Blade Runner terminal dark theme */
-    --background: 200 20% 2%;
-    --foreground: 180 100% 85%;
+    /* Base colors - Deep dark theme */
+    --background: 220 15% 4%;
+    --foreground: 180 100% 90%;
 
-    /* Card elements - Terminal panels */
-    --card: 200 25% 3%;
-    --card-foreground: 180 90% 80%;
+    /* Card elements */
+    --card: 220 20% 6%;
+    --card-foreground: 180 80% 85%;
 
     /* Popover elements */
-    --popover: 200 30% 4%;
-    --popover-foreground: 180 100% 85%;
+    --popover: 220 25% 8%;
+    --popover-foreground: 180 90% 90%;
 
-    /* Primary - Bright terminal cyan */
-    --primary: 180 100% 60%;
-    --primary-foreground: 200 30% 3%;
+    /* Primary - Cyan accent inspired by terminal */
+    --primary: 180 100% 50%;
+    --primary-foreground: 220 20% 6%;
 
-    /* Secondary - Darker terminal variation */
-    --secondary: 180 60% 15%;
-    --secondary-foreground: 180 100% 80%;
+    /* Secondary - Darker cyan variation */
+    --secondary: 200 80% 20%;
+    --secondary-foreground: 180 100% 85%;
 
-    /* Muted elements - Dimmed terminal text */
-    --muted: 200 25% 8%;
-    --muted-foreground: 180 40% 55%;
+    /* Muted elements */
+    --muted: 220 20% 12%;
+    --muted-foreground: 180 30% 65%;
 
-    /* Accent - Electric terminal green */
-    --accent: 120 100% 45%;
-    --accent-foreground: 200 30% 3%;
+    /* Accent - Electric blue */
+    --accent: 200 100% 60%;
+    --accent-foreground: 220 20% 6%;
 
-    /* Destructive - Terminal red warning */
-    --destructive: 0 100% 50%;
+    /* Destructive - Red warning */
+    --destructive: 0 85% 55%;
     --destructive-foreground: 0 0% 98%;
 
-    /* Borders and inputs - Terminal frame style */
-    --border: 180 80% 20%;
-    --input: 200 30% 5%;
-    --ring: 180 100% 60%;
+    /* Borders and inputs */
+    --border: 180 50% 25%;
+    --input: 220 25% 12%;
+    --ring: 180 100% 50%;
 
-    /* Border radius - Sharp terminal edges */
-    --radius: 0.125rem;
+    /* Border radius */
+    --radius: 0.25rem;
 
-    /* Blade Runner terminal colors */
-    --cyber-cyan: 180 100% 60%;
-    --cyber-blue: 200 100% 55%;
-    --cyber-purple: 280 100% 65%;
-    --cyber-green: 120 100% 45%;
-    --cyber-orange: 30 100% 55%;
+    /* Custom cyberpunk colors */
+    --cyber-cyan: 180 100% 50%;
+    --cyber-blue: 200 100% 60%;
+    --cyber-purple: 280 100% 70%;
+    --cyber-green: 120 100% 50%;
+    --cyber-orange: 30 100% 60%;
     
-    /* Terminal scanning effects */
-    --scan-line: 180 100% 60%;
-    --terminal-glow: 0 0 10px hsl(var(--cyber-cyan) / 0.3);
+    /* Grid and scanning effects */
+    --grid-color: 180 50% 15%;
+    --scan-line: 180 100% 50%;
     
-    /* Glow effects - Blade Runner style */
-    --glow-primary: 0 0 15px hsl(var(--cyber-cyan) / 0.4);
-    --glow-secondary: 0 0 10px hsl(var(--cyber-green) / 0.3);
+    /* Glow effects */
+    --glow-primary: 0 0 20px hsl(var(--cyber-cyan) / 0.5);
+    --glow-secondary: 0 0 15px hsl(var(--cyber-blue) / 0.3);
 
     /* Terminal font settings */
-    --font-mono: "Perfect DOS VGA 437", "IBM Plex Mono", 'Courier New', monospace;
-    --font-sans: "MKOCR", "Perfect DOS VGA 437", monospace;
+    --font-mono: "IBM Plex Mono", 'Fira Code',  monospace;
+    --font-sans: "MKOCR", -apple-system, BlinkMacSystemFont, sans-serif;
 
     /* Animations */
-    --transition-cyber: all 0.2s ease;
-    --scan-duration: 3s;
-    --glow-pulse: 2s;
+    --transition-cyber: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --scan-duration: 2s;
+    --glow-pulse: 1.5s;
 
-    /* Sidebar - Terminal panels */
-    --sidebar-background: 200 25% 3%;
-    --sidebar-foreground: 180 90% 75%;
-    --sidebar-primary: 180 100% 60%;
-    --sidebar-primary-foreground: 200 30% 3%;
-    --sidebar-accent: 200 30% 6%;
-    --sidebar-accent-foreground: 180 90% 80%;
-    --sidebar-border: 180 70% 25%;
-    --sidebar-ring: 180 100% 60%;
+    /* Sidebar */
+    --sidebar-background: 220 25% 5%;
+    --sidebar-foreground: 180 80% 80%;
+    --sidebar-primary: 180 100% 50%;
+    --sidebar-primary-foreground: 220 20% 6%;
+    --sidebar-accent: 220 30% 10%;
+    --sidebar-accent-foreground: 180 80% 85%;
+    --sidebar-border: 180 40% 20%;
+    --sidebar-ring: 180 100% 50%;
   }
 }
 
@@ -193,42 +193,34 @@
 }
 
 @layer components {
-  /* Blade Runner terminal panel effect */
-  .terminal-panel {
+  /* CRT panel effect for cards/sections */
+  .crt {
     position: relative;
     background-color: hsl(var(--card));
-    border: 1px solid hsl(var(--cyber-cyan) / 0.3);
-    box-shadow: 
-      inset 0 0 0 1px hsl(var(--cyber-cyan) / 0.1),
-      0 0 10px hsl(var(--cyber-cyan) / 0.2),
-      inset 0 1px 0 hsl(var(--cyber-cyan) / 0.1);
+    box-shadow: inset 0 0 0 1px hsl(var(--border) / 0.7), inset 0 0 40px hsl(var(--cyber-cyan) / 0.06);
   }
 
-  .terminal-panel::before {
+  .crt::before {
     content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background: 
-      linear-gradient(90deg, transparent 0%, hsl(var(--cyber-cyan) / 0.03) 50%, transparent 100%),
-      linear-gradient(0deg, transparent 0%, hsl(var(--cyber-cyan) / 0.02) 50%, transparent 100%);
-    opacity: 0.8;
+    background: linear-gradient(
+      to bottom,
+      hsl(var(--foreground) / 0.07) 0,
+      transparent 2px
+    );
+    background-size: 100% 3px; /* scanlines */
+    mix-blend-mode: overlay;
+    opacity: 0.35;
   }
 
-  .terminal-panel::after {
+  .crt::after {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, hsl(var(--cyber-cyan) / 0.6), transparent);
-    animation: terminal-scan 4s ease-in-out infinite;
-  }
-
-  @keyframes terminal-scan {
-    0%, 100% { opacity: 0; transform: translateX(-100%); }
-    50% { opacity: 1; transform: translateX(100%); }
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 40%, hsl(0 0% 0% / 0.35) 100%);
   }
 
   /* Slight flicker utility (apply sparingly) */
@@ -242,50 +234,19 @@
     filter: grayscale(1) contrast(1.15) brightness(1.02) sepia(0.6) hue-rotate(150deg) saturate(1.8);
   }
 
-  /* Terminal title styling - Blade Runner aesthetic */
-  .terminal-title {
+  /* Terminal title styling */
+  .mono-title {
     font-family: var(--font-mono);
     text-transform: uppercase;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.15em;
     color: hsl(var(--cyber-cyan));
-    text-shadow: 0 0 8px hsl(var(--cyber-cyan) / 0.5);
-    font-weight: bold;
-  }
-
-  /* Terminal ID card layout */
-  .id-card {
-    background: hsl(var(--card));
-    border: 2px solid hsl(var(--cyber-cyan) / 0.4);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .id-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: hsl(var(--cyber-cyan));
-    box-shadow: 0 0 10px hsl(var(--cyber-cyan));
-  }
-
-  /* Terminal data readout */
-  .data-readout {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    line-height: 1.2;
-    color: hsl(var(--cyber-green));
-    text-shadow: 0 0 5px hsl(var(--cyber-green) / 0.3);
-    letter-spacing: 0.05em;
   }
 
   /* Compact beveled divider */
   .bezel {
     border: 1px solid hsl(var(--border));
     background:
-      linear-gradient(180deg, hsl(var(--cyber-cyan) / 0.1), transparent),
-      linear-gradient(0deg, hsl(0 0% 0% / 0.3), transparent);
+      linear-gradient(180deg, hsl(0 0% 100% / 0.04), transparent),
+      linear-gradient(0deg, hsl(0 0% 0% / 0.25), transparent);
   }
 }
