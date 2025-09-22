@@ -164,21 +164,36 @@
     color: hsl(var(--foreground));
   }
 
-  /* Scrollbar styling */
-  ::-webkit-scrollbar {
-    width: 8px;
+  /* Scrollbar styling - Modern standard approach first, then webkit fallback */
+  
+  /* Standard scrollbar properties for modern browsers */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--cyber-cyan) / 0.5) hsl(var(--background));
   }
 
-  ::-webkit-scrollbar-track {
-    background: hsl(var(--background));
-  }
+  /* Webkit scrollbar fallback for browsers that don't support standard properties */
+  @supports not (scrollbar-width: thin) {
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
 
-  ::-webkit-scrollbar-thumb {
-    background: hsl(var(--cyber-cyan) / 0.5);
-    border-radius: 4px;
-  }
+    ::-webkit-scrollbar-track {
+      background: hsl(var(--background));
+    }
 
-  ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--cyber-cyan) / 0.8);
+    ::-webkit-scrollbar-thumb {
+      background: hsl(var(--cyber-cyan) / 0.5);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: hsl(var(--cyber-cyan) / 0.8);
+    }
+
+    ::-webkit-scrollbar-corner {
+      background: hsl(var(--background));
+    }
   }
 }
