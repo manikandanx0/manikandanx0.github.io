@@ -1,0 +1,206 @@
+/* Global webfont declarations for local fonts (Vite static serving) */
+/* Paths are root-relative to `public`/project root at runtime */
+
+/* IBM Plex Mono - Regular */
+@font-face {
+  font-family: "IBM Plex Mono";
+  src:
+    url("/fonts/IBM_Plex_Mono/woff2/IBMPlexMono-Regular.woff2") format("woff2"),
+    url("/fonts/IBM_Plex_Mono/woff/IBMPlexMono-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* IBM Plex Mono - Italic */
+@font-face {
+  font-family: "IBM Plex Mono";
+  src:
+    url("/fonts/IBM_Plex_Mono/woff2/IBMPlexMono-Italic.woff2") format("woff2"),
+    url("/fonts/IBM_Plex_Mono/woff/IBMPlexMono-Italic.woff") format("woff");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* IBM Plex Mono - Text */
+@font-face {
+  font-family: "IBM Plex Mono";
+  src:
+    url("/fonts/IBM_Plex_Mono/woff2/IBMPlexMono-Text.woff2") format("woff2"),
+    url("/fonts/IBM_Plex_Mono/woff/IBMPlexMono-Text.woff") format("woff");
+  font-weight: 450;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* IBM Plex Mono - Text Italic */
+@font-face {
+  font-family: "IBM Plex Mono";
+  src:
+    url("/fonts/IBM_Plex_Mono/woff2/IBMPlexMono-TextItalic.woff2") format("woff2"),
+    url("/fonts/IBM_Plex_Mono/woff/IBMPlexMono-TextItalic.woff") format("woff");
+  font-weight: 450;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* IBM Plex Mono - Medium */
+@font-face {
+  font-family: "IBM Plex Mono";
+  src:
+    url("/fonts/IBM_Plex_Mono/woff2/IBMPlexMono-Medium.woff2") format("woff2"),
+    url("/fonts/IBM_Plex_Mono/woff/IBMPlexMono-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* IBM Plex Mono - Medium Italic */
+@font-face {
+  font-family: "IBM Plex Mono";
+  src:
+    url("/fonts/IBM_Plex_Mono/woff2/IBMPlexMono-MediumItalic.woff2") format("woff2"),
+    url("/fonts/IBM_Plex_Mono/woff/IBMPlexMono-MediumItalic.woff") format("woff");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* IBM Plex Mono - SemiBold */
+@font-face {
+  font-family: "IBM Plex Mono";
+  src:
+    url("/fonts/IBM_Plex_Mono/woff2/IBMPlexMono-SemiBold.woff2") format("woff2"),
+    url("/fonts/IBM_Plex_Mono/woff/IBMPlexMono-SemiBold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* IBM Plex Mono - SemiBold Italic */
+@font-face {
+  font-family: "IBM Plex Mono";
+  src:
+    url("/fonts/IBM_Plex_Mono/woff2/IBMPlexMono-SemiBoldItalic.woff2") format("woff2"),
+    url("/fonts/IBM_Plex_Mono/woff/IBMPlexMono-SemiBoldItalic.woff") format("woff");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* IBM Plex Mono - Bold */
+@font-face {
+  font-family: "IBM Plex Mono";
+  src:
+    url("/fonts/IBM_Plex_Mono/woff2/IBMPlexMono-Bold.woff2") format("woff2"),
+    url("/fonts/IBM_Plex_Mono/woff/IBMPlexMono-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* IBM Plex Mono - Bold Italic */
+@font-face {
+  font-family: "IBM Plex Mono";
+  src:
+    url("/fonts/IBM_Plex_Mono/woff2/IBMPlexMono-BoldItalic.woff2") format("woff2"),
+    url("/fonts/IBM_Plex_Mono/woff/IBMPlexMono-BoldItalic.woff") format("woff");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Optional lighter weights if used */
+@font-face {
+  font-family: "IBM Plex Mono";
+  src:
+    url("/fonts/IBM_Plex_Mono/woff2/IBMPlexMono-Light.woff2") format("woff2"),
+    url("/fonts/IBM_Plex_Mono/woff/IBMPlexMono-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  src:
+    url("/fonts/IBM_Plex_Mono/woff2/IBMPlexMono-LightItalic.woff2") format("woff2"),
+    url("/fonts/IBM_Plex_Mono/woff/IBMPlexMono-LightItalic.woff") format("woff");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  src:
+    url("/fonts/IBM_Plex_Mono/woff2/IBMPlexMono-Thin.woff2") format("woff2"),
+    url("/fonts/IBM_Plex_Mono/woff/IBMPlexMono-Thin.woff") format("woff");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  src:
+    url("/fonts/IBM_Plex_Mono/woff2/IBMPlexMono-ThinItalic.woff2") format("woff2"),
+    url("/fonts/IBM_Plex_Mono/woff/IBMPlexMono-ThinItalic.woff") format("woff");
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* MKOCR - single family name */
+@font-face {
+  font-family: "MKOCR";
+  src:
+    url("/fonts/MKOCR/MKOCR.woff2") format("woff2"),
+    url("/fonts/MKOCR/MKOCR.woff") format("woff"),
+    url("/fonts/MKOCR/MKOCR.ttf") format("truetype"),
+    url("/fonts/MKOCR/MKOCR.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* FFF Agent Condensed (personal/non-commercial per included license) */
+@font-face {
+  font-family: "FFF Agent Condensed";
+  src: url("/fonts/FFF Agent Condensed/FFFAC___.TTF") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Perfect DOS VGA 437 */
+@font-face {
+  font-family: "Perfect DOS VGA 437";
+  src: url("/fonts/perfect_dos_vga_437/Perfect DOS VGA 437.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Perfect DOS VGA 437 (Windows codepage variant) */
+@font-face {
+  font-family: "Perfect DOS VGA 437 Win";
+  src: url("/fonts/perfect_dos_vga_437/Perfect DOS VGA 437 Win.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Vercetti Regular */
+@font-face {
+  font-family: "Vercetti Regular";
+  src:
+    url("/fonts/Vercetti-Regular/Vercetti Regular/OpenType WOFFs/Vercetti-Regular.woff2") format("woff2"),
+    url("/fonts/Vercetti-Regular/Vercetti Regular/OpenType WOFFs/Vercetti-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+

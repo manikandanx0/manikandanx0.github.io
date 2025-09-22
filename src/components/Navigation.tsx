@@ -21,7 +21,7 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border cyber-grid">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -39,7 +39,7 @@ const Navigation = () => {
                 className={cn(
                   "font-mono text-sm tracking-wider transition-all duration-300 hover:text-primary",
                   isActive(item.href)
-                    ? "text-primary text-glow pulse-glow"
+                    ? "text-primary"
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >
@@ -70,7 +70,7 @@ const Navigation = () => {
                   className={cn(
                     "block font-mono text-sm tracking-wider transition-colors",
                     isActive(item.href)
-                      ? "text-primary text-glow"
+                      ? "text-primary"
                       : "text-muted-foreground hover:text-foreground"
                   )}
                   onClick={() => setIsOpen(false)}

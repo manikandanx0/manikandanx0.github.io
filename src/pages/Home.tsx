@@ -41,7 +41,7 @@ const Home = () => {
         <div className="space-y-4">
           <h1 className="text-4xl md:text-6xl font-mono font-bold tracking-tight">
             <span className="text-foreground">Hello, I'm </span>
-            <span className="text-primary text-glow pulse-glow">Your Name</span>
+            <span className="text-primary">Your Name</span>
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
             Full-stack developer crafting digital experiences at the intersection of design and technology
@@ -75,7 +75,7 @@ const Home = () => {
         
         <div className="grid md:grid-cols-2 gap-6">
           {featuredProjects.map((project, index) => (
-            <Card key={index} className="bg-card/50 border-border hover:border-primary/50 transition-all duration-300 group">
+            <Card key={index} className="bg-card/50 border-border hover-accent-border group">
               <CardHeader>
                 <CardTitle className="font-mono text-xl group-hover:text-primary transition-colors">
                   {project.title}
@@ -89,16 +89,15 @@ const Home = () => {
                   {project.tech.map((tech) => (
                     <span 
                       key={tech}
-                      className="px-2 py-1 text-xs font-mono bg-secondary/50 text-secondary-foreground rounded border border-secondary"
+                      className="chip bg-secondary/50 text-secondary-foreground border-secondary"
                     >
                       {tech}
                     </span>
                   ))}
                 </div>
-                <Button asChild variant="ghost" className="w-full justify-between p-0 h-auto hover:text-primary">
-                  <Link to={project.href}>
-                    View Project
-                    <ArrowRight className="w-4 h-4" />
+                <Button asChild variant="link" className="cta-link">
+                  <Link to={project.href} aria-label={`View project: ${project.title}`}>
+                    View project <ArrowRight className="w-4 h-4 icon-arrow" aria-hidden="true" />
                   </Link>
                 </Button>
               </CardContent>
@@ -107,10 +106,9 @@ const Home = () => {
         </div>
         
         <div className="text-center">
-          <Button asChild variant="outline" size="lg">
-            <Link to="/portfolio">
-              View All Projects
-              <ArrowRight className="w-5 h-5 ml-2" />
+          <Button asChild variant="link" className="cta-link">
+            <Link to="/portfolio" aria-label="View all projects">
+              View all projects <ArrowRight className="w-5 h-5 icon-arrow" aria-hidden="true" />
             </Link>
           </Button>
         </div>
@@ -127,7 +125,7 @@ const Home = () => {
         
         <div className="grid md:grid-cols-2 gap-6">
           {latestPosts.map((post, index) => (
-            <Card key={index} className="bg-card/50 border-border hover:border-primary/50 transition-all duration-300 group">
+            <Card key={index} className="bg-card/50 border-border hover-accent-border group">
               <CardHeader>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground font-mono">
                   <FileText className="w-4 h-4" />
@@ -141,10 +139,9 @@ const Home = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button asChild variant="ghost" className="w-full justify-between p-0 h-auto hover:text-primary">
-                  <Link to={post.href}>
-                    Read More
-                    <ArrowRight className="w-4 h-4" />
+                <Button asChild variant="link" className="cta-link">
+                  <Link to={post.href} aria-label={`Read article: ${post.title}`}>
+                    Read article <ArrowRight className="w-4 h-4 icon-arrow" aria-hidden="true" />
                   </Link>
                 </Button>
               </CardContent>
@@ -153,10 +150,9 @@ const Home = () => {
         </div>
         
         <div className="text-center">
-          <Button asChild variant="outline" size="lg">
-            <Link to="/blog">
-              View All Posts
-              <ArrowRight className="w-5 h-5 ml-2" />
+          <Button asChild variant="link" className="cta-link">
+            <Link to="/blog" aria-label="View all posts">
+              View all posts <ArrowRight className="w-5 h-5 icon-arrow" aria-hidden="true" />
             </Link>
           </Button>
         </div>

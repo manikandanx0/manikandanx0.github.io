@@ -1,3 +1,6 @@
+/* Local webfonts must be imported first */
+@import url("./fonts.css");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -62,8 +65,8 @@
     --glow-secondary: 0 0 15px hsl(var(--cyber-blue) / 0.3);
 
     /* Terminal font settings */
-    --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
-    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: "IBM Plex Mono", 'Fira Code',  monospace;
+    --font-sans: "MKOCR", -apple-system, BlinkMacSystemFont, sans-serif;
 
     /* Animations */
     --transition-cyber: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -83,6 +86,11 @@
 }
 
 @layer base {
+  html,
+  body {
+    height: 100%;
+  }
+
   * {
     @apply border-border;
   }
@@ -92,71 +100,54 @@
     font-family: var(--font-sans);
   }
 
+  /* Global CTA link style */
+  .cta-link {
+    padding: 0;
+    font-family: var(--font-mono);
+    color: hsl(var(--primary));
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-underline-offset: 4px;
+  }
+
+  .cta-link:hover {
+    text-decoration: underline;
+  }
+
+  .cta-link .icon-arrow {
+    transition: transform 0.2s ease;
+  }
+
+  /* Global chip/pill style (colors come from component context) */
+  .chip {
+    padding: 0.25rem 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem; /* text-xs */
+    line-height: 1rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+  }
+
+  /* Global subtle hover border accent */
+  .hover-accent-border {
+    transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .hover-accent-border:hover {
+    border-color: hsl(var(--primary) / 0.5);
+  }
+
+  .cta-link:hover .icon-arrow {
+    transform: translateX(0.25rem);
+  }
+
   /* Terminal/Mono font for code and special elements */
   .font-mono {
     font-family: var(--font-mono);
   }
 
-  /* Cyberpunk grid background */
-  .cyber-grid {
-    background-image: 
-      linear-gradient(hsl(var(--grid-color)) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--grid-color)) 1px, transparent 1px);
-    background-size: 20px 20px;
-  }
-
-  /* Scanning line effect */
-  .scan-lines::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-      transparent 50%,
-      hsl(var(--scan-line) / 0.03) 50%,
-      hsl(var(--scan-line) / 0.05) 51%,
-      transparent 52%
-    );
-    background-size: 100% 4px;
-    pointer-events: none;
-    animation: scan var(--scan-duration) linear infinite;
-  }
-
-  /* Glow effects */
-  .glow-primary {
-    box-shadow: var(--glow-primary);
-  }
-
-  .glow-secondary {
-    box-shadow: var(--glow-secondary);
-  }
-
-  /* Cyber text glow */
-  .text-glow {
-    text-shadow: 0 0 10px hsl(var(--cyber-cyan) / 0.8);
-  }
-
-  /* Pulse animation for glowing elements */
-  .pulse-glow {
-    animation: pulse-glow var(--glow-pulse) ease-in-out infinite alternate;
-  }
-
-  /* Keyframes */
-  @keyframes scan {
-    0% { transform: translateY(-100%); }
-    100% { transform: translateY(100vh); }
-  }
-
-  @keyframes pulse-glow {
-    from {
-      text-shadow: 0 0 5px hsl(var(--cyber-cyan) / 0.5);
-    }
-    to {
-      text-shadow: 0 0 20px hsl(var(--cyber-cyan) / 1), 0 0 30px hsl(var(--cyber-cyan) / 0.8);
-    }
-  }
+  /* Flat style: removed cyber grid, scanning lines, and glow utilities */
 
   /* Terminal-style selection */
   ::selection {
@@ -165,4 +156,97 @@
   }
 
   /* Native scrollbars (custom styling removed) */
+}
+
+/* Blade Runner terminal theme and utilities */
+@layer base {
+  /* Drop-in theme: add `theme-bladerunner` on any container (or `html`) */
+  .theme-bladerunner {
+    --background: 200 24% 6%;
+    --foreground: 170 40% 86%;
+
+    --card: 200 22% 7%;
+    --card-foreground: 170 38% 86%;
+
+    --popover: 200 24% 7%;
+    --popover-foreground: 170 40% 86%;
+
+    --primary: 180 100% 62%; /* cyan glow */
+    --primary-foreground: 200 22% 7%;
+
+    --secondary: 188 32% 18%;
+    --secondary-foreground: 170 40% 86%;
+
+    --muted: 200 20% 12%;
+    --muted-foreground: 178 20% 66%;
+
+    --accent: 190 90% 55%;
+    --accent-foreground: 200 22% 7%;
+
+    --destructive: 8 85% 54%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 184 35% 26%;
+    --input: 200 20% 12%;
+    --ring: 180 100% 62%;
+  }
+}
+
+@layer components {
+  /* CRT panel effect for cards/sections */
+  .crt {
+    position: relative;
+    background-color: hsl(var(--card));
+    box-shadow: inset 0 0 0 1px hsl(var(--border) / 0.7), inset 0 0 40px hsl(var(--cyber-cyan) / 0.06);
+  }
+
+  .crt::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      hsl(var(--foreground) / 0.07) 0,
+      transparent 2px
+    );
+    background-size: 100% 3px; /* scanlines */
+    mix-blend-mode: overlay;
+    opacity: 0.35;
+  }
+
+  .crt::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 40%, hsl(0 0% 0% / 0.35) 100%);
+  }
+
+  /* Slight flicker utility (apply sparingly) */
+  @keyframes crt-flicker { 0%, 100% { opacity: 1 } 50% { opacity: .97 } }
+  .flicker {
+    animation: crt-flicker 1.8s infinite;
+  }
+
+  /* Monochrome teal duotone for images/avatars */
+  .duotone-teal {
+    filter: grayscale(1) contrast(1.15) brightness(1.02) sepia(0.6) hue-rotate(150deg) saturate(1.8);
+  }
+
+  /* Terminal title styling */
+  .mono-title {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: hsl(var(--cyber-cyan));
+  }
+
+  /* Compact beveled divider */
+  .bezel {
+    border: 1px solid hsl(var(--border));
+    background:
+      linear-gradient(180deg, hsl(0 0% 100% / 0.04), transparent),
+      linear-gradient(0deg, hsl(0 0% 0% / 0.25), transparent);
+  }
 }

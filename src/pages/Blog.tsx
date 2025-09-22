@@ -141,7 +141,7 @@ const Blog = () => {
           </div>
         ) : (
           filteredPosts.map((post) => (
-            <Card key={post.id} className="bg-card/50 border-border hover:border-primary/50 transition-all duration-300 group">
+            <Card key={post.id} className="bg-card/50 border-border hover-accent-border group">
               <CardHeader>
                 <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground font-mono mb-2">
                   <div className="flex items-center gap-1">
@@ -171,17 +171,16 @@ const Blog = () => {
                 {/* Tags */}
                 <div className="flex flex-wrap gap-2">
                   {post.tags.map((tag) => (
-                    <Badge key={tag} variant="secondary" className="font-mono text-xs">
+                    <Badge key={tag} variant="secondary" className="chip">
                       {tag}
                     </Badge>
                   ))}
                 </div>
 
-                {/* Read More Button */}
-                <Button asChild variant="ghost" className="w-full justify-between p-0 h-auto hover:text-primary group-hover:translate-x-1 transition-all">
-                  <Link to={`/blog/${post.slug}`}>
-                    Read Full Article
-                    <ArrowRight className="w-4 h-4" />
+                {/* Read More CTA */}
+                <Button asChild variant="link" className="cta-link">
+                  <Link to={`/blog/${post.slug}`} aria-label={`Read full article: ${post.title}`}>
+                    Read article <ArrowRight className="w-4 h-4 icon-arrow" aria-hidden="true" />
                   </Link>
                 </Button>
               </CardContent>

@@ -104,7 +104,7 @@ The future of web development lies in reactive architectures that prioritize use
       .split('\n')
       .map(line => {
         if (line.startsWith('# ')) {
-          return `<h1 class="text-3xl font-mono font-bold text-foreground mb-6 text-glow">${line.slice(2)}</h1>`;
+          return `<h1 class="text-3xl font-mono font-bold text-foreground mb-6">${line.slice(2)}</h1>`;
         }
         if (line.startsWith('## ')) {
           return `<h2 class="text-2xl font-mono font-bold text-foreground mb-4 mt-8">${line.slice(3)}</h2>`;
@@ -137,10 +137,10 @@ The future of web development lies in reactive architectures that prioritize use
     <div className="container mx-auto px-4 py-16 max-w-4xl">
       {/* Back Button */}
       <div className="mb-8">
-        <Button asChild variant="ghost" className="hover:text-primary">
-          <Link to="/blog">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Blog
+        <Button asChild variant="link" className="cta-link">
+          <Link to="/blog" aria-label="Back to blog">
+            <ArrowLeft className="w-4 h-4 icon-arrow" aria-hidden="true" />
+            Back to blog
           </Link>
         </Button>
       </div>
@@ -200,11 +200,11 @@ The future of web development lies in reactive architectures that prioritize use
             Enjoyed this article? Share it with your network or reach out to discuss further.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild variant="cyber-outline">
-              <Link to="/contact">Get In Touch</Link>
+            <Button asChild variant="link" className="cta-link">
+              <Link to="/contact" aria-label="Get in touch">Get in touch</Link>
             </Button>
-            <Button asChild variant="outline">
-              <Link to="/blog">Read More Articles</Link>
+            <Button asChild variant="link" className="cta-link">
+              <Link to="/blog" aria-label="Read more articles">Read more articles</Link>
             </Button>
           </div>
         </div>
