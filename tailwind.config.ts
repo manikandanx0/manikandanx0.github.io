@@ -57,6 +57,18 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Cyberpunk themed colors
+        cyber: {
+          cyan: "hsl(var(--cyber-cyan))",
+          blue: "hsl(var(--cyber-blue))",
+          purple: "hsl(var(--cyber-purple))",
+          green: "hsl(var(--cyber-green))",
+          orange: "hsl(var(--cyber-orange))",
+        },
+      },
+      fontFamily: {
+        mono: "var(--font-mono)",
+        sans: "var(--font-sans)",
       },
       borderRadius: {
         lg: "var(--radius)",
