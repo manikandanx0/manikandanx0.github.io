@@ -164,37 +164,5 @@
     color: hsl(var(--foreground));
   }
 
-  /* Scrollbar styling - Modern standard approach first, then webkit fallback */
-  
-  /* Standard scrollbar properties for modern browsers */
-  html {
-    scrollbar-gutter: stable both-edges;
-    scrollbar-width: thin;
-    scrollbar-color: hsl(var(--cyber-cyan) / 0.5) hsl(var(--background));
-  }
-
-  /* Webkit scrollbar fallback for browsers that don't support standard properties */
-  @supports not (scrollbar-width: thin) {
-    body::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-
-    body::-webkit-scrollbar-track {
-      background: hsl(var(--background));
-    }
-
-    body::-webkit-scrollbar-thumb {
-      background: hsl(var(--cyber-cyan) / 0.5);
-      border-radius: 4px;
-    }
-
-    body::-webkit-scrollbar-thumb:hover {
-      background: hsl(var(--cyber-cyan) / 0.8);
-    }
-
-    body::-webkit-scrollbar-corner {
-      background: hsl(var(--background));
-    }
-  }
+  /* Native scrollbars (custom styling removed) */
 }
