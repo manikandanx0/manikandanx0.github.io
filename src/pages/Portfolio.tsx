@@ -1,28 +1,71 @@
-import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ExternalLink, Github, Play, Loader2 } from "lucide-react";
-import { fetchProjects, Project } from "@/utils/markdown";
+import { ExternalLink, Github, Play } from "lucide-react";
 
 const Portfolio = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const loadProjects = async () => {
-      try {
-        const projectsData = await fetchProjects();
-        setProjects(projectsData);
-      } catch (error) {
-        console.error('Failed to load projects:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadProjects();
-  }, []);
+  const projects = [
+    {
+      id: 1,
+      title: "Neural Network Visualizer",
+      description: "Interactive machine learning model visualization tool that helps users understand how neural networks process data. Built with React, D3.js, and TensorFlow.js for real-time model training and visualization.",
+      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=500&h=300&fit=crop",
+      technologies: ["React", "TypeScript", "D3.js", "TensorFlow.js", "Python"],
+      liveUrl: "https://example.com",
+      githubUrl: "https://github.com/example",
+      status: "Production"
+    },
+    {
+      id: 2,
+      title: "Cyberpunk Terminal Emulator",
+      description: "A retro-futuristic terminal emulator with customizable themes, syntax highlighting, and plugin support. Features include multiple tab support, custom command aliases, and a built-in package manager.",
+      image: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=500&h=300&fit=crop",
+      technologies: ["Electron", "Node.js", "TypeScript", "CSS", "WebGL"],
+      liveUrl: "https://example.com",
+      githubUrl: "https://github.com/example",
+      status: "Beta"
+    },
+    {
+      id: 3,
+      title: "Blockchain Analytics Dashboard",
+      description: "Real-time cryptocurrency and DeFi analytics platform with advanced charting, portfolio tracking, and market sentiment analysis. Supports multiple chains and provides API access for developers.",
+      image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=500&h=300&fit=crop",
+      technologies: ["Next.js", "PostgreSQL", "Redis", "Web3.js", "Chart.js"],
+      liveUrl: "https://example.com",
+      githubUrl: "https://github.com/example",
+      status: "Production"
+    },
+    {
+      id: 4,
+      title: "AI Code Review Assistant",
+      description: "Intelligent code review tool that analyzes pull requests, suggests improvements, and identifies potential security vulnerabilities. Integrates with GitHub, GitLab, and Bitbucket.",
+      image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&h=300&fit=crop",
+      technologies: ["Python", "FastAPI", "OpenAI", "Docker", "MongoDB"],
+      liveUrl: "https://example.com",
+      githubUrl: "https://github.com/example",
+      status: "Development"
+    },
+    {
+      id: 5,
+      title: "Real-time Collaboration Platform",
+      description: "A modern collaboration platform with real-time document editing, video conferencing, and project management features. Built for remote teams with end-to-end encryption.",
+      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop",
+      technologies: ["React", "Socket.io", "WebRTC", "MongoDB", "Express"],
+      liveUrl: "https://example.com",
+      githubUrl: "https://github.com/example",
+      status: "Production"
+    },
+    {
+      id: 6,
+      title: "IoT Device Manager",
+      description: "Comprehensive IoT device management system with real-time monitoring, automated alerts, and remote control capabilities. Supports various protocols including MQTT, CoAP, and HTTP.",
+      image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=500&h=300&fit=crop",
+      technologies: ["Vue.js", "MQTT", "InfluxDB", "Grafana", "Go"],
+      liveUrl: "https://example.com",
+      githubUrl: "https://github.com/example",
+      status: "Production"
+    }
+  ];
 
   const getStatusBadgeVariant = (status: string) => {
     switch (status) {
@@ -32,17 +75,6 @@ const Portfolio = () => {
       default: return "outline";
     }
   };
-
-  if (loading) {
-    return (
-      <div className="container mx-auto px-4 py-16">
-        <div className="flex items-center justify-center min-h-[400px]">
-          <Loader2 className="w-8 h-8 animate-spin text-primary" />
-          <span className="ml-2 text-muted-foreground">Loading projects...</span>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="container mx-auto px-4 py-16 space-y-12">
