@@ -1,77 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, Search, Tag, ArrowRight } from "lucide-react";
+import { Calendar, Clock, Search, Tag, ArrowRight, Loader2 } from "lucide-react";
+import { fetchBlogPosts, BlogPost } from "@/utils/markdown";
 
 const Blog = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const blogPosts = [
-    {
-      id: 1,
-      title: "Building Reactive UIs with Modern JavaScript",
-      excerpt: "Exploring the latest patterns in frontend development, from hooks to signals and beyond. Learn how to create truly reactive user interfaces that respond instantly to user input.",
-      content: "# Building Reactive UIs with Modern JavaScript\n\nIn this comprehensive guide, we'll explore...",
-      date: "2024-03-15",
-      readTime: "8 min read",
-      tags: ["JavaScript", "React", "Frontend"],
-      slug: "building-reactive-uis-modern-javascript"
-    },
-    {
-      id: 2,
-      title: "The Future of Web Development: AI-Powered Tools",
-      excerpt: "A deep dive into emerging technologies shaping our industry. From AI-assisted coding to automated testing, discover what's coming next in web development.",
-      content: "# The Future of Web Development\n\nArtificial Intelligence is revolutionizing...",
-      date: "2024-03-10",
-      readTime: "12 min read",
-      tags: ["AI", "Tools", "Future Tech"],
-      slug: "future-web-development-ai-tools"
-    },
-    {
-      id: 3,
-      title: "Cybersecurity in the Age of Remote Work",
-      excerpt: "Essential security practices for modern development teams. Learn how to protect your applications and infrastructure in a distributed work environment.",
-      content: "# Cybersecurity in Remote Work\n\nWith the shift to remote work...",
-      date: "2024-03-05",
-      readTime: "10 min read",
-      tags: ["Security", "Remote Work", "DevOps"],
-      slug: "cybersecurity-remote-work"
-    },
-    {
-      id: 4,
-      title: "Optimizing Performance in React Applications",
-      excerpt: "Practical techniques for building lightning-fast React apps. From code splitting to memoization, discover proven strategies for optimal performance.",
-      content: "# Optimizing React Performance\n\nPerformance is crucial for user experience...",
-      date: "2024-02-28",
-      readTime: "15 min read",
-      tags: ["React", "Performance", "Optimization"],
-      slug: "optimizing-performance-react-applications"
-    },
-    {
-      id: 5,
-      title: "Exploring WebAssembly for High-Performance Computing",
-      excerpt: "Unlock the power of WebAssembly in your web applications. Learn when and how to use WASM for computationally intensive tasks in the browser.",
-      content: "# WebAssembly for High Performance\n\nWebAssembly opens new possibilities...",
-      date: "2024-02-20",
-      readTime: "18 min read",
-      tags: ["WebAssembly", "Performance", "Low-level"],
-      slug: "exploring-webassembly-high-performance"
-    },
-    {
-      id: 6,
-      title: "Microservices Architecture: Lessons Learned",
-      excerpt: "Real-world insights from building and maintaining microservices at scale. Discover common pitfalls and best practices for distributed systems.",
-      content: "# Microservices Architecture Lessons\n\nBuilding microservices is challenging...",
-      date: "2024-02-15",
-      readTime: "14 min read",
-      tags: ["Architecture", "Microservices", "Backend"],
-      slug: "microservices-architecture-lessons-learned"
-    }
-  ];
+  useEffect(() => {
+    const loadBlogPosts = async () => {
+      try {
+        const posts = await fetchBlogPosts();
+        setBlogPosts(posts);
+      } catch (error) {
+        console.error('Failed to load blog posts:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadBlogPosts();
+  }, []);
 
   const allTags = Array.from(new Set(blogPosts.flatMap(post => post.tags)));
 
@@ -81,6 +36,17 @@ const Blog = () => {
     const matchesTag = !selectedTag || post.tags.includes(selectedTag);
     return matchesSearch && matchesTag;
   });
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-16">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+          <span className="ml-2 text-muted-foreground">Loading blog posts...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-16 space-y-12">
