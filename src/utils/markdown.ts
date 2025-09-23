@@ -28,7 +28,6 @@ export async function fetchBlogPosts(): Promise<BlogPost[]> {
   
   // List of markdown files in public/posts
   const postFiles = [
-    'sample-post.md',
     'future-web-development-ai-tools.md',
     'cybersecurity-remote-work.md'
   ];
