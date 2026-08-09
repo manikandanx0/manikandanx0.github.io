@@ -1,0 +1,173 @@
+---
+interface Props {
+  cols?: number;
+  rows?: number;
+  class?: string;
+}
+
+const { cols = 180, rows = 108, class: className = '' } = Astro.props;
+---
+
+<div class={`halftone-bg ${className}`.trim()} aria-hidden="true">
+  <canvas class="halftone-canvas" data-halftone-canvas data-cols={cols} data-rows={rows}></canvas>
+</div>
+
+<style>
+  .halftone-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .halftone-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const canvases = document.querySelectorAll('canvas[data-halftone-canvas]:not([data-halftone-init])');
+
+    canvases.forEach((canvas) => {
+      canvas.setAttribute('data-halftone-init', 'true');
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      const stage = canvas.parentElement;
+      const COLS = Math.max(1, Number(canvas.getAttribute('data-cols')) || 180);
+      const ROWS = Math.max(1, Number(canvas.getAttribute('data-rows')) || 108);
+
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      let width, height;
+      let running = false;
+      let lastFrameTime = 0;
+      const FRAME_INTERVAL = 1000 / 30;
+      let t = 0;
+
+      function makeGlowSprite(rgb, size) {
+        const s = document.createElement('canvas');
+        s.width = s.height = size;
+        const sctx = s.getContext('2d');
+        if (!sctx) return s;
+        const grad = sctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+        grad.addColorStop(0, `rgba(${rgb}, 1)`);
+        grad.addColorStop(0.4, `rgba(${rgb}, 0.55)`);
+        grad.addColorStop(1, `rgba(${rgb}, 0)`);
+        sctx.fillStyle = grad;
+        sctx.fillRect(0, 0, size, size);
+        return s;
+      }
+
+      const SPRITE_SIZE = 32;
+      const whiteSprite = makeGlowSprite('237, 237, 237', SPRITE_SIZE);
+
+      function resize() {
+        if (!stage) return;
+        const rect = stage.getBoundingClientRect();
+        width = rect.width;
+        height = rect.height;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function fakeNoise(x, y, time) {
+        const v =
+          Math.sin(x * 0.18 + time * 0.6) * 0.5 +
+          Math.sin(y * 0.15 - time * 0.4) * 0.5 +
+          Math.sin((x + y) * 0.1 + time * 0.3) * 0.5;
+        const n = (v + 1.5) / 3;
+        return Math.pow(n, 1.6);
+      }
+
+      function drawLayer(cols, rows, speedMul, alphaMul, sizeMul) {
+        const lw = width / cols;
+        const lh = height / rows;
+
+        for (let row = 0; row < rows; row++) {
+          for (let col = 0; col < cols; col++) {
+            const nx = (col / cols) * 50;
+            const ny = (row / rows) * 30;
+            const n = fakeNoise(nx, ny, t * speedMul);
+
+            if (n < 0.12) continue;
+
+            const sprite = whiteSprite;
+            const size = Math.min(lw, lh) * 1.9 * n * sizeMul;
+            const x = col * lw + lw / 2 - size / 2;
+            const y = row * lh + lh / 2 - size / 2;
+
+            ctx.globalAlpha = Math.min(n * alphaMul, 1);
+            ctx.drawImage(sprite, x, y, size, size);
+          }
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, width, height);
+        drawLayer(Math.round(COLS * 0.55), Math.round(ROWS * 0.55), 0.55, 0.5, 1.3);
+        drawLayer(COLS, ROWS, 1, 1, 1);
+      }
+
+      function loop(now) {
+        if (!running) return;
+        if (now - lastFrameTime >= FRAME_INTERVAL) {
+          t += 0.02;
+          draw();
+          lastFrameTime = now;
+        }
+        requestAnimationFrame(loop);
+      }
+
+      function start() {
+        if (running) return;
+        running = true;
+        requestAnimationFrame(loop);
+      }
+
+      function stop() {
+        running = false;
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !prefersReducedMotion) {
+            start();
+          } else {
+            stop();
+          }
+        });
+      });
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          stop();
+        } else if (!prefersReducedMotion) {
+          start();
+        }
+      });
+
+      window.addEventListener('resize', resize);
+
+      resize();
+
+      if (prefersReducedMotion) {
+        draw();
+      } else if (stage) {
+        observer.observe(stage);
+      }
+    });
+  })();
+</script>

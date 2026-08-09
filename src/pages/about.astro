@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About">
+  <section class="container resp-page grid-paper">
+    <header class="resp-hero">
+      <div>
+        <p class="resp-meta-label mono">PROFILE</p>
+        <h1 class="resp-hero-title">ABOUT</h1>
+        <p class="resp-hero-sub">AI &amp; Data Science student. I build things, break things on purpose, and write about both.</p>
+      </div>
+      <div class="resp-meta mono">
+        <p class="resp-meta-label">CONTACT</p>
+        <p><a href="https://github.com/manikandanx0" target="_blank" rel="noopener">github ↗</a></p>
+        <p><a href="https://linkedin.com/in/manikandannx0" target="_blank" rel="noopener">linkedin ↗</a></p>
+        <p><a href="mailto:manikandanx0@proton.me">email ↗</a></p>
+      </div>
+    </header>
+
+    <div class="resp-card-grid">
+      <article class="resp-card">
+        <div class="resp-card-head mono">FOCUS-01</div>
+        <div class="resp-card-preview"></div>
+        <div class="resp-card-body">
+          <h2 class="resp-card-title">Security + Systems</h2>
+          <p class="resp-card-text">I like CTF-style thinking and practical engineering execution.</p>
+        </div>
+      </article>
+      <article class="resp-card">
+        <div class="resp-card-head mono">FOCUS-02</div>
+        <div class="resp-card-preview"></div>
+        <div class="resp-card-body">
+          <h2 class="resp-card-title">Shipping quickly</h2>
+          <p class="resp-card-text">Prototype fast, test assumptions, then harden what works.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

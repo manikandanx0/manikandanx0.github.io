@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>mani.tech — mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0A0A;
+    --text: #EDEDED;
+    --text-muted: #7A7A7A;
+    --border: #2A2A2A;
+    --red: #E8291C;
+    --red-text: #3D0906;
+
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    --border-width: 3px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+  }
+
+  h1, h2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 1.15;
+    margin: 0;
+  }
+
+  a { color: var(--text); text-decoration: none; }
+  a:hover { color: var(--red); }
+  .mono { font-family: var(--font-mono); }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* --- nav --- */
+  .site-header {
+    border-bottom: var(--border-width) solid var(--border);
+    position: relative;
+    z-index: 2;
+  }
+  .header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 24px;
+  }
+  .logo { font-weight: 700; font-size: 15px; }
+  nav { display: flex; align-items: center; gap: 24px; font-size: 13px; }
+  nav a { color: var(--text-muted); }
+  nav a:hover { color: var(--red); }
+  #theme-toggle {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 6px 10px;
+    border: 2px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+  }
+  #theme-toggle:hover { border-color: var(--red); }
+
+  /* --- hero: grid paper + cursor follow --- */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 72px 0 64px;
+    border-bottom: var(--border-width) solid var(--border);
+    background-image: radial-gradient(var(--border) 1px, transparent 1px);
+    background-size: 16px 16px;
+  }
+
+  #cursor-glow {
+    position: absolute;
+    width: 360px;
+    height: 360px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,41,28,0.16) 0%, rgba(232,41,28,0) 70%);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    transition: opacity 0.2s ease;
+    opacity: 0;
+    z-index: 0;
+  }
+
+  .hero-content { position: relative; z-index: 1; }
+
+  .eyebrow {
+    color: var(--red);
+    font-size: 13px;
+    letter-spacing: 0.03em;
+    margin-bottom: 18px;
+  }
+  h1 { font-size: clamp(32px, 6vw, 48px); max-width: 600px; margin-bottom: 22px; }
+  .sub { color: var(--text-muted); max-width: 480px; font-size: 15px; margin-bottom: 28px; }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  .btn {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    padding: 10px 18px;
+    border: 2px solid var(--border);
+    cursor: pointer;
+    background: transparent;
+    color: var(--text);
+  }
+  .btn:hover { border-color: var(--red); }
+  .btn--primary { background: var(--red); color: var(--red-text); border-color: var(--border); }
+  .btn--primary:hover { opacity: 0.9; border-color: var(--border); }
+
+  /* --- latest post strip with dither divider --- */
+  .dither-divider {
+    height: 6px;
+    background-image: repeating-conic-gradient(var(--border) 0% 25%, transparent 0% 50%);
+    background-size: 4px 4px;
+  }
+
+  .latest-strip { padding: 16px 0; }
+  .latest-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px; }
+  .latest-title { font-size: 14px; margin: 0; }
+  .latest-title a:hover { color: var(--red); }
+
+  .badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border: 2px solid var(--border);
+    letter-spacing: 0.02em;
+  }
+  .badge--ctf { background: transparent; color: var(--red); border: 2px solid var(--red); }
+
+  /* --- reveal on load --- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: reveal 0.5s ease forwards;
+  }
+  .reveal-delay-1 { animation-delay: 0.08s; }
+  .reveal-delay-2 { animation-delay: 0.16s; }
+  .reveal-delay-3 { animation-delay: 0.24s; }
+
+  @keyframes reveal {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { animation: none; opacity: 1; transform: none; }
+    #cursor-glow { display: none; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="logo mono">mani.tech</a>
+      <nav class="mono">
+        <a href="#">work</a>
+        <a href="#">writing</a>
+        <a href="#">about</a>
+        <button id="theme-toggle">◐</button>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" id="hero">
+    <div id="cursor-glow"></div>
+    <div class="container hero-content">
+      <p class="eyebrow mono reveal">// AI &amp; data science student, chennai</p>
+      <h1 class="reveal reveal-delay-1">Building things.<br />Breaking things.<br />Writing it all down.</h1>
+      <p class="sub reveal reveal-delay-2">Projects, CTF writeups, and DSA solutions from someone who'd rather ship than talk about shipping.</p>
+      <div class="cta-row reveal reveal-delay-3">
+        <a href="#" class="btn btn--primary">view work</a>
+        <a href="#" class="btn">read writing</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="dither-divider"></div>
+
+  <section class="latest-strip">
+    <div class="container latest-inner">
+      <div>
+        <span class="mono label">latest</span>
+        <p class="latest-title"><a href="#">solving the pwn challenge nobody could</a></p>
+      </div>
+      <span class="badge badge--ctf">ctf</span>
+    </div>
+  </section>
+
+  <script>
+    // cursor-follow glow, scoped to hero only
+    const hero = document.getElementById('hero');
+    const glow = document.getElementById('cursor-glow');
+
+    hero.addEventListener('mousemove', (e) => {
+      const rect = hero.getBoundingClientRect();
+      glow.style.left = (e.clientX - rect.left) + 'px';
+      glow.style.top = (e.clientY - rect.top) + 'px';
+      glow.style.opacity = '1';
+    });
+
+    hero.addEventListener('mouseleave', () => {
+      glow.style.opacity = '0';
+    });
+
+    // theme toggle (visual only in this mockup)
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      document.documentElement.classList.toggle('light-preview');
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<BaseLayout title="Work" description="Projects and things I've built.">
+  <section class="container resp-page grid-paper">
+    <header class="resp-hero">
+      <div>
+        <p class="resp-meta-label mono">COLLECTION</p>
+        <h1 class="resp-hero-title">WORK</h1>
+        <p class="resp-hero-sub">Things I've built, mostly for myself, occasionally for other people.</p>
+      </div>
+      <div class="resp-meta">
+        <p class="resp-meta-label mono">STATUS</p>
+        <span class="resp-chip">{projects.length} PROJECTS</span>
+      </div>
+    </header>
+
+    <div class="resp-card-grid">
+      {projects.map((project, i) => (
+        <article class="resp-card">
+          <div class="resp-card-head mono">RSP-{String(i + 1).padStart(2, '0')}</div>
+          <div class="resp-card-preview"></div>
+          <div class="resp-card-body">
+            <h2 class="resp-card-title">{project.data.title}</h2>
+            <p class="resp-card-text">{project.data.summary}</p>
+            <a class="mono" href={`/projects/${project.id.replace(/\.md$/, '')}`}>VIEW</a>
+          </div>
+        </article>
+      ))}
+      {projects.length === 0 && (
+        <article class="resp-card">
+          <div class="resp-card-head mono">RSP-00</div>
+          <div class="resp-card-preview"></div>
+          <div class="resp-card-body">
+            <h2 class="resp-card-title">No projects published yet</h2>
+          </div>
+        </article>
+      )}
+    </div>
+  </section>
+</BaseLayout>

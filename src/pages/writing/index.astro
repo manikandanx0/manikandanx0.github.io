@@ -1,51 +1,51 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const blog = (await getCollection('blog', ({ data }) => !data.draft)).map((e) => ({ ...e, kind: 'blog' }));
 const ctf = (await getCollection('ctf', ({ data }) => !data.draft)).map((e) => ({ ...e, kind: 'ctf' }));
 const leetcode = (await getCollection('leetcode', ({ data }) => !data.draft)).map((e) => ({ ...e, kind: 'leetcode' }));
 
-const allWriting = [...blog, ...ctf, ...leetcode].sort(
+const all = [...blog, ...ctf, ...leetcode].sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
 
 ---
 
-<BaseLayout title="Home">
+<BaseLayout title="Writing" description="Blog posts, CTF writeups, and LeetCode solutions.">
   <section class="container resp-page grid-paper">
     <header class="resp-hero">
       <div>
-        <p class="mono resp-meta-label">// ai + data science / chennai</p>
-        <h1 class="resp-hero-title">BUILDING THINGS.<br />BREAKING THINGS.</h1>
-        <p class="resp-hero-sub">Projects, CTF writeups, and DSA solutions from someone who'd rather ship than talk about shipping.</p>
+        <p class="resp-meta-label mono">COLLECTION</p>
+        <h1 class="resp-hero-title">WRITING</h1>
+        <p class="resp-hero-sub">Blog posts, CTF writeups, and LeetCode notes.</p>
       </div>
       <div class="resp-meta">
-        <p class="resp-meta-label mono">LINKS</p>
-        <a href="/projects" class="btn btn--primary">view work</a>
-        <a href="/writing" class="btn" style="margin-left:8px;">read writing</a>
+        <p class="resp-meta-label mono">TYPES</p>
+        <span class="resp-chip">BLOG</span>
+        <span class="resp-chip">CTF</span>
+        <span class="resp-chip">LEETCODE</span>
       </div>
     </header>
 
     <div class="resp-card-grid">
-      {allWriting.map((entry, i) => (
+      {all.map((entry, i) => (
         <article class="resp-card">
-          <div class="resp-card-head mono">WRT-{String(i + 1).padStart(2, '0')}</div>
+          <div class="resp-card-head mono">POST-{String(i + 1).padStart(2, '0')}</div>
           <div class="resp-card-preview"></div>
           <div class="resp-card-body">
             <h2 class="resp-card-title">{entry.data.title}</h2>
             <p class="resp-card-text">{entry.data.excerpt ?? ''}</p>
-            <a class="mono" href={`/writing/${entry.data.type ?? entry.kind}/${entry.id.replace(/\.md$/, '')}`}>READ MORE</a>
+            <a class="mono" href={`/writing/${entry.kind}/${entry.id.replace(/\.md$/, '')}`}>READ</a>
           </div>
         </article>
       ))}
-      {allWriting.length === 0 && (
+      {all.length === 0 && (
         <article class="resp-card">
-          <div class="resp-card-head mono">WRT-00</div>
+          <div class="resp-card-head mono">POST-00</div>
           <div class="resp-card-preview"></div>
           <div class="resp-card-body">
-            <h2 class="resp-card-title">No entries yet</h2>
-            <p class="resp-card-text">Add markdown files in blog, ctf, or leetcode collections.</p>
+            <h2 class="resp-card-title">Nothing published yet</h2>
           </div>
         </article>
       )}
