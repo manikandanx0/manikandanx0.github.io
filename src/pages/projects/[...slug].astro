@@ -15,72 +15,30 @@ const { Content } = await render(entry);
 ---
 
 <BaseLayout title={entry.data.title} description={entry.data.summary}>
-  <section class="container resp-page grid-paper post-shell">
-    <header class="resp-hero">
+  <div class="container page">
+
+    <header class="post-hero anim-up">
       <div>
-        <h1>{entry.data.title}</h1>
-        <p class="summary">{entry.data.summary}</p>
+        <p class="post-type">// PROJECT FILE</p>
+        <h1 class="post-title">{entry.data.title}</h1>
+        <p class="post-date">
+          {entry.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+        </p>
+        {entry.data.summary && <p style="font-size:12px;color:var(--muted);margin-top:8px;">{entry.data.summary}</p>}
       </div>
-      <div class="resp-meta mono">
-        <p class="resp-meta-label">DETAILS</p>
-        <span class="resp-chip">{entry.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
-        {entry.data.stack.map((tech) => <span class="resp-chip">{tech}</span>)}
-        {entry.data.repoUrl && <p><a href={entry.data.repoUrl} target="_blank" rel="noopener">source ↗</a></p>}
-        {entry.data.liveUrl && <p><a href={entry.data.liveUrl} target="_blank" rel="noopener">live ↗</a></p>}
+      <div class="post-tags">
+        {entry.data.stack.map((t: string) => <span class="tag">{t}</span>)}
+        {entry.data.repoUrl && <a href={entry.data.repoUrl} target="_blank" rel="noopener" class="tag">source ↗</a>}
+        {entry.data.liveUrl && <a href={entry.data.liveUrl} target="_blank" rel="noopener" class="tag tag--filled">live ↗</a>}
       </div>
     </header>
 
-    <article class="markdown-panel resp-panel">
-      <div class="prose">
+    <div class="content-panel anim-up anim-d1">
+      <div class="panel-head">Content</div>
+      <div class="content-inner prose">
         <Content />
       </div>
-    </article>
-  </section>
+    </div>
 
-  <style>
-    .post-shell {
-      padding-top: 28px;
-      padding-bottom: 42px;
-    }
-    h1 {
-      font-size: clamp(30px, 5vw, 46px);
-      margin-bottom: 12px;
-    }
-    .summary {
-      color: var(--text-muted);
-      font-size: 15px;
-      margin-bottom: 20px;
-    }
-    .links {
-      display: flex;
-      gap: 16px;
-      font-size: 13px;
-      margin-bottom: 16px;
-    }
-    .links a {
-      color: var(--red);
-    }
-    .stack {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 32px;
-    }
-    .stack span {
-      font-size: 11px;
-      border: 2px solid var(--border);
-      padding: 2px 8px;
-      color: var(--text-muted);
-    }
-    .prose {
-      font-size: 16px;
-      line-height: 1.75;
-    }
-    .prose :global(pre) {
-      border: 2px solid var(--border);
-      padding: 16px;
-      overflow-x: auto;
-      background: var(--bg);
-    }
-  </style>
+  </div>
 </BaseLayout>

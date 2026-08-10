@@ -8,40 +8,59 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
 ---
 
 <BaseLayout title="Work" description="Projects and things I've built.">
-  <section class="container resp-page grid-paper">
-    <header class="resp-hero">
-      <div>
-        <p class="resp-meta-label mono">COLLECTION</p>
-        <h1 class="resp-hero-title">WORK</h1>
-        <p class="resp-hero-sub">Things I've built, mostly for myself, occasionally for other people.</p>
+  <div class="container page">
+
+    <header class="hero anim-up">
+      <div class="hero-main">
+        <p class="hero-id">// COLLECTION · WORK LOG</p>
+        <h1 class="hero-title">WORK</h1>
+        <p class="hero-sub">Things I've built, mostly for myself, occasionally for other people.</p>
       </div>
-      <div class="resp-meta">
-        <p class="resp-meta-label mono">STATUS</p>
-        <span class="resp-chip">{projects.length} PROJECTS</span>
+      <div class="hero-meta">
+        <div class="meta-block">
+          <div class="meta-label">Projects</div>
+          <span style="font-size:28px;font-weight:700;color:var(--glow);">{projects.length.toString().padStart(2,'0')}</span>
+        </div>
+        <div class="meta-block">
+          <div class="meta-label">Status</div>
+          <span class="tag">Building</span>
+        </div>
       </div>
     </header>
 
-    <div class="resp-card-grid">
-      {projects.map((project, i) => (
-        <article class="resp-card">
-          <div class="resp-card-head mono">RSP-{String(i + 1).padStart(2, '0')}</div>
-          <div class="resp-card-preview"></div>
-          <div class="resp-card-body">
-            <h2 class="resp-card-title">{project.data.title}</h2>
-            <p class="resp-card-text">{project.data.summary}</p>
-            <a class="mono" href={`/projects/${project.id.replace(/\.md$/, '')}`}>VIEW</a>
-          </div>
-        </article>
-      ))}
+    <div class="section-head anim-up anim-d1">Project Index</div>
+
+    <div class="card-grid">
       {projects.length === 0 && (
-        <article class="resp-card">
-          <div class="resp-card-head mono">RSP-00</div>
-          <div class="resp-card-preview"></div>
-          <div class="resp-card-body">
-            <h2 class="resp-card-title">No projects published yet</h2>
+        <article class="card anim-up anim-d2">
+          <div class="card-head">
+            <span>RSP-00</span>
+            <span class="card-head-id">EMPTY</span>
+          </div>
+          <div class="card-preview dot-grid"></div>
+          <div class="card-body">
+            <h2 class="card-title">No projects published yet</h2>
           </div>
         </article>
       )}
+      {projects.map((project, i) => (
+        <article class="card" style={`animation-delay:${0.1 + i * 0.06}s`}>
+          <div class="card-head">
+            <span>RSP-{String(i + 1).padStart(2, '0')}</span>
+            <span class="card-head-id">{project.data.date.getFullYear()}</span>
+          </div>
+          <div class="card-preview dot-grid"></div>
+          <div class="card-body">
+            <h2 class="card-title">{project.data.title}</h2>
+            <p class="card-text">{project.data.summary}</p>
+            <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;">
+              {project.data.stack.slice(0,3).map((t: string) => <span class="tag">{t}</span>)}
+            </div>
+            <a class="card-link" href={`/projects/${project.id.replace(/\.md$/, '')}`}>View</a>
+          </div>
+        </article>
+      ))}
     </div>
-  </section>
+
+  </div>
 </BaseLayout>

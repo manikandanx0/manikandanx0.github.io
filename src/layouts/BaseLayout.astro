@@ -8,6 +8,7 @@ interface Props {
 }
 
 const { title, description = "Mani's portfolio — projects, CTF writeups, and DSA solutions." } = Astro.props;
+const year = new Date().getFullYear();
 ---
 
 <!doctype html>
@@ -17,22 +18,16 @@ const { title, description = "Mani's portfolio — projects, CTF writeups, and D
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <title>{title} · mani.tech</title>
-    <script is:inline>
-      // set theme before paint to avoid flash
-      const saved = localStorage.getItem('theme');
-      const theme = saved || 'dark';
-      if (theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
-    </script>
+    <link rel="alternate" type="application/rss+xml" title="mani.tech — Transmissions" href="/rss.xml" />
   </head>
   <body>
     <header class="site-header">
-      <div class="container header-inner">
-        <a href="/" class="logo mono">mani.tech</a>
-        <nav class="mono">
+      <div class="header-inner">
+        <a href="/" class="logo">mani.tech</a>
+        <nav class="site-nav">
           <a href="/projects">work</a>
           <a href="/writing">writing</a>
           <a href="/about">about</a>
-          <button id="theme-toggle" class="btn" aria-label="Toggle color theme">◐</button>
         </nav>
       </div>
     </header>
@@ -42,97 +37,16 @@ const { title, description = "Mani's portfolio — projects, CTF writeups, and D
     </main>
 
     <footer class="site-footer">
-      <div class="container mono">
-        <span>&copy; {new Date().getFullYear()} mani.tech</span>
-        <div class="footer-links">
-          <a href="https://github.com/manikandanx0" target="_blank" rel="noopener">github</a>
-          <a href="https://linkedin.com/in/manikandannx0" target="_blank" rel="noopener">linkedin</a>
-          <a href="mailto:manikandanx0@proton.me">email</a>
+      <div class="container">
+        <div class="footer-inner">
+          <span>&copy; {year} mani.tech</span>
+          <div class="footer-links">
+            <a href="https://github.com/manikandanx0" target="_blank" rel="noopener">github</a>
+            <a href="https://linkedin.com/in/manikandannx0" target="_blank" rel="noopener">linkedin</a>
+            <a href="mailto:manikandanx0@proton.me">email</a>
+          </div>
         </div>
       </div>
     </footer>
-
-    <script is:inline>
-      const btn = document.getElementById('theme-toggle');
-      btn.addEventListener('click', () => {
-        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-        if (isLight) {
-          document.documentElement.removeAttribute('data-theme');
-          localStorage.setItem('theme', 'dark');
-        } else {
-          document.documentElement.setAttribute('data-theme', 'light');
-          localStorage.setItem('theme', 'light');
-        }
-      });
-    </script>
-
-    <style>
-      .site-header {
-        border-bottom: var(--border-width) solid var(--border);
-      }
-      .header-inner {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 18px 24px;
-      }
-      .logo {
-        font-weight: 700;
-        font-size: 15px;
-      }
-      nav {
-        display: flex;
-        align-items: center;
-        gap: 24px;
-        font-size: 13px;
-      }
-      nav a {
-        color: var(--text-muted);
-      }
-      nav a:hover {
-        color: var(--red);
-      }
-      #theme-toggle {
-        font-size: 13px;
-        padding: 6px 10px;
-      }
-      main {
-        min-height: 60vh;
-      }
-      .site-footer {
-        border-top: var(--border-width) solid var(--border);
-        margin-top: 80px;
-        padding: 24px 0;
-      }
-      .site-footer .container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 12px;
-        color: var(--text-muted);
-      }
-      .footer-links {
-        display: flex;
-        gap: 16px;
-      }
-      .footer-links a {
-        color: var(--text-muted);
-      }
-      .footer-links a:hover {
-        color: var(--red);
-      }
-      @media (max-width: 600px) {
-        .header-inner {
-          flex-direction: column;
-          gap: 12px;
-          align-items: flex-start;
-        }
-        .site-footer .container {
-          flex-direction: column;
-          gap: 12px;
-          align-items: flex-start;
-        }
-      }
-    </style>
   </body>
 </html>

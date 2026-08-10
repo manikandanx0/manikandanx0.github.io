@@ -1,54 +1,753 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
 
-const blog = (await getCollection('blog', ({ data }) => !data.draft)).map((e) => ({ ...e, kind: 'blog' }));
-const ctf = (await getCollection('ctf', ({ data }) => !data.draft)).map((e) => ({ ...e, kind: 'ctf' }));
-const leetcode = (await getCollection('leetcode', ({ data }) => !data.draft)).map((e) => ({ ...e, kind: 'leetcode' }));
-
-const all = [...blog, ...ctf, ...leetcode].sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+const blog = (await getCollection("blog", ({ data }) => !data.draft)).map(
+  (e) => ({ ...e, kind: "blog" }),
 );
+const ctf = (await getCollection("ctf", ({ data }) => !data.draft)).map(
+  (e) => ({ ...e, kind: "ctf" }),
+);
+const leetcode = (
+  await getCollection("leetcode", ({ data }) => !data.draft)
+).map((e) => ({ ...e, kind: "leetcode" }));
 
+const allWriting = [...blog, ...ctf, ...leetcode];
+
+// Sector tag sets
+const ctfTags = Array.from(
+  new Set(ctf.flatMap((e) => e.data.tags || [])),
+).sort();
+const leetcodeTags = Array.from(
+  new Set(leetcode.flatMap((e) => e.data.tags || [])),
+).sort();
+const blogTags = Array.from(
+  new Set(blog.flatMap((e) => e.data.tags || [])),
+).sort();
+
+// Map unique tags with associated sectors
+const allTagObjects = Array.from(
+  new Set([...ctfTags, ...leetcodeTags, ...blogTags]),
+)
+  .sort()
+  .map((tag) => {
+    const sectors: string[] = [];
+    if (ctfTags.includes(tag)) sectors.push("ctf");
+    if (leetcodeTags.includes(tag)) sectors.push("leetcode");
+    if (blogTags.includes(tag)) sectors.push("blog");
+    return { tag, sectors: sectors.join(" ") };
+  });
 ---
 
-<BaseLayout title="Writing" description="Blog posts, CTF writeups, and LeetCode solutions.">
-  <section class="container resp-page grid-paper">
-    <header class="resp-hero">
-      <div>
-        <p class="resp-meta-label mono">COLLECTION</p>
-        <h1 class="resp-hero-title">WRITING</h1>
-        <p class="resp-hero-sub">Blog posts, CTF writeups, and LeetCode notes.</p>
+<BaseLayout
+  title="Writing Hub"
+  description="Archive of CTF writeups, Interview Prep Code Logs, and Personal Blog posts."
+>
+  <div class="container container--wide page">
+    <!-- Header & Telemetry -->
+    <header class="writing-hero anim-up">
+      <div class="hero-main-panel">
+        <p class="hero-tag">// TRANSMISSION HUB · KNOWLEDGE MATRIX</p>
+        <h1 class="hero-title">WRITING &amp; LOGS</h1>
+        <p class="hero-sub">
+          Centralized archive of security challenge writeups, algorithmic
+          problem-solving logs for interview preparation, and technical research
+          essays.
+        </p>
       </div>
-      <div class="resp-meta">
-        <p class="resp-meta-label mono">TYPES</p>
-        <span class="resp-chip">BLOG</span>
-        <span class="resp-chip">CTF</span>
-        <span class="resp-chip">LEETCODE</span>
+
+      <!-- Sector Counters Telemetry -->
+      <div class="telemetry-bar">
+        <div class="sector-stat">
+          <span class="stat-lbl">CTF WRITEUPS</span>
+          <span class="stat-num">{ctf.length.toString().padStart(2, "0")}</span>
+        </div>
+        <div class="sector-stat">
+          <span class="stat-lbl">CODE LOGS (DSA)</span>
+          <span class="stat-num"
+            >{leetcode.length.toString().padStart(2, "0")}</span
+          >
+        </div>
+        <div class="sector-stat">
+          <span class="stat-lbl">PERSONAL BLOG</span>
+          <span class="stat-num">{blog.length.toString().padStart(2, "0")}</span
+          >
+        </div>
       </div>
     </header>
 
-    <div class="resp-card-grid">
-      {all.map((entry, i) => (
-        <article class="resp-card">
-          <div class="resp-card-head mono">POST-{String(i + 1).padStart(2, '0')}</div>
-          <div class="resp-card-preview"></div>
-          <div class="resp-card-body">
-            <h2 class="resp-card-title">{entry.data.title}</h2>
-            <p class="resp-card-text">{entry.data.excerpt ?? ''}</p>
-            <a class="mono" href={`/writing/${entry.kind}/${entry.id.replace(/\.md$/, '')}`}>READ</a>
-          </div>
-        </article>
-      ))}
-      {all.length === 0 && (
-        <article class="resp-card">
-          <div class="resp-card-head mono">POST-00</div>
-          <div class="resp-card-preview"></div>
-          <div class="resp-card-body">
-            <h2 class="resp-card-title">Nothing published yet</h2>
-          </div>
-        </article>
-      )}
+    <!-- Sector & Dynamic Tag Filter Controls -->
+    <div class="filter-container anim-up anim-d1">
+      <div class="filter-row">
+        <span class="filter-lbl">// SECTOR:</span>
+        <div class="filter-buttons">
+          <button class="filter-btn sector-btn active" data-sector-filter="all"
+            >ALL TRANSMISSIONS ({allWriting.length})</button
+          >
+          <button class="filter-btn sector-btn" data-sector-filter="ctf"
+            >CTF WRITEUPS ({ctf.length})</button
+          >
+          <button class="filter-btn sector-btn" data-sector-filter="leetcode"
+            >CODE LOGS ({leetcode.length})</button
+          >
+          <button class="filter-btn sector-btn" data-sector-filter="blog"
+            >PERSONAL BLOG ({blog.length})</button
+          >
+        </div>
+      </div>
+
+      <!-- Dynamic Tag Filters Row -->
+      <div
+        class="filter-row"
+        style="margin-top: 10px; border-top: 1px dashed var(--border); padding-top: 10px;"
+      >
+        <span class="filter-lbl">// TAG FILTER:</span>
+        <div class="filter-buttons" id="tag-buttons-container">
+          <button
+            class="filter-btn tag-btn active"
+            data-tag-filter="all"
+            data-tag-sectors="ctf leetcode blog">ALL TAGS</button
+          >
+          {
+            allTagObjects.map((item) => (
+              <button
+                class="filter-btn tag-btn"
+                data-tag-filter={item.tag.toLowerCase()}
+                data-tag-sectors={item.sectors}
+              >
+                {item.tag.toUpperCase()}
+              </button>
+            ))
+          }
+
+          {
+            allTagObjects.length === 0 && (
+              <>
+                <button
+                  class="filter-btn tag-btn"
+                  data-tag-filter="web"
+                  data-tag-sectors="ctf"
+                >
+                  WEB
+                </button>
+                <button
+                  class="filter-btn tag-btn"
+                  data-tag-filter="hashmap"
+                  data-tag-sectors="leetcode"
+                >
+                  HASH MAP
+                </button>
+                <button
+                  class="filter-btn tag-btn"
+                  data-tag-filter="systems"
+                  data-tag-sectors="blog"
+                >
+                  SYSTEMS
+                </button>
+              </>
+            )
+          }
+        </div>
+      </div>
     </div>
-  </section>
+
+    <!-- SECTOR 01: CTF WRITEUPS -->
+    <section class="writing-sector anim-up anim-d2" data-sector="ctf">
+      <div class="sector-header">
+        <div class="sector-title-group">
+          <span class="sector-badge">SECTOR 01</span>
+          <h2>CTF WRITEUPS &amp; SECURITY LABS</h2>
+        </div>
+        <span class="sector-desc"
+          >Exploit walkthroughs, CTF challenges, reverse engineering, and web
+          vulnerability analysis.</span
+        >
+      </div>
+
+      <div class="sector-grid">
+        {
+          ctf.length === 0 && (
+            <article class="card sector-card" data-tags="web easy ctf">
+              <div class="card-head">
+                <span>CTF-00 // LOG_SLOT</span>
+                <span class="card-head-id">PLACEHOLDER</span>
+              </div>
+              <div class="sector-card-body">
+                <h3 class="card-title">WARMUP WEB CHALLENGE WRITEUP</h3>
+                <p class="card-text">
+                  Detailed analysis of web sinks, memory corruptions, and binary
+                  exploitation flags.
+                </p>
+                <div class="sector-meta-bar">
+                  <span class="tag tag--filled">EASY</span>
+                  <span class="tag">WEB</span>
+                  <span class="tag">XSS</span>
+                </div>
+                <a class="card-link" href="#">
+                  Read Writeup ↗
+                </a>
+              </div>
+            </article>
+          )
+        }
+
+        {
+          ctf.map((post, i) => (
+            <article
+              class="card sector-card"
+              data-tags={(post.data.tags || []).join(" ").toLowerCase()}
+              style={`animation-delay:${0.1 + i * 0.06}s`}
+            >
+              <div class="card-head">
+                <span>CTF-{String(i + 1).padStart(2, "0")} // WRITEUP</span>
+                <span class="card-head-id">
+                  {post.data.event || "SECURITY"}
+                </span>
+              </div>
+              <div class="sector-card-body">
+                <h3 class="card-title">{post.data.title}</h3>
+                <p class="card-text">
+                  {post.data.excerpt ||
+                    "Security incident writeup and flag analysis."}
+                </p>
+                <div class="sector-meta-bar">
+                  {post.data.difficulty && (
+                    <span class="tag tag--filled">
+                      {post.data.difficulty.toUpperCase()}
+                    </span>
+                  )}
+                  {post.data.tags?.map((t: string) => (
+                    <span class="tag">{t}</span>
+                  ))}
+                </div>
+                <a
+                  class="card-link"
+                  href={`/writing/ctf/${post.id.replace(/\.md$/, "")}`}
+                >
+                  Read Writeup ↗
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- SECTOR 02: CODE LOGS / INTERVIEW PREP (DSA) -->
+    <section class="writing-sector anim-up anim-d3" data-sector="leetcode">
+      <div class="sector-header">
+        <div class="sector-title-group">
+          <span class="sector-badge">SECTOR 02</span>
+          <h2>CODE LOGS &amp; INTERVIEW PREP (DSA)</h2>
+        </div>
+        <span class="sector-desc"
+          >LeetCode patterns, data structure implementations, and time/space
+          complexity breakdowns.</span
+        >
+      </div>
+
+      <div class="sector-grid">
+        {
+          leetcode.length === 0 && (
+            <article
+              class="card sector-card"
+              data-tags="hashmap arrays easy dsa"
+            >
+              <div class="card-head">
+                <span>LC-001 // LOG_SLOT</span>
+                <span class="card-head-id">EASY</span>
+              </div>
+              <div class="sector-card-body">
+                <h3 class="card-title">TWO SUM - HASH MAP</h3>
+                <div class="complexity-bar">
+                  <span class="comp-badge">TIME: O(N)</span>
+                  <span class="comp-badge">SPACE: O(N)</span>
+                </div>
+                <p class="card-text">
+                  Algorithmic approach and problem solution.
+                </p>
+                <div class="sector-meta-bar">
+                  <span class="tag">ARRAY</span>
+                  <span class="tag">HASHMAP</span>
+                </div>
+                <a class="card-link" href="#">
+                  Inspect Solution ↗
+                </a>
+              </div>
+            </article>
+          )
+        }
+
+        {
+          leetcode.map((post, i) => (
+            <article
+              class="card sector-card"
+              data-tags={(post.data.tags || []).join(" ").toLowerCase()}
+              style={`animation-delay:${0.1 + i * 0.06}s`}
+            >
+              <div class="card-head">
+                <span>
+                  LC-{String(post.data.problemNumber || i + 1).padStart(3, "0")}{" "}
+                  // DSA_LOG
+                </span>
+                <span class="card-head-id">
+                  {post.data.difficulty?.toUpperCase() || "MEDIUM"}
+                </span>
+              </div>
+              <div class="sector-card-body">
+                <h3 class="card-title">{post.data.title}</h3>
+
+                {(post.data.timeComplexity || post.data.spaceComplexity) && (
+                  <div class="complexity-bar">
+                    {post.data.timeComplexity && (
+                      <span class="comp-badge">
+                        TIME: {post.data.timeComplexity}
+                      </span>
+                    )}
+                    {post.data.spaceComplexity && (
+                      <span class="comp-badge">
+                        SPACE: {post.data.spaceComplexity}
+                      </span>
+                    )}
+                  </div>
+                )}
+
+                <p class="card-text">
+                  {post.data.excerpt ||
+                    "Algorithmic approach and problem solution."}
+                </p>
+
+                <div class="sector-meta-bar">
+                  {post.data.tags?.map((t: string) => (
+                    <span class="tag">{t}</span>
+                  ))}
+                </div>
+                <a
+                  class="card-link"
+                  href={`/writing/leetcode/${post.id.replace(/\.md$/, "")}`}
+                >
+                  Inspect Solution ↗
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- SECTOR 03: PERSONAL BLOG & ESSAYS -->
+    <section class="writing-sector anim-up anim-d4" data-sector="blog">
+      <div class="sector-header">
+        <div class="sector-title-group">
+          <span class="sector-badge">SECTOR 03</span>
+          <h2>PERSONAL BLOG &amp; RESEARCH ESSAYS</h2>
+        </div>
+        <span class="sector-desc"
+          >Notes on systems architecture, AI research, engineering philosophy,
+          and personal logs.</span
+        >
+      </div>
+
+      <div class="sector-grid">
+        {
+          blog.length === 0 && (
+            <article class="card sector-card" data-tags="systems astro blog">
+              <div class="card-head">
+                <span>BLOG-01 // ESSAY</span>
+                <span class="card-head-id">AUG 2026</span>
+              </div>
+              <div class="sector-card-body">
+                <h3 class="card-title">GRID LAYOUT NOTES IN ASTRO</h3>
+                <p class="card-text">
+                  Design considerations for building zero-JS fast static sites
+                  with CSS grid systems.
+                </p>
+                <div class="sector-meta-bar">
+                  <span class="tag">SYSTEMS</span>
+                  <span class="tag">ASTRO</span>
+                </div>
+                <a class="card-link" href="#">
+                  Read Post ↗
+                </a>
+              </div>
+            </article>
+          )
+        }
+
+        {
+          blog.map((post, i) => (
+            <article
+              class="card sector-card"
+              data-tags={(post.data.tags || []).join(" ").toLowerCase()}
+              style={`animation-delay:${0.1 + i * 0.06}s`}
+            >
+              <div class="card-head">
+                <span>BLOG-{String(i + 1).padStart(2, "0")} // ESSAY</span>
+                <span class="card-head-id">
+                  {post.data.date.toLocaleDateString("en-US", {
+                    month: "short",
+                    year: "numeric",
+                  })}
+                </span>
+              </div>
+              <div class="sector-card-body">
+                <h3 class="card-title">{post.data.title}</h3>
+                <p class="card-text">
+                  {post.data.excerpt || "Personal engineering essay."}
+                </p>
+                <div class="sector-meta-bar">
+                  {post.data.tags?.map((t: string) => (
+                    <span class="tag">{t}</span>
+                  ))}
+                </div>
+                <a
+                  class="card-link"
+                  href={`/writing/blog/${post.id.replace(/\.md$/, "")}`}
+                >
+                  Read Post ↗
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+  </div>
 </BaseLayout>
+
+<style>
+  /* ── Writing Hero ────────────────────────────────────────── */
+  .writing-hero {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .hero-main-panel {
+    background: rgba(13, 13, 26, 0.88);
+    border: 1px solid var(--border2);
+    padding: 24px 28px;
+    position: relative;
+  }
+
+  .hero-main-panel::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 12px;
+    height: 12px;
+    border-top: 2px solid var(--purple);
+    border-left: 2px solid var(--purple);
+  }
+
+  .hero-tag {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .hero-title {
+    font-size: clamp(28px, 4vw, 44px);
+    color: var(--white);
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+  }
+
+  .hero-sub {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  /* Telemetry Bar */
+  .telemetry-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .sector-stat {
+    background: rgba(13, 13, 26, 0.88);
+    border: 1px solid var(--border2);
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .stat-lbl {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  .stat-num {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--glow);
+  }
+
+  /* ── Monochromatic Filter Controls ─────────────────────── */
+  .filter-container {
+    background: rgba(13, 13, 26, 0.88);
+    border: 1px solid var(--border2);
+    padding: 14px 18px;
+    margin-bottom: 32px;
+  }
+
+  .filter-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .filter-lbl {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    min-width: 90px;
+  }
+
+  .filter-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    background: transparent;
+    border: 1px solid var(--border2);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    padding: 5px 12px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .filter-btn:hover {
+    border-color: var(--purple);
+    color: var(--glow);
+    box-shadow: 0 0 8px rgba(123, 63, 228, 0.3);
+  }
+
+  .filter-btn.active {
+    background: rgba(123, 63, 228, 0.2);
+    border-color: var(--purple);
+    color: var(--glow);
+  }
+
+  /* ── Sector Grid Layout (Auto-Fit) ─────────────────────── */
+  .writing-sector {
+    margin-bottom: 40px;
+  }
+
+  .sector-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+  }
+
+  .sector-title-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .sector-title-group h2 {
+    font-size: 18px;
+    letter-spacing: 0.06em;
+    margin: 0;
+    color: var(--white);
+  }
+
+  .sector-badge {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    padding: 3px 8px;
+    border: 1px solid var(--purple);
+    background: rgba(123, 63, 228, 0.15);
+    color: var(--glow);
+  }
+
+  .sector-desc {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .sector-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 16px;
+  }
+
+  .sector-card {
+    background: rgba(13, 13, 26, 0.88);
+    border: 1px solid var(--border2);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s,
+      transform 0.2s;
+  }
+
+  .sector-card:hover {
+    border-color: var(--purple);
+    box-shadow: 0 0 16px rgba(123, 63, 228, 0.25);
+    transform: translateY(-2px);
+  }
+
+  .sector-card-body {
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+
+  .card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    margin: 0;
+    letter-spacing: 0.03em;
+  }
+
+  .card-text {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0;
+    flex: 1;
+  }
+
+  .sector-meta-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .complexity-bar {
+    display: flex;
+    gap: 8px;
+  }
+
+  .comp-badge {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--glow);
+    background: rgba(123, 63, 228, 0.12);
+    border: 1px solid var(--border2);
+    padding: 2px 6px;
+  }
+
+  /* ── Responsive ─────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .writing-hero {
+      grid-template-columns: 1fr;
+    }
+    .sector-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", () => {
+    const sectorBtns = document.querySelectorAll(".sector-btn");
+    const tagBtns = document.querySelectorAll(".tag-btn");
+    const sectors = document.querySelectorAll(".writing-sector");
+    const cards = document.querySelectorAll(".sector-card");
+
+    let activeSector = "all";
+    let activeTag = "all";
+
+    function updateVisibleTagButtons() {
+      tagBtns.forEach((btn) => {
+        const filterVal = btn.getAttribute("data-tag-filter");
+        if (filterVal === "all") {
+          btn.style.display = "inline-block";
+          return;
+        }
+
+        const tagSectors = btn.getAttribute("data-tag-sectors") || "";
+        if (activeSector === "all" || tagSectors.includes(activeSector)) {
+          btn.style.display = "inline-block";
+        } else {
+          btn.style.display = "none";
+        }
+      });
+    }
+
+    function applyFilters() {
+      // Sector filter logic
+      sectors.forEach((sec) => {
+        const secName = sec.getAttribute("data-sector");
+        if (activeSector === "all" || activeSector === secName) {
+          sec.style.display = "block";
+        } else {
+          sec.style.display = "none";
+        }
+      });
+
+      // Tag filter logic
+      cards.forEach((card) => {
+        const cardTags = card.getAttribute("data-tags") || "";
+        if (activeTag === "all" || cardTags.includes(activeTag)) {
+          card.style.display = "flex";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    }
+
+    // Sector button click handler
+    sectorBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        sectorBtns.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeSector = btn.getAttribute("data-sector-filter");
+
+        // Reset tag filter when switching sector
+        activeTag = "all";
+        tagBtns.forEach((tb) => {
+          if (tb.getAttribute("data-tag-filter") === "all") {
+            tb.classList.add("active");
+          } else {
+            tb.classList.remove("active");
+          }
+        });
+
+        updateVisibleTagButtons();
+        applyFilters();
+      });
+    });
+
+    // Tag button click handler
+    tagBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        tagBtns.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeTag = btn.getAttribute("data-tag-filter");
+        applyFilters();
+      });
+    });
+
+    // Initial setup
+    updateVisibleTagButtons();
+    applyFilters();
+  });
+</script>

@@ -2,39 +2,679 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="About">
-  <section class="container resp-page grid-paper">
-    <header class="resp-hero">
-      <div>
-        <p class="resp-meta-label mono">PROFILE</p>
-        <h1 class="resp-hero-title">ABOUT</h1>
-        <p class="resp-hero-sub">AI &amp; Data Science student. I build things, break things on purpose, and write about both.</p>
-      </div>
-      <div class="resp-meta mono">
-        <p class="resp-meta-label">CONTACT</p>
-        <p><a href="https://github.com/manikandanx0" target="_blank" rel="noopener">github ↗</a></p>
-        <p><a href="https://linkedin.com/in/manikandannx0" target="_blank" rel="noopener">linkedin ↗</a></p>
-        <p><a href="mailto:manikandanx0@proton.me">email ↗</a></p>
-      </div>
-    </header>
+<BaseLayout title="Target Analysis // About" description="Target Dossier & Intelligence Analysis for Manikandan - AI & Data Science Student, Systems & Security Research.">
+  <div class="container container--wide page">
 
-    <div class="resp-card-grid">
-      <article class="resp-card">
-        <div class="resp-card-head mono">FOCUS-01</div>
-        <div class="resp-card-preview"></div>
-        <div class="resp-card-body">
-          <h2 class="resp-card-title">Security + Systems</h2>
-          <p class="resp-card-text">I like CTF-style thinking and practical engineering execution.</p>
+    <!-- Target Analysis Bento Grid -->
+    <div class="target-bento-grid anim-up">
+
+      <!-- 1. Header Banner Card (Full Width) -->
+      <div class="bento-card bento-header">
+        <div class="bento-card-head">
+          <span class="classification"><span class="blink">●</span> CLASSIFIED // INTEL REPORT</span>
+          <span class="badge-live">LIVE FEED :: SYS-2026-DX</span>
         </div>
-      </article>
-      <article class="resp-card">
-        <div class="resp-card-head mono">FOCUS-02</div>
-        <div class="resp-card-preview"></div>
-        <div class="resp-card-body">
-          <h2 class="resp-card-title">Shipping quickly</h2>
-          <p class="resp-card-text">Prototype fast, test assumptions, then harden what works.</p>
+        <div class="header-content">
+          <div class="header-title-group">
+            <p class="target-subtitle">// SUBJECT DOSSIER · AI + DATA SCIENCE · CHENNAI</p>
+            <h1 class="target-title">TARGET ANALYSIS</h1>
+          </div>
+          <div class="target-quick-telemetry">
+            <div class="telemetry-pill">
+              <span class="lbl">CLEARANCE</span>
+              <span class="val glow">LEVEL 3</span>
+            </div>
+            <div class="telemetry-pill">
+              <span class="lbl">THREAT RATING</span>
+              <span class="val">CURIOUS</span>
+            </div>
+            <div class="telemetry-pill">
+              <span class="lbl">STATUS</span>
+              <span class="val status-active">● ACTIVE</span>
+            </div>
+          </div>
         </div>
-      </article>
+      </div>
+
+      <!-- 2. Target Profile & Avatar (4 cols) -->
+      <div class="bento-card bento-avatar">
+        <div class="bento-card-head">SUBJECT_IMG.RAW</div>
+        <div class="avatar-bento-body">
+          <div class="avatar-target-frame dot-grid">
+            <div class="crosshair ch-tl">+</div>
+            <div class="crosshair ch-tr">+</div>
+            <div class="crosshair ch-bl">+</div>
+            <div class="crosshair ch-br">+</div>
+            <div class="radar-line"></div>
+            <div class="avatar-placeholder-box">
+              <span class="avatar-icon">?</span>
+              <span class="scan-status">[ SUBJECT MATCH 99.4% ]</span>
+            </div>
+          </div>
+          <div class="avatar-metadata">
+            <div class="meta-row"><span>CODENAME</span><strong>MANI</strong></div>
+            <div class="meta-row"><span>SPEC</span><strong>AI &amp; DATA SCIENCE</strong></div>
+            <div class="meta-row"><span>LOCATION</span><strong>CHENNAI, IN</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Intelligence Briefing Bio (8 cols) -->
+      <div class="bento-card bento-brief">
+        <div class="bento-card-head">EXECUTIVE BRIEFING</div>
+        <div class="brief-body">
+          <div class="brief-fields-grid">
+            <div class="brief-field">
+              <span class="field-lbl">NAME</span>
+              <span class="field-val">Manikandan</span>
+            </div>
+            <div class="brief-field">
+              <span class="field-lbl">LOCATION</span>
+              <span class="field-val">Chennai, India</span>
+            </div>
+            <div class="brief-field">
+              <span class="field-lbl">FOCUS</span>
+              <span class="field-val">AI Systems &amp; Security</span>
+            </div>
+            <div class="brief-field">
+              <span class="field-lbl">OPERATIONAL STATUS</span>
+              <span class="field-val status-active">● Active Deployment</span>
+            </div>
+          </div>
+          <hr class="bento-hr" />
+          <p class="brief-summary">
+            Subject builds digital architectures, tests system boundaries, and documents security findings. Inspired by systems thinking and reverse engineering — driven to understand how applications function at their boundary conditions.
+          </p>
+          <div class="brief-tags">
+            <span class="tag tag--filled">Systems Thinking</span>
+            <span class="tag">Security Research</span>
+            <span class="tag">Machine Learning</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Technical Capabilities Vector (7 cols) -->
+      <div class="bento-card bento-skills">
+        <div class="bento-card-head">CAPABILITIES // TECHNICAL VECTOR</div>
+        <div class="skills-body">
+          <div class="skill-category">
+            <div class="cat-head">LANGUAGES</div>
+            <div class="tags-row">
+              <span class="tag tag--filled">Python</span>
+              <span class="tag">C</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">SQL</span>
+            </div>
+          </div>
+          <div class="skill-category">
+            <div class="cat-head">FRAMEWORKS &amp; STACK</div>
+            <div class="tags-row">
+              <span class="tag">PyTorch</span>
+              <span class="tag">FastAPI</span>
+              <span class="tag tag--filled">Astro</span>
+            </div>
+          </div>
+          <div class="skill-category">
+            <div class="cat-head">TOOLCHAIN &amp; RE</div>
+            <div class="tags-row">
+              <span class="tag">Linux</span>
+              <span class="tag">Docker</span>
+              <span class="tag">Git</span>
+              <span class="tag">Ghidra</span>
+            </div>
+          </div>
+          <div class="skill-category">
+            <div class="cat-head"><span class="comment">&lt;!-- active research --&gt;</span></div>
+            <div class="tags-row">
+              <span class="tag tag--learning">Rust</span>
+              <span class="tag tag--learning">x86 ASM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Operational Training / Education (5 cols) -->
+      <div class="bento-card bento-edu">
+        <div class="bento-card-head">OPERATIONAL TRAINING</div>
+        <div class="edu-body">
+          <div class="edu-card-item">
+            <div class="edu-badge">ACADEMIC PROGRAM</div>
+            <h3 class="edu-heading">B.Tech in AI &amp; Data Science</h3>
+            <p class="edu-sub">Present · Chennai, India</p>
+          </div>
+          <hr class="bento-hr" />
+          <div class="edu-card-item">
+            <div class="edu-badge">CYBERWARFARE LABS</div>
+            <h3 class="edu-heading">CTF &amp; Vulnerability Analysis</h3>
+            <p class="edu-sub">Ongoing Practice</p>
+            <div class="tags-row" style="margin-top: 8px;">
+              <span class="tag">HackTheBox</span>
+              <span class="tag">PicoCTF</span>
+              <span class="tag">TryHackMe</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Operational Experience Log (8 cols) -->
+      <div class="bento-card bento-exp">
+        <div class="bento-card-head">FIELD OPERATIONS // EXPERIENCE LOG</div>
+        <div class="exp-body">
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <div class="tl-header">
+                  <span class="tl-title">Independent Engineering Projects</span>
+                  <span class="tl-date">2023 – PRESENT</span>
+                </div>
+                <p class="tl-desc">Architecting full-stack web applications, custom UI components, and dataset processing scripts.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <div class="tl-header">
+                  <span class="tl-title">CTF Competitions &amp; Security Labs</span>
+                  <span class="tl-date">2024 – PRESENT</span>
+                </div>
+                <p class="tl-desc">Analyzing web application sinks, binary exploitation pathways, and publishing technical writeups.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <div class="tl-header">
+                  <span class="tl-title">Open Source Contributions</span>
+                  <span class="tl-date">ONGOING</span>
+                </div>
+                <p class="tl-desc">Developing modular components, writing developer documentation, and submitting code improvements.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. Encrypted Comms & Signals (4 cols) -->
+      <div class="bento-card bento-comms">
+        <div class="bento-card-head">SIGNALS // ENCRYPTED COMMS</div>
+        <div class="comms-body">
+          <a href="mailto:manikandanx0@proton.me" class="comms-channel">
+            <span class="ch-label">EMAIL</span>
+            <span class="ch-val">manikandanx0@proton.me ↗</span>
+          </a>
+          <a href="https://github.com/manikandanx0" target="_blank" rel="noopener" class="comms-channel">
+            <span class="ch-label">GITHUB</span>
+            <span class="ch-val">@manikandanx0 ↗</span>
+          </a>
+          <a href="https://linkedin.com/in/manikandannx0" target="_blank" rel="noopener" class="comms-channel">
+            <span class="ch-label">LINKEDIN</span>
+            <span class="ch-val">manikandannx0 ↗</span>
+          </a>
+          <a href="/" class="comms-channel">
+            <span class="ch-label">DOMAINS</span>
+            <span class="ch-val">mani.tech</span>
+          </a>
+        </div>
+        <div class="bento-card-footer">
+          <span>PATH: C:\CLASSIFIED\SUBJECT_DX\DOSSIER.RAW</span>
+          <span>SECURED</span>
+        </div>
+      </div>
+
     </div>
-  </section>
+
+  </div>
 </BaseLayout>
+
+<style>
+  /* ── Bento Grid System ─────────────────────────────────── */
+  .target-bento-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px;
+    width: 100%;
+  }
+
+  /* ── Card Base ────────────────────────────────────────── */
+  .bento-card {
+    background: rgba(13, 13, 26, 0.88);
+    border: 1px solid var(--border2);
+    position: relative;
+    backdrop-filter: blur(4px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+  }
+
+  .bento-card:hover {
+    border-color: var(--purple);
+    box-shadow: 0 0 20px rgba(123, 63, 228, 0.25), inset 0 0 15px rgba(123, 63, 228, 0.05);
+    transform: translateY(-2px);
+  }
+
+  /* Corner Brackets */
+  .bento-card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px;
+    width: 10px; height: 10px;
+    border-top: 2px solid var(--purple);
+    border-left: 2px solid var(--purple);
+    z-index: 2;
+  }
+  .bento-card::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; right: -1px;
+    width: 10px; height: 10px;
+    border-bottom: 2px solid var(--purple);
+    border-right: 2px solid var(--purple);
+    z-index: 2;
+  }
+
+  /* Card Header */
+  .bento-card-head {
+    border-bottom: 1px solid var(--border2);
+    padding: 8px 14px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(8, 8, 16, 0.6);
+  }
+  .bento-card-head::before {
+    content: '▌';
+    color: var(--purple);
+    margin-right: 6px;
+  }
+
+  /* ── Grid Column Assignments ───────────────────────────── */
+  .bento-header { grid-column: span 12; }
+  .bento-avatar { grid-column: span 4; }
+  .bento-brief  { grid-column: span 8; }
+  .bento-skills { grid-column: span 7; }
+  .bento-edu    { grid-column: span 5; }
+  .bento-exp    { grid-column: span 8; }
+  .bento-comms  { grid-column: span 4; }
+
+  /* ── 1. Bento Header ────────────────────────────────────── */
+  .classification { color: var(--glow); font-weight: 500; }
+  .blink { animation: blinker 1.5s linear infinite; color: var(--violet); }
+  @keyframes blinker { 50% { opacity: 0; } }
+
+  .badge-live {
+    font-size: 10px;
+    color: var(--glow);
+    letter-spacing: 0.1em;
+  }
+
+  .header-content {
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .target-subtitle {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .target-title {
+    font-size: clamp(28px, 4vw, 48px);
+    letter-spacing: 0.04em;
+    color: var(--white);
+    text-shadow: 0 0 16px rgba(123, 63, 228, 0.4);
+    margin: 0;
+  }
+
+  .target-quick-telemetry {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .telemetry-pill {
+    border: 1px solid var(--border2);
+    background: rgba(16, 16, 31, 0.8);
+    padding: 8px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .telemetry-pill .lbl {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+  }
+  .telemetry-pill .val {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .status-active { color: var(--glow); }
+
+  /* ── 2. Bento Avatar ────────────────────────────────────── */
+  .avatar-bento-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+  }
+
+  .avatar-target-frame {
+    border: 1px solid var(--border2);
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: rgba(123, 63, 228, 0.04);
+    overflow: hidden;
+  }
+
+  .crosshair {
+    position: absolute;
+    font-size: 12px;
+    color: var(--purple);
+    line-height: 1;
+  }
+  .ch-tl { top: 4px; left: 6px; }
+  .ch-tr { top: 4px; right: 6px; }
+  .ch-bl { bottom: 4px; left: 6px; }
+  .ch-br { bottom: 4px; right: 6px; }
+
+  .radar-line {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(155, 93, 240, 0.15) 50%, transparent 100%);
+    animation: scanRadar 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes scanRadar {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+  }
+
+  .avatar-placeholder-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .avatar-icon {
+    font-size: 42px;
+    color: var(--dim);
+    line-height: 1;
+  }
+  .scan-status {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  .avatar-metadata {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-top: 1px dashed var(--border);
+    padding-top: 10px;
+  }
+  .meta-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+  }
+  .meta-row span { color: var(--muted); letter-spacing: 0.08em; }
+  .meta-row strong { color: var(--text); }
+
+  /* ── 3. Bento Briefing ─────────────────────────────────── */
+  .brief-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+  }
+
+  .brief-fields-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .brief-field {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .field-lbl {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .field-val {
+    font-size: 14px;
+    color: var(--white);
+  }
+
+  .bento-hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 4px 0;
+  }
+
+  .brief-summary {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.75;
+  }
+
+  .brief-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: auto;
+  }
+
+  /* ── 4. Bento Skills ───────────────────────────────────── */
+  .skills-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .skill-category {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .cat-head {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .tag--learning {
+    border-style: dashed;
+    color: var(--text);
+    border-color: var(--purple);
+  }
+
+  /* ── 5. Bento Education ────────────────────────────────── */
+  .edu-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    height: 100%;
+  }
+
+  .edu-card-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .edu-badge {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    color: var(--purple);
+    font-weight: 700;
+  }
+  .edu-heading {
+    font-size: 15px;
+    color: var(--white);
+    margin: 0;
+  }
+  .edu-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  /* ── 6. Bento Experience ───────────────────────────────── */
+  .exp-body {
+    padding: 20px;
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    padding-left: 14px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 4px; bottom: 4px; left: 3px;
+    width: 1px;
+    background: var(--border2);
+  }
+
+  .timeline-item {
+    position: relative;
+    display: flex;
+    gap: 12px;
+  }
+  .timeline-dot {
+    position: absolute;
+    left: -14px; top: 5px;
+    width: 7px; height: 7px;
+    background: var(--purple);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--purple);
+  }
+
+  .timeline-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+  }
+  .tl-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tl-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.03em;
+  }
+  .tl-date {
+    font-size: 11px;
+    color: var(--glow);
+    letter-spacing: 0.08em;
+  }
+  .tl-desc {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ── 7. Bento Comms ────────────────────────────────────── */
+  .comms-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .comms-channel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    background: rgba(16, 16, 31, 0.5);
+    transition: all 0.2s ease;
+  }
+  .comms-channel:hover {
+    border-color: var(--purple);
+    background: rgba(123, 63, 228, 0.12);
+    box-shadow: 0 0 10px rgba(123, 63, 228, 0.2);
+  }
+  .ch-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .ch-val {
+    font-size: 12px;
+    color: var(--violet);
+  }
+  .comms-channel:hover .ch-val {
+    color: var(--glow);
+  }
+
+  .bento-card-footer {
+    border-top: 1px solid var(--border);
+    padding: 6px 12px;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    background: rgba(8, 8, 16, 0.9);
+  }
+
+  /* ── Responsive Breakpoints ────────────────────────────── */
+  @media (max-width: 992px) {
+    .bento-avatar { grid-column: span 12; }
+    .bento-brief  { grid-column: span 12; }
+    .bento-skills { grid-column: span 12; }
+    .bento-edu    { grid-column: span 12; }
+    .bento-exp    { grid-column: span 12; }
+    .bento-comms  { grid-column: span 12; }
+    .brief-fields-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .target-bento-grid { gap: 12px; }
+    .header-content { padding: 16px; }
+    .target-title { font-size: 26px; }
+    .telemetry-pill { flex: 1; }
+  }
+</style>

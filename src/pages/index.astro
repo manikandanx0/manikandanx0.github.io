@@ -2,53 +2,617 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
+// Fetch content collections
+const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const featuredProjects = projects.filter((p) => p.data.featured);
+const displayProjects = featuredProjects.length > 0 ? featuredProjects : projects;
+
 const blog = (await getCollection('blog', ({ data }) => !data.draft)).map((e) => ({ ...e, kind: 'blog' }));
-const ctf = (await getCollection('ctf', ({ data }) => !data.draft)).map((e) => ({ ...e, kind: 'ctf' }));
+const ctf  = (await getCollection('ctf',  ({ data }) => !data.draft)).map((e) => ({ ...e, kind: 'ctf'  }));
 const leetcode = (await getCollection('leetcode', ({ data }) => !data.draft)).map((e) => ({ ...e, kind: 'leetcode' }));
 
 const allWriting = [...blog, ...ctf, ...leetcode].sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
 
+const recentWriting = allWriting.slice(0, 4);
 ---
 
-<BaseLayout title="Home">
-  <section class="container resp-page grid-paper">
-    <header class="resp-hero">
-      <div>
-        <p class="mono resp-meta-label">// ai + data science / chennai</p>
-        <h1 class="resp-hero-title">BUILDING THINGS.<br />BREAKING THINGS.</h1>
-        <p class="resp-hero-sub">Projects, CTF writeups, and DSA solutions from someone who'd rather ship than talk about shipping.</p>
-      </div>
-      <div class="resp-meta">
-        <p class="resp-meta-label mono">LINKS</p>
-        <a href="/projects" class="btn btn--primary">view work</a>
-        <a href="/writing" class="btn" style="margin-left:8px;">read writing</a>
-      </div>
-    </header>
+<BaseLayout title="Home" description="Personal portfolio & technical dossier - AI, Security Research, and Systems.">
+  <div class="container container--wide page">
 
-    <div class="resp-card-grid">
-      {allWriting.map((entry, i) => (
-        <article class="resp-card">
-          <div class="resp-card-head mono">WRT-{String(i + 1).padStart(2, '0')}</div>
-          <div class="resp-card-preview"></div>
-          <div class="resp-card-body">
-            <h2 class="resp-card-title">{entry.data.title}</h2>
-            <p class="resp-card-text">{entry.data.excerpt ?? ''}</p>
-            <a class="mono" href={`/writing/${entry.data.type ?? entry.kind}/${entry.id.replace(/\.md$/, '')}`}>READ MORE</a>
+    <!-- 1. Hero & Telemetry Section -->
+    <section class="hero-bento anim-up">
+      <div class="hero-main-card">
+        <div class="hero-header-bar">
+          <span class="sys-id">// SYS_ID: MANI-2026-DX</span>
+          <span class="sys-status"><span class="blink">●</span> ONLINE // DISPATCH READY</span>
+        </div>
+        
+        <div class="hero-body">
+          <h1 class="hero-title">
+            BUILDING<br />
+            <span class="accent">THINGS.</span><br />
+            BREAKING<br />
+            <span class="accent">THINGS.</span>
+          </h1>
+          
+          <p class="hero-sub">
+            AI &amp; Data Science student specializing in practical machine learning, systems architecture, and security research. Building resilient software and breaking code at the boundaries.
+          </p>
+
+          <div class="hero-actions">
+            <a href="/projects" class="btn btn--primary">View Work ↗</a>
+            <a href="/writing" class="btn">Read Transmissions ↗</a>
+            <a href="mailto:manikandanx0@proton.me" class="btn btn--outline">Contact Dispatch</a>
           </div>
-        </article>
-      ))}
-      {allWriting.length === 0 && (
-        <article class="resp-card">
-          <div class="resp-card-head mono">WRT-00</div>
-          <div class="resp-card-preview"></div>
-          <div class="resp-card-body">
-            <h2 class="resp-card-title">No entries yet</h2>
-            <p class="resp-card-text">Add markdown files in blog, ctf, or leetcode collections.</p>
+        </div>
+
+        <div class="hero-card-footer">
+          <span>LOCATION: CHENNAI, IN</span>
+          <span>LAT/LONG: 13.0827° N, 80.2707° E</span>
+        </div>
+      </div>
+
+      <!-- Hero Telemetry Sidebar Card -->
+      <aside class="hero-telemetry-card">
+        <div class="panel-head">TELEMETRY &amp; METRICS</div>
+        <div class="telemetry-body">
+          <div class="telemetry-item">
+            <span class="t-label">OPERATIONAL STATUS</span>
+            <span class="t-val status-active">● ACTIVE DEPLOYMENT</span>
           </div>
-        </article>
-      )}
-    </div>
-  </section>
+
+          <div class="telemetry-item">
+            <span class="t-label">CORE DOMAINS</span>
+            <div class="tags-column">
+              <span class="tag tag--filled">AI / Machine Learning</span>
+              <span class="tag">Security Research</span>
+              <span class="tag">Systems &amp; Kernel</span>
+            </div>
+          </div>
+
+          <div class="telemetry-metrics-grid">
+            <div class="metric-box">
+              <span class="m-val">{projects.length.toString().padStart(2, '0')}</span>
+              <span class="m-lbl">PROJECTS</span>
+            </div>
+            <div class="metric-box">
+              <span class="m-val">{allWriting.length.toString().padStart(2, '0')}</span>
+              <span class="m-lbl">LOGS</span>
+            </div>
+          </div>
+
+          <div class="telemetry-item" style="margin-top: auto;">
+            <span class="t-label">CLEARANCE</span>
+            <div class="clearance-badge">LEVEL 3 // AUTHORIZED</div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- 2. Featured Operations / Key Projects -->
+    <section class="landing-section anim-up anim-d1">
+      <div class="section-head">
+        <span>Featured Operations</span>
+        <a href="/projects" class="section-more-link">View All Work ↗</a>
+      </div>
+
+      <div class="card-grid">
+        {displayProjects.length === 0 && (
+          <article class="card bento-style-card">
+            <div class="card-head">
+              <span>OP-01</span>
+              <span class="card-head-id">TEMPLATE_SLOT</span>
+            </div>
+            <div class="card-preview dot-grid"></div>
+            <div class="card-body">
+              <h2 class="card-title">PROJECT TITLE PLACEHOLDER</h2>
+              <p class="card-text">Add markdown project entries under src/content/projects to populate this section with real work.</p>
+              <div class="tags-row" style="margin-top:8px;">
+                <span class="tag">Python</span>
+                <span class="tag">PyTorch</span>
+                <span class="tag">FastAPI</span>
+              </div>
+              <a class="card-link" href="/projects">Inspect Operations</a>
+            </div>
+          </article>
+        )}
+
+        {displayProjects.map((project, i) => (
+          <article class="card bento-style-card" style={`animation-delay:${0.1 + i * 0.06}s`}>
+            <div class="card-head">
+              <span>OP-{String(i + 1).padStart(2, '0')}</span>
+              <span class="card-head-id">{project.data.date.getFullYear()}</span>
+            </div>
+            <div class="card-preview dot-grid"></div>
+            <div class="card-body">
+              <h2 class="card-title">{project.data.title}</h2>
+              <p class="card-text">{project.data.summary}</p>
+              <div class="tags-row" style="margin-top:6px;">
+                {project.data.stack.slice(0, 3).map((tech: string) => (
+                  <span class="tag">{tech}</span>
+                ))}
+              </div>
+              <a class="card-link" href={`/projects/${project.id.replace(/\.md$/, '')}`}>View Operation</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- 3. Capabilities Matrix (4 Domain Cards) -->
+    <section class="landing-section anim-up anim-d2">
+      <div class="section-head">
+        <span>System Architecture &amp; Capabilities</span>
+      </div>
+
+      <div class="matrix-grid">
+        <div class="matrix-card">
+          <div class="matrix-head">
+            <span class="matrix-num">01</span>
+            <span class="matrix-tag">AI &amp; ML</span>
+          </div>
+          <h3 class="matrix-title">Artificial Intelligence</h3>
+          <p class="matrix-desc">Model development, dataset processing, neural network architectures, and PyTorch workflows.</p>
+          <div class="matrix-footer-tags">
+            <span>PyTorch</span> · <span>FastAPI</span> · <span>Python</span>
+          </div>
+        </div>
+
+        <div class="matrix-card">
+          <div class="matrix-head">
+            <span class="matrix-num">02</span>
+            <span class="matrix-tag">SECURITY</span>
+          </div>
+          <h3 class="matrix-title">Offensive Security &amp; CTF</h3>
+          <p class="matrix-desc">Web application vulnerability analysis, reverse engineering, x86/ARM binary analysis, and CTF writeups.</p>
+          <div class="matrix-footer-tags">
+            <span>Ghidra</span> · <span>Linux</span> · <span>BurpSuite</span>
+          </div>
+        </div>
+
+        <div class="matrix-card">
+          <div class="matrix-head">
+            <span class="matrix-num">03</span>
+            <span class="matrix-tag">SYSTEMS</span>
+          </div>
+          <h3 class="matrix-title">Systems &amp; Low-Level</h3>
+          <p class="matrix-desc">Operating system internals, memory management, C programming, Docker containerization, and CLI tooling.</p>
+          <div class="matrix-footer-tags">
+            <span>C</span> · <span>Rust</span> · <span>Docker</span> · <span>Git</span>
+          </div>
+        </div>
+
+        <div class="matrix-card">
+          <div class="matrix-head">
+            <span class="matrix-num">04</span>
+            <span class="matrix-tag">INTERFACES</span>
+          </div>
+          <h3 class="matrix-title">Web &amp; UI Engineering</h3>
+          <p class="matrix-desc">Performant web architectures, Astro SSG builds, modular CSS design systems, and responsive layouts.</p>
+          <div class="matrix-footer-tags">
+            <span>Astro</span> · <span>JavaScript</span> · <span>Vanilla CSS</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Recent Transmissions Showcase -->
+    <section class="landing-section anim-up anim-d3">
+      <div class="section-head">
+        <span>Recent Transmissions</span>
+        <a href="/writing" class="section-more-link">All Transmissions ↗</a>
+      </div>
+
+      <div class="card-grid">
+        {recentWriting.length === 0 && (
+          <article class="card bento-style-card">
+            <div class="card-head">
+              <span>LOG-00</span>
+              <span class="card-head-id">EMPTY</span>
+            </div>
+            <div class="card-preview dot-grid"></div>
+            <div class="card-body">
+              <h2 class="card-title">No transmissions published yet</h2>
+              <p class="card-text">Markdown writeups added under src/content/blog, ctf, or leetcode will appear here automatically.</p>
+            </div>
+          </article>
+        )}
+
+        {recentWriting.map((entry, i) => (
+          <article class="card bento-style-card" style={`animation-delay:${0.1 + i * 0.06}s`}>
+            <div class="card-head">
+              <span>LOG-{String(i + 1).padStart(2, '0')}</span>
+              <span class="card-head-id">{entry.kind.toUpperCase()}</span>
+            </div>
+            <div class="card-preview dot-grid"></div>
+            <div class="card-body">
+              <h2 class="card-title">{entry.data.title}</h2>
+              <p class="card-text">{entry.data.excerpt ?? ''}</p>
+              <a class="card-link" href={`/writing/${entry.data.type ?? entry.kind}/${entry.id.replace(/\.md$/, '')}`}>
+                Read Transmission
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- 5. Interactive Terminal Dispatch & Contact Module -->
+    <section class="landing-section anim-up anim-d4">
+      <div class="section-head">
+        <span>Signal Dispatch // Contact Module</span>
+      </div>
+
+      <div class="terminal-card">
+        <div class="terminal-head">
+          <span class="term-dots"><span></span><span></span><span></span></span>
+          <span class="term-title">DISPATCH_TERMINAL.SH</span>
+          <span class="term-status">ONLINE</span>
+        </div>
+        
+        <div class="terminal-body">
+          <p class="term-line"><span class="prompt">$</span> init --session=guest_user</p>
+          <p class="term-line"><span class="prompt">&gt;</span> Establishing encrypted tunnel to node: <span class="glow">manikandanx0@proton.me</span></p>
+          <p class="term-line"><span class="prompt">&gt;</span> PGP_FINGERPRINT: <span class="dim-text">9B5D F0A9 7B3F E42D 1F5E 3D2A</span></p>
+          <p class="term-line"><span class="prompt">&gt;</span> Status: Listening for inquiries, collaborations, and CTF challenges.</p>
+
+          <div class="terminal-action-bar">
+            <a href="mailto:manikandanx0@proton.me" class="btn btn--primary">Send Message ↗</a>
+            <a href="https://github.com/manikandanx0" target="_blank" rel="noopener" class="btn">GitHub Profile ↗</a>
+            <a href="https://linkedin.com/in/manikandannx0" target="_blank" rel="noopener" class="btn">LinkedIn ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
 </BaseLayout>
+
+<style>
+  /* ── Hero Bento Layout ──────────────────────────────────── */
+  .hero-bento {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .hero-main-card {
+    background: rgba(13, 13, 26, 0.88);
+    border: 1px solid var(--border2);
+    position: relative;
+    backdrop-filter: blur(4px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .hero-main-card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px;
+    width: 12px; height: 12px;
+    border-top: 2px solid var(--purple);
+    border-left: 2px solid var(--purple);
+  }
+
+  .hero-header-bar {
+    border-bottom: 1px solid var(--border2);
+    padding: 10px 16px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(8, 8, 16, 0.6);
+  }
+
+  .blink { animation: blinker 1.5s linear infinite; color: var(--violet); }
+  @keyframes blinker { 50% { opacity: 0; } }
+
+  .hero-body {
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .hero-title {
+    font-size: clamp(32px, 5.5vw, 56px);
+    line-height: 1.0;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+  .hero-title .accent {
+    color: var(--violet);
+    text-shadow: 0 0 16px rgba(123, 63, 228, 0.4);
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    color: var(--text);
+    max-width: 620px;
+    line-height: 1.7;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  .btn--outline {
+    border-color: var(--border2);
+    color: var(--text);
+  }
+  .btn--outline:hover {
+    border-color: var(--purple);
+    color: var(--glow);
+  }
+
+  .hero-card-footer {
+    border-top: 1px solid var(--border);
+    padding: 8px 16px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    background: rgba(8, 8, 16, 0.9);
+  }
+
+  /* ── Hero Telemetry Card ───────────────────────────────── */
+  .hero-telemetry-card {
+    background: rgba(13, 13, 26, 0.88);
+    border: 1px solid var(--border2);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-telemetry-card::before {
+    content: '';
+    position: absolute;
+    top: -1px; right: -1px;
+    width: 12px; height: 12px;
+    border-top: 2px solid var(--purple);
+    border-right: 2px solid var(--purple);
+  }
+
+  .telemetry-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    height: 100%;
+  }
+
+  .telemetry-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .t-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .t-val { font-size: 13px; font-weight: 700; }
+  .status-active { color: var(--glow); }
+
+  .tags-column {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .telemetry-metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    border-top: 1px dashed var(--border);
+    border-bottom: 1px dashed var(--border);
+    padding: 12px 0;
+  }
+
+  .metric-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(16, 16, 31, 0.6);
+    border: 1px solid var(--border);
+    padding: 10px 6px;
+  }
+
+  .m-val {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--glow);
+    line-height: 1;
+  }
+
+  .m-lbl {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .clearance-badge {
+    border: 1px solid var(--purple);
+    background: rgba(123, 63, 228, 0.15);
+    color: var(--glow);
+    padding: 6px 10px;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-align: center;
+    font-weight: 700;
+  }
+
+  /* ── Section Headings & Spacing ────────────────────────── */
+  .landing-section {
+    margin-bottom: 36px;
+  }
+
+  .section-more-link {
+    font-size: 12px;
+    color: var(--violet);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .bento-style-card {
+    background: rgba(13, 13, 26, 0.88);
+    border: 1px solid var(--border2);
+  }
+
+  /* ── Matrix Grid (4 Capabilities) ───────────────────────── */
+  .matrix-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .matrix-card {
+    background: rgba(13, 13, 26, 0.88);
+    border: 1px solid var(--border2);
+    padding: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .matrix-card:hover {
+    border-color: var(--purple);
+    box-shadow: 0 0 16px rgba(123, 63, 228, 0.2);
+  }
+
+  .matrix-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .matrix-num {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--purple);
+  }
+
+  .matrix-tag {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    border: 1px solid var(--border2);
+    padding: 2px 6px;
+  }
+
+  .matrix-title {
+    font-size: 16px;
+    color: var(--white);
+    margin: 0;
+  }
+
+  .matrix-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .matrix-footer-tags {
+    font-size: 11px;
+    color: var(--glow);
+    letter-spacing: 0.06em;
+    border-top: 1px dashed var(--border);
+    padding-top: 8px;
+    margin-top: 4px;
+  }
+
+  /* ── Terminal Card Widget ───────────────────────────────── */
+  .terminal-card {
+    background: rgba(8, 8, 18, 0.95);
+    border: 1px solid var(--border2);
+    position: relative;
+  }
+
+  .terminal-head {
+    background: rgba(16, 16, 31, 0.9);
+    border-bottom: 1px solid var(--border2);
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+  }
+
+  .term-dots {
+    display: flex;
+    gap: 6px;
+  }
+  .term-dots span {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--border2);
+  }
+  .term-dots span:nth-child(1) { background: #ff5f56; }
+  .term-dots span:nth-child(2) { background: #ffbd2e; }
+  .term-dots span:nth-child(3) { background: #27c93f; }
+
+  .term-title {
+    color: var(--text);
+    letter-spacing: 0.1em;
+  }
+
+  .term-status {
+    color: var(--glow);
+    font-weight: 700;
+  }
+
+  .terminal-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: var(--font);
+    font-size: 13px;
+  }
+
+  .term-line {
+    margin: 0;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .prompt { color: var(--purple); font-weight: 700; margin-right: 6px; }
+  .dim-text { color: var(--muted); }
+
+  .terminal-action-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+    border-top: 1px dashed var(--border);
+    padding-top: 14px;
+  }
+
+  /* ── Responsive ─────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .hero-bento { grid-template-columns: 1fr; }
+    .matrix-grid { grid-template-columns: 1fr; }
+  }
+</style>
