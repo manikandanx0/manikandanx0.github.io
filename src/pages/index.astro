@@ -2,617 +2,726 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-// Fetch content collections
 const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
-
 const featuredProjects = projects.filter((p) => p.data.featured);
-const displayProjects = featuredProjects.length > 0 ? featuredProjects : projects;
+const displayProjects  = featuredProjects.length > 0 ? featuredProjects : projects;
 
-const blog = (await getCollection('blog', ({ data }) => !data.draft)).map((e) => ({ ...e, kind: 'blog' }));
-const ctf  = (await getCollection('ctf',  ({ data }) => !data.draft)).map((e) => ({ ...e, kind: 'ctf'  }));
+const blog     = (await getCollection('blog',     ({ data }) => !data.draft)).map((e) => ({ ...e, kind: 'blog'     }));
+const ctf      = (await getCollection('ctf',      ({ data }) => !data.draft)).map((e) => ({ ...e, kind: 'ctf'      }));
 const leetcode = (await getCollection('leetcode', ({ data }) => !data.draft)).map((e) => ({ ...e, kind: 'leetcode' }));
-
-const allWriting = [...blog, ...ctf, ...leetcode].sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-);
-
+const allWriting    = [...blog, ...ctf, ...leetcode].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const recentWriting = allWriting.slice(0, 4);
 ---
 
 <BaseLayout title="Home" description="Personal portfolio & technical dossier - AI, Security Research, and Systems.">
-  <div class="container container--wide page">
+<div class="hp container container--wide page">
 
-    <!-- 1. Hero & Telemetry Section -->
-    <section class="hero-bento anim-up">
-      <div class="hero-main-card">
-        <div class="hero-header-bar">
-          <span class="sys-id">// SYS_ID: MANI-2026-DX</span>
-          <span class="sys-status"><span class="blink">●</span> ONLINE // DISPATCH READY</span>
-        </div>
-        
-        <div class="hero-body">
-          <h1 class="hero-title">
-            BUILDING<br />
-            <span class="accent">THINGS.</span><br />
-            BREAKING<br />
-            <span class="accent">THINGS.</span>
-          </h1>
-          
-          <p class="hero-sub">
-            AI &amp; Data Science student specializing in practical machine learning, systems architecture, and security research. Building resilient software and breaking code at the boundaries.
-          </p>
+  <!-- ╔══════════════════════════════════════════════════╗
+       ║  ROW 1 — HERO                                    ║
+       ║  [  MAIN (cols 1-9)  ] [ TELEMETRY (cols 10-12) ]║
+       ╚══════════════════════════════════════════════════╝ -->
+  <div class="hp-grid anim-up">
 
-          <div class="hero-actions">
-            <a href="/projects" class="btn btn--primary">View Work ↗</a>
-            <a href="/writing" class="btn">Read Transmissions ↗</a>
-            <a href="mailto:manikandanx0@proton.me" class="btn btn--outline">Contact Dispatch</a>
-          </div>
-        </div>
-
-        <div class="hero-card-footer">
-          <span>LOCATION: CHENNAI, IN</span>
-          <span>LAT/LONG: 13.0827° N, 80.2707° E</span>
+    <!-- Hero main -->
+    <div class="cell cell--hero-main">
+      <div class="cell__bar">
+        <span>// SYS_ID: MANI-2026-DX</span>
+        <span><span class="blink">●</span>&thinsp;ONLINE // DISPATCH READY</span>
+      </div>
+      <div class="cell__hero-body">
+        <h1 class="hero-display">
+          BUILDING<br>
+          <span class="accent">THINGS.</span><br>
+          BREAKING<br>
+          <span class="accent">THINGS.</span>
+        </h1>
+        <p class="hero-sub">
+          AI &amp; Data Science student specializing in practical machine learning,
+          systems architecture, and security research. Building resilient software
+          and breaking code at the boundaries.
+        </p>
+        <div class="hero-cta">
+          <a href="/projects"                         class="btn btn--primary">View Work ↗</a>
+          <a href="/writing"                          class="btn">Read Transmissions ↗</a>
+          <a href="mailto:manikandanx0@proton.me"     class="btn--ghost">Contact Dispatch ↗</a>
         </div>
       </div>
+      <div class="cell__foot">
+        <span>LOCATION: CHENNAI, IN</span>
+        <span>13.0827° N / 80.2707° E</span>
+      </div>
+    </div>
 
-      <!-- Hero Telemetry Sidebar Card -->
-      <aside class="hero-telemetry-card">
-        <div class="panel-head">TELEMETRY &amp; METRICS</div>
-        <div class="telemetry-body">
-          <div class="telemetry-item">
-            <span class="t-label">OPERATIONAL STATUS</span>
-            <span class="t-val status-active">● ACTIVE DEPLOYMENT</span>
-          </div>
-
-          <div class="telemetry-item">
-            <span class="t-label">CORE DOMAINS</span>
-            <div class="tags-column">
-              <span class="tag tag--filled">AI / Machine Learning</span>
-              <span class="tag">Security Research</span>
-              <span class="tag">Systems &amp; Kernel</span>
-            </div>
-          </div>
-
-          <div class="telemetry-metrics-grid">
-            <div class="metric-box">
-              <span class="m-val">{projects.length.toString().padStart(2, '0')}</span>
-              <span class="m-lbl">PROJECTS</span>
-            </div>
-            <div class="metric-box">
-              <span class="m-val">{allWriting.length.toString().padStart(2, '0')}</span>
-              <span class="m-lbl">LOGS</span>
-            </div>
-          </div>
-
-          <div class="telemetry-item" style="margin-top: auto;">
-            <span class="t-label">CLEARANCE</span>
-            <div class="clearance-badge">LEVEL 3 // AUTHORIZED</div>
+    <!-- Telemetry column — shares left border with hero-main -->
+    <div class="cell cell--telemetry">
+      <div class="cell__bar">TELEMETRY</div>
+      <div class="telem-body">
+        <div class="telem-row">
+          <span class="tl">STATUS</span>
+          <span class="status-dot"><span class="blink">●</span>&thinsp;ACTIVE</span>
+        </div>
+        <div class="telem-row">
+          <span class="tl">DOMAINS</span>
+          <div class="telem-tags">
+            <span class="tag tag--filled">AI / ML</span>
+            <span class="tag">Security</span>
+            <span class="tag">Systems</span>
           </div>
         </div>
-      </aside>
-    </section>
-
-    <!-- 2. Featured Operations / Key Projects -->
-    <section class="landing-section anim-up anim-d1">
-      <div class="section-head">
-        <span>Featured Operations</span>
-        <a href="/projects" class="section-more-link">View All Work ↗</a>
-      </div>
-
-      <div class="card-grid">
-        {displayProjects.length === 0 && (
-          <article class="card bento-style-card">
-            <div class="card-head">
-              <span>OP-01</span>
-              <span class="card-head-id">TEMPLATE_SLOT</span>
-            </div>
-            <div class="card-preview dot-grid"></div>
-            <div class="card-body">
-              <h2 class="card-title">PROJECT TITLE PLACEHOLDER</h2>
-              <p class="card-text">Add markdown project entries under src/content/projects to populate this section with real work.</p>
-              <div class="tags-row" style="margin-top:8px;">
-                <span class="tag">Python</span>
-                <span class="tag">PyTorch</span>
-                <span class="tag">FastAPI</span>
-              </div>
-              <a class="card-link" href="/projects">Inspect Operations</a>
-            </div>
-          </article>
-        )}
-
-        {displayProjects.map((project, i) => (
-          <article class="card bento-style-card" style={`animation-delay:${0.1 + i * 0.06}s`}>
-            <div class="card-head">
-              <span>OP-{String(i + 1).padStart(2, '0')}</span>
-              <span class="card-head-id">{project.data.date.getFullYear()}</span>
-            </div>
-            <div class="card-preview dot-grid"></div>
-            <div class="card-body">
-              <h2 class="card-title">{project.data.title}</h2>
-              <p class="card-text">{project.data.summary}</p>
-              <div class="tags-row" style="margin-top:6px;">
-                {project.data.stack.slice(0, 3).map((tech: string) => (
-                  <span class="tag">{tech}</span>
-                ))}
-              </div>
-              <a class="card-link" href={`/projects/${project.id.replace(/\.md$/, '')}`}>View Operation</a>
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
-
-    <!-- 3. Capabilities Matrix (4 Domain Cards) -->
-    <section class="landing-section anim-up anim-d2">
-      <div class="section-head">
-        <span>System Architecture &amp; Capabilities</span>
-      </div>
-
-      <div class="matrix-grid">
-        <div class="matrix-card">
-          <div class="matrix-head">
-            <span class="matrix-num">01</span>
-            <span class="matrix-tag">AI &amp; ML</span>
+        <div class="telem-metrics">
+          <div class="telem-metric">
+            <span class="tm-val">{projects.length.toString().padStart(2,'0')}</span>
+            <span class="tm-lbl">PROJECTS</span>
           </div>
-          <h3 class="matrix-title">Artificial Intelligence</h3>
-          <p class="matrix-desc">Model development, dataset processing, neural network architectures, and PyTorch workflows.</p>
-          <div class="matrix-footer-tags">
-            <span>PyTorch</span> · <span>FastAPI</span> · <span>Python</span>
+          <div class="telem-metric">
+            <span class="tm-val">{allWriting.length.toString().padStart(2,'0')}</span>
+            <span class="tm-lbl">LOGS</span>
           </div>
         </div>
-
-        <div class="matrix-card">
-          <div class="matrix-head">
-            <span class="matrix-num">02</span>
-            <span class="matrix-tag">SECURITY</span>
-          </div>
-          <h3 class="matrix-title">Offensive Security &amp; CTF</h3>
-          <p class="matrix-desc">Web application vulnerability analysis, reverse engineering, x86/ARM binary analysis, and CTF writeups.</p>
-          <div class="matrix-footer-tags">
-            <span>Ghidra</span> · <span>Linux</span> · <span>BurpSuite</span>
-          </div>
-        </div>
-
-        <div class="matrix-card">
-          <div class="matrix-head">
-            <span class="matrix-num">03</span>
-            <span class="matrix-tag">SYSTEMS</span>
-          </div>
-          <h3 class="matrix-title">Systems &amp; Low-Level</h3>
-          <p class="matrix-desc">Operating system internals, memory management, C programming, Docker containerization, and CLI tooling.</p>
-          <div class="matrix-footer-tags">
-            <span>C</span> · <span>Rust</span> · <span>Docker</span> · <span>Git</span>
-          </div>
-        </div>
-
-        <div class="matrix-card">
-          <div class="matrix-head">
-            <span class="matrix-num">04</span>
-            <span class="matrix-tag">INTERFACES</span>
-          </div>
-          <h3 class="matrix-title">Web &amp; UI Engineering</h3>
-          <p class="matrix-desc">Performant web architectures, Astro SSG builds, modular CSS design systems, and responsive layouts.</p>
-          <div class="matrix-footer-tags">
-            <span>Astro</span> · <span>JavaScript</span> · <span>Vanilla CSS</span>
-          </div>
+        <div class="telem-row" style="margin-top:auto">
+          <span class="tl">CLEARANCE</span>
+          <div class="clearance">LEVEL 3 // AUTHORIZED</div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- 4. Recent Transmissions Showcase -->
-    <section class="landing-section anim-up anim-d3">
-      <div class="section-head">
-        <span>Recent Transmissions</span>
-        <a href="/writing" class="section-more-link">All Transmissions ↗</a>
+
+    <!-- ╔══════════════════════════════════════════════════╗
+         ║  ROW 2 — SECTION LABEL BAR (full width)          ║
+         ╚══════════════════════════════════════════════════╝ -->
+    <div class="cell cell--label-bar">
+      <span class="label-bar__text">// FEATURED OPERATIONS</span>
+      <a href="/projects" class="label-bar__link">VIEW ALL WORK ↗</a>
+    </div>
+
+    <!-- ╔══════════════════════════════════════════════════╗
+         ║  ROW 3 — FEATURED PROJECT (full-width module)    ║
+         ║  [ INDEX ] [ DOT-FIELD VISUAL ] [ INFO          ]║
+         ╚══════════════════════════════════════════════════╝ -->
+    {displayProjects.length === 0 ? (
+      <div class="cell cell--feat-project">
+        <div class="feat__index">
+          <span class="feat__num">OP-01</span>
+          <span class="feat__year">—</span>
+        </div>
+        <div class="feat__visual dot-grid"></div>
+        <div class="feat__info">
+          <h2 class="feat__title">PROJECT TITLE PLACEHOLDER</h2>
+          <p class="feat__desc">Add markdown project entries under src/content/projects to populate this section.</p>
+          <div class="feat__tags">
+            <span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">FastAPI</span>
+          </div>
+          <a class="feat__link" href="/projects">Inspect Operations ↗</a>
+        </div>
       </div>
-
-      <div class="card-grid">
-        {recentWriting.length === 0 && (
-          <article class="card bento-style-card">
-            <div class="card-head">
-              <span>LOG-00</span>
-              <span class="card-head-id">EMPTY</span>
-            </div>
-            <div class="card-preview dot-grid"></div>
-            <div class="card-body">
-              <h2 class="card-title">No transmissions published yet</h2>
-              <p class="card-text">Markdown writeups added under src/content/blog, ctf, or leetcode will appear here automatically.</p>
-            </div>
-          </article>
-        )}
-
-        {recentWriting.map((entry, i) => (
-          <article class="card bento-style-card" style={`animation-delay:${0.1 + i * 0.06}s`}>
-            <div class="card-head">
-              <span>LOG-{String(i + 1).padStart(2, '0')}</span>
-              <span class="card-head-id">{entry.kind.toUpperCase()}</span>
-            </div>
-            <div class="card-preview dot-grid"></div>
-            <div class="card-body">
-              <h2 class="card-title">{entry.data.title}</h2>
-              <p class="card-text">{entry.data.excerpt ?? ''}</p>
-              <a class="card-link" href={`/writing/${entry.data.type ?? entry.kind}/${entry.id.replace(/\.md$/, '')}`}>
-                Read Transmission
-              </a>
-            </div>
-          </article>
-        ))}
+    ) : displayProjects.slice(0,1).map((project) => (
+      <div class="cell cell--feat-project">
+        <div class="feat__index">
+          <span class="feat__num">OP-01</span>
+          <span class="feat__year">{project.data.date.getFullYear()}</span>
+        </div>
+        <div class="feat__visual dot-grid"></div>
+        <div class="feat__info">
+          <h2 class="feat__title">{project.data.title}</h2>
+          <p class="feat__desc">{project.data.summary}</p>
+          <div class="feat__tags">
+            {project.data.stack.slice(0,4).map((t:string) => <span class="tag">{t}</span>)}
+          </div>
+          <a class="feat__link" href={`/projects/${project.id.replace(/\.md$/,'')}`}>View Operation ↗</a>
+        </div>
       </div>
-    </section>
+    ))}
 
-    <!-- 5. Interactive Terminal Dispatch & Contact Module -->
-    <section class="landing-section anim-up anim-d4">
-      <div class="section-head">
-        <span>Signal Dispatch // Contact Module</span>
+    <!-- Additional projects as rows (if more than 1) -->
+    {displayProjects.slice(1).map((project, i) => (
+      <a href={`/projects/${project.id.replace(/\.md$/,'')}`} class="cell cell--proj-row">
+        <div class="proj-row__index">
+          <span class="feat__num">OP-{String(i+2).padStart(2,'0')}</span>
+          <span class="feat__year">{project.data.date.getFullYear()}</span>
+        </div>
+        <div class="proj-row__body">
+          <h3 class="proj-row__title">{project.data.title}</h3>
+          <p class="proj-row__desc">{project.data.summary}</p>
+        </div>
+        <div class="proj-row__meta">
+          {project.data.stack.slice(0,3).map((t:string) => <span class="tag">{t}</span>)}
+          <span class="card-link">View</span>
+        </div>
+      </a>
+    ))}
+
+    <!-- ╔══════════════════════════════════════════════════╗
+         ║  ROW 4 — CAPABILITIES LABEL BAR                  ║
+         ╚══════════════════════════════════════════════════╝ -->
+    <div class="cell cell--label-bar">
+      <span class="label-bar__text">// SYSTEM ARCHITECTURE &amp; CAPABILITIES</span>
+    </div>
+
+    <!-- ╔══════════════════════════════════════════════════╗
+         ║  ROW 5–8 — CAPABILITIES TABLE                    ║
+         ║  [ NUM ] [ TITLE + DESC ] [ CATEGORY ]           ║
+         ║  Four rows share borders — one table system      ║
+         ╚══════════════════════════════════════════════════╝ -->
+    <div class="cell cell--cap">
+      <div class="cap__num">01</div>
+      <div class="cap__body">
+        <h3 class="cap__title">Artificial Intelligence</h3>
+        <p class="cap__desc">Model development, dataset processing, neural network architectures, and PyTorch workflows.</p>
+        <span class="cap__stack">PyTorch · FastAPI · Python</span>
       </div>
+      <div class="cap__cat">AI / ML</div>
+    </div>
 
-      <div class="terminal-card">
-        <div class="terminal-head">
+    <div class="cell cell--cap">
+      <div class="cap__num">02</div>
+      <div class="cap__body">
+        <h3 class="cap__title">Offensive Security &amp; CTF</h3>
+        <p class="cap__desc">Web application vulnerability analysis, reverse engineering, x86/ARM binary analysis, and CTF writeups.</p>
+        <span class="cap__stack">Ghidra · Linux · BurpSuite</span>
+      </div>
+      <div class="cap__cat">SECURITY</div>
+    </div>
+
+    <div class="cell cell--cap">
+      <div class="cap__num">03</div>
+      <div class="cap__body">
+        <h3 class="cap__title">Systems &amp; Low-Level</h3>
+        <p class="cap__desc">Operating system internals, memory management, C programming, Docker containerization, and CLI tooling.</p>
+        <span class="cap__stack">C · Rust · Docker · Git</span>
+      </div>
+      <div class="cap__cat">SYSTEMS</div>
+    </div>
+
+    <div class="cell cell--cap cell--cap-last">
+      <div class="cap__num">04</div>
+      <div class="cap__body">
+        <h3 class="cap__title">Web &amp; UI Engineering</h3>
+        <p class="cap__desc">Performant web architectures, Astro SSG builds, modular CSS design systems, and responsive layouts.</p>
+        <span class="cap__stack">Astro · JavaScript · Vanilla CSS</span>
+      </div>
+      <div class="cap__cat">WEB</div>
+    </div>
+
+
+    <!-- ╔══════════════════════════════════════════════════╗
+         ║  ROW 9 — TRANSMISSIONS LABEL BAR                 ║
+         ╚══════════════════════════════════════════════════╝ -->
+    <div class="cell cell--label-bar">
+      <span class="label-bar__text">// RECENT TRANSMISSIONS</span>
+      <a href="/writing" class="label-bar__link">ALL TRANSMISSIONS ↗</a>
+    </div>
+
+    <!-- ╔══════════════════════════════════════════════════╗
+         ║  ROW 10–13 — TRANSMISSION ROWS                   ║
+         ║  [ LOG-ID / KIND ] [ TITLE + EXCERPT ] [ LINK ]  ║
+         ║  Odd rows: full width                            ║
+         ║  Even rows: 5% left inset — editorial stagger    ║
+         ╚══════════════════════════════════════════════════╝ -->
+    {recentWriting.length === 0 ? (
+      <div class="cell cell--tx-row">
+        <div class="tx__index">
+          <span class="tx__id">LOG-00</span>
+          <span class="tx__kind">—</span>
+        </div>
+        <div class="tx__body">
+          <h3 class="tx__title">No transmissions published yet</h3>
+          <p class="tx__desc">Markdown writeups added under src/content/blog, ctf, or leetcode will appear here automatically.</p>
+        </div>
+        <div class="tx__link-cell">—</div>
+      </div>
+    ) : recentWriting.map((entry, i) => (
+      <a
+        href={`/writing/${entry.data.type ?? entry.kind}/${entry.id.replace(/\.md$/,'')}`}
+        class={`cell cell--tx-row${i % 2 === 1 ? ' cell--tx-inset' : ''}`}
+        style={`animation-delay:${0.08 + i * 0.06}s`}
+      >
+        <div class="tx__index">
+          <span class="tx__id">LOG-{String(i+1).padStart(2,'0')}</span>
+          <span class="tx__kind">{entry.kind.toUpperCase()}</span>
+        </div>
+        <div class="tx__body">
+          <h3 class="tx__title">{entry.data.title}</h3>
+          <p class="tx__desc">{entry.data.excerpt ?? ''}</p>
+        </div>
+        <div class="tx__link-cell">
+          READ ↗
+        </div>
+      </a>
+    ))}
+
+    <!-- ╔══════════════════════════════════════════════════╗
+         ║  ROW 14 — DISPATCH LABEL BAR                     ║
+         ╚══════════════════════════════════════════════════╝ -->
+    <div class="cell cell--label-bar">
+      <span class="label-bar__text">// SIGNAL DISPATCH · CONTACT MODULE</span>
+    </div>
+
+    <!-- ╔══════════════════════════════════════════════════╗
+         ║  ROW 15 — CONTACT / DISPATCH                     ║
+         ║  [ LABEL CELL ] [ TERMINAL CELL ]                ║
+         ╚══════════════════════════════════════════════════╝ -->
+    <div class="cell cell--dispatch">
+      <div class="dispatch__label">
+        <span class="dispatch__sys">DISPATCH</span>
+        <span class="dispatch__node">NODE ACTIVE</span>
+      </div>
+      <div class="dispatch__term">
+        <div class="term__bar">
           <span class="term-dots"><span></span><span></span><span></span></span>
-          <span class="term-title">DISPATCH_TERMINAL.SH</span>
-          <span class="term-status">ONLINE</span>
+          <span class="term__title">DISPATCH_TERMINAL.SH</span>
+          <span class="term__status">ONLINE</span>
         </div>
-        
-        <div class="terminal-body">
+        <div class="term__body">
           <p class="term-line"><span class="prompt">$</span> init --session=guest_user</p>
-          <p class="term-line"><span class="prompt">&gt;</span> Establishing encrypted tunnel to node: <span class="glow">manikandanx0@proton.me</span></p>
-          <p class="term-line"><span class="prompt">&gt;</span> PGP_FINGERPRINT: <span class="dim-text">9B5D F0A9 7B3F E42D 1F5E 3D2A</span></p>
+          <p class="term-line"><span class="prompt">&gt;</span> Tunnel: <span class="glow">manikandanx0@proton.me</span></p>
+          <p class="term-line"><span class="prompt">&gt;</span> PGP: <span class="dim-text">9B5D F0A9 7B3F E42D 1F5E 3D2A</span></p>
           <p class="term-line"><span class="prompt">&gt;</span> Status: Listening for inquiries, collaborations, and CTF challenges.</p>
-
-          <div class="terminal-action-bar">
-            <a href="mailto:manikandanx0@proton.me" class="btn btn--primary">Send Message ↗</a>
-            <a href="https://github.com/manikandanx0" target="_blank" rel="noopener" class="btn">GitHub Profile ↗</a>
+          <div class="term__actions">
+            <a href="mailto:manikandanx0@proton.me"                          class="btn btn--primary">Send Message ↗</a>
+            <a href="https://github.com/manikandanx0"    target="_blank" rel="noopener" class="btn">GitHub ↗</a>
             <a href="https://linkedin.com/in/manikandannx0" target="_blank" rel="noopener" class="btn">LinkedIn ↗</a>
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
-  </div>
+  </div><!-- /.hp-grid -->
+</div><!-- /.hp -->
 </BaseLayout>
 
 <style>
-  /* ── Hero Bento Layout ──────────────────────────────────── */
-  .hero-bento {
-    display: grid;
-    grid-template-columns: 1fr 300px;
-    gap: 16px;
-    margin-bottom: 32px;
+/* ══════════════════════════════════════════════════════════
+   HOMEPAGE — MODULAR TABLE GRID
+   ──────────────────────────────────────────────────────────
+   Borrowed from references:
+   • One outer border wraps the entire page composition
+   • Sections share borders — cell right = next cell left
+   • Large number anchors (01, 02, 03, 04)
+   • Label bars act as section dividers inside the grid
+   • No margin-based gaps between sections
+   • Asymmetry = different column widths, not scattered positions
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Shared utilities ───────────────────────────────────── */
+.blink  { display:inline-block; color:var(--violet); animation:pulse-dot 2s ease-in-out infinite; }
+.prompt { color:var(--purple); margin-right:8px; }
+.dim-text { color:var(--muted); }
+.term-line { margin:0; color:var(--text); line-height:1.7; font-size:13px; }
+.term-dots { display:flex; gap:5px; }
+.term-dots span { width:6px; height:6px; border-radius:50%; }
+.term-dots span:nth-child(1){background:rgba(255,95,86,0.55)}
+.term-dots span:nth-child(2){background:rgba(255,189,46,0.55)}
+.term-dots span:nth-child(3){background:rgba(39,201,63,0.55)}
+.status-dot { font-size:12px; font-weight:700; color:var(--glow); }
+.tl  { font-family:var(--font-mono); font-size:var(--text-label); letter-spacing:1.5px; color:var(--muted); text-transform:uppercase; }
+.btn--ghost {
+  background:none; border:none; color:var(--muted);
+  font-family:var(--font-mono); font-size:var(--text-nav); font-weight:500; letter-spacing:1.5px;
+  text-transform:uppercase; cursor:pointer; padding:0;
+  transition:color 0.2s; display:inline-flex; align-items:center; gap:4px;
+}
+.btn--ghost:hover { color:var(--violet); }
+
+/* ── Outer grid wrapper ─────────────────────────────────── */
+/*
+  One outer border. Every cell's border is INTERNAL.
+  This is the BRUT structural principle — the page is
+  one system, not a collection of boxes.
+*/
+.hp-grid {
+  border:1px solid var(--border3);
+  position:relative;
+  animation:fadeUp 0.45s ease both;
+}
+/* top-left corner accent */
+.hp-grid::before {
+  content:''; position:absolute; top:-1px; left:-1px;
+  width:20px; height:20px;
+  border-top:2px solid var(--purple); border-left:2px solid var(--purple);
+  pointer-events:none; z-index:2;
+}
+
+/* ── Cell base ──────────────────────────────────────────── */
+/*
+  Every module is a .cell.
+  Cells separate via border-top (horizontal dividers)
+  and internal left-borders on sub-columns.
+  NO margin, NO padding between cells.
+*/
+.cell {
+  background:rgba(10,10,20,0.92);
+  border-top:1px solid var(--border2);
+  position:relative;
+}
+.cell:first-child { border-top:none; }
+
+/* shared bar style used across cells */
+.cell__bar {
+  border-bottom:1px solid var(--border);
+  padding:6px 18px; font-family:var(--font-mono); font-size:var(--text-label); letter-spacing:1.5px; color:var(--muted);
+  display:flex; justify-content:space-between; align-items:center;
+}
+
+/* ══════════════════════════════════════════════════════════
+   HERO CELLS — side-by-side in one row
+   Uses CSS grid on .hp-grid for the first two cells.
+   All other cells are full-width (default block).
+   ══════════════════════════════════════════════════════════ */
+.hp-grid {
+  display:grid;
+  /* 12-col: hero-main spans 1-9, telemetry spans 10-12 */
+  grid-template-columns: 1fr 240px;
+  /* All non-hero rows collapse to full width */
+  grid-template-rows: auto;
+}
+
+/* Hero main — cols 1-9 */
+.cell--hero-main {
+  grid-column: 1 / 2;
+  grid-row: 1;
+  border-top:none;
+  border-right:1px solid var(--border2);
+}
+/* Telemetry — cols 10-12, slightly taller offset via padding */
+.cell--telemetry {
+  grid-column: 2 / 3;
+  grid-row: 1;
+  border-top:none;
+  border-left:none; /* already separated by hero-main's border-right */
+  background:rgba(8,8,18,0.97);
+  display:flex; flex-direction:column;
+}
+
+/* All other cells span full grid width */
+.cell--label-bar,
+.cell--feat-project,
+.cell--proj-row,
+.cell--cap,
+.cell--cap-last,
+.cell--tx-row,
+.cell--dispatch { grid-column: 1 / -1; }
+
+/* ── Hero main interior ─────────────────────────────────── */
+.cell__hero-body  { padding:36px 32px 24px; display:flex; flex-direction:column; flex:1; }
+
+.hero-display {
+  font-family:var(--font-display); font-size:var(--text-hero); font-weight:700;
+  letter-spacing:-0.5px; color:var(--white); line-height:1.1;
+  text-transform:uppercase; margin-bottom:24px;
+}
+.hero-display .accent { color:var(--violet); }
+
+.hero-sub {
+  font-family:var(--font-display); font-size:var(--text-body); color:var(--muted); max-width:440px;
+  line-height:1.8; margin-bottom:28px;
+}
+.hero-cta { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top:auto; }
+
+.cell__foot {
+  border-top:1px solid var(--border); padding:6px 32px;
+  font-family:var(--font-mono); font-size:var(--text-meta); letter-spacing:1.2px; color:var(--muted);
+  display:flex; justify-content:space-between; opacity:0.6;
+}
+
+/* ── Telemetry interior ─────────────────────────────────── */
+.telem-body  { padding:14px 12px; display:flex; flex-direction:column; gap:12px; flex:1; }
+.telem-row   { display:flex; flex-direction:column; gap:4px; }
+.telem-tags  { display:flex; flex-direction:column; gap:3px; margin-top:2px; }
+.telem-metrics {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:1px; background:var(--border); border:1px solid var(--border);
+}
+.telem-metric {
+  display:flex; flex-direction:column; align-items:center;
+  background:rgba(8,8,18,0.96); padding:10px 4px; gap:2px;
+}
+.tm-val { font-family:var(--font-mono); font-size:22px; font-weight:700; color:var(--white); line-height:1; letter-spacing:-0.02em; }
+.tm-lbl { font-family:var(--font-mono); font-size:var(--text-label); letter-spacing:1.5px; color:var(--muted); }
+.clearance {
+  border:1px solid var(--border2); background:rgba(123,63,228,0.07);
+  color:var(--violet); padding:4px 8px; font-family:var(--font-mono); font-size:var(--text-meta); letter-spacing:1.2px; text-align:center;
+}
+
+/* ══════════════════════════════════════════════════════════
+   LABEL BARS — section dividers inside the grid
+   Full-width row. Stronger top border signals new section.
+   ══════════════════════════════════════════════════════════ */
+.cell--label-bar {
+  border-top:1px solid var(--border3);  /* primary — clearly visible */
+  padding:6px 18px;
+  display:flex; justify-content:space-between; align-items:center;
+  background:rgba(8,8,16,0.97);
+}
+.label-bar__text {
+  font-family:var(--font-mono); font-size:var(--text-label); letter-spacing:1.5px; color:var(--muted); text-transform:uppercase;
+}
+.label-bar__link {
+  font-family:var(--font-mono); font-size:var(--text-label); letter-spacing:1.5px; color:var(--muted);
+  transition:color 0.2s; text-transform:uppercase;
+}
+.label-bar__link:hover { color:var(--violet); text-shadow:none; }
+
+/* ══════════════════════════════════════════════════════════
+   FEATURED PROJECT — editorial feature module
+   [ INDEX ~120px ] [ VISUAL ~35% ] [ INFO fills rest ]
+   ══════════════════════════════════════════════════════════ */
+.cell--feat-project {
+  display:grid;
+  grid-template-columns:120px 1fr 1fr;
+  min-height:180px;
+}
+.feat__index {
+  display:flex; flex-direction:column; justify-content:space-between;
+  padding:20px 16px; border-right:1px solid var(--border2);
+  background:rgba(8,8,16,0.8);
+}
+.feat__num  { font-family:var(--font-mono); font-size:var(--text-label); font-weight:500; letter-spacing:1.5px; color:var(--violet); }
+.feat__year { font-family:var(--font-mono); font-size:var(--text-meta); letter-spacing:1.2px; color:var(--muted); }
+
+.feat__visual {
+  border-right:1px solid var(--border);
+  background-image:radial-gradient(circle,var(--dim) 1px,transparent 1px);
+  background-size:14px 14px; position:relative; overflow:hidden;
+  min-height:140px;
+}
+.feat__visual::after {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(135deg,rgba(123,63,228,0.08),transparent 60%);
+  pointer-events:none;
+}
+
+.feat__info    { padding:20px 22px; display:flex; flex-direction:column; gap:8px; }
+.feat__title   { font-family:var(--font-display); font-size:clamp(1.2rem,2vw,1.6rem); font-weight:600; color:var(--white); margin:0; letter-spacing:0; }
+.feat__desc    { font-family:var(--font-display); font-size:var(--text-body); color:var(--muted); line-height:1.65; margin:0; flex:1; }
+.feat__tags    { display:flex; flex-wrap:wrap; gap:5px; }
+.feat__link    {
+  font-family:var(--font-mono); font-size:var(--text-nav); font-weight:500; letter-spacing:1.5px; text-transform:uppercase;
+  color:var(--violet); display:inline-flex; align-items:center; gap:4px;
+  transition:color 0.2s; margin-top:auto;
+}
+.feat__link:hover { color:var(--glow); text-shadow:none; }
+
+/* Additional project rows */
+a.cell--proj-row,
+.cell--proj-row {
+  display:grid; grid-template-columns:120px 1fr auto;
+  border-top:1px solid var(--border);
+  transition:background 0.2s, border-color 0.2s;
+  text-decoration: none;
+  color: inherit;
+}
+a.cell--proj-row:hover,
+.cell--proj-row:hover { background:rgba(123,63,228,0.04); }
+a.cell--proj-row:active { background:rgba(123,63,228,0.08); }
+
+.proj-row__index {
+  display:flex; flex-direction:column; justify-content:center;
+  padding:12px 16px; gap:3px; border-right:1px solid var(--border);
+  background:rgba(8,8,16,0.5);
+}
+.proj-row__body  { padding:12px 18px; display:flex; flex-direction:column; justify-content:center; gap:4px; }
+.proj-row__title { font-family:var(--font-display); font-size:var(--text-h2); font-weight:600; color:var(--white); margin:0; letter-spacing:0; }
+.proj-row__desc  { font-family:var(--font-display); font-size:var(--text-body); color:var(--muted); line-height:1.65; margin:0; }
+.proj-row__meta  {
+  padding:12px 14px; display:flex; flex-direction:column;
+  justify-content:center; align-items:flex-end; gap:4px;
+  border-left:1px solid var(--border); min-width:110px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   CAPABILITIES TABLE
+   Pure 3-col rows. Large numbers as anchors.
+   Reference: BRUT services section (01/02/03/04 rows).
+   ══════════════════════════════════════════════════════════ */
+.cell--cap {
+  display:grid; grid-template-columns:80px 1fr 88px;
+  border-top:1px solid var(--border);
+  transition:background 0.2s;
+}
+.cell--cap:hover { background:rgba(123,63,228,0.02); }
+
+/* First cap row gets primary top border (label bar is above) */
+.cell--label-bar + .cell--cap { border-top:none; }
+
+.cap__num {
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-display); font-size:30px; font-weight:700; color:var(--dim);
+  letter-spacing:-0.03em; line-height:1;
+  border-right:1px solid var(--border); padding:22px 8px;
+  transition:color 0.25s;
+  /* The large number is structural — not decorative */
+}
+.cell--cap:hover .cap__num { color:var(--border3); }
+
+.cap__body  { padding:18px 20px; }
+.cap__title { font-family:var(--font-display); font-size:var(--text-h2); font-weight:600; color:var(--white); margin:0 0 5px; letter-spacing:0; text-transform:uppercase; }
+.cap__desc  { font-family:var(--font-display); font-size:var(--text-body); color:var(--muted); line-height:1.65; margin:0 0 6px; }
+.cap__stack { font-family:var(--font-mono); font-size:var(--text-meta); color:var(--muted); letter-spacing:1.2px; opacity:0.75; }
+
+.cap__cat {
+  display:flex; align-items:center; justify-content:center;
+  border-left:1px solid var(--border); padding:0 8px;
+  font-family:var(--font-mono); font-size:var(--text-label); letter-spacing:1.5px; color:var(--purple);
+  text-transform:uppercase; opacity:0.65;
+  writing-mode:vertical-rl; transform:rotate(180deg);
+  transition:opacity 0.2s;
+}
+.cell--cap:hover .cap__cat { opacity:1; }
+
+/* ══════════════════════════════════════════════════════════
+   TRANSMISSION ROWS
+   Reference 1 (Marvel) editorial list rhythm.
+   [ LOG-ID / TYPE ] [ TITLE + EXCERPT ] [ READ LINK ]
+   Even rows inset 5% — controlled stagger in corridor.
+   ══════════════════════════════════════════════════════════ */
+a.cell--tx-row,
+.cell--tx-row {
+  display:grid; grid-template-columns:100px 1fr 70px;
+  border-top:1px solid var(--border);
+  transition:background 0.2s;
+  animation:fadeUp 0.45s ease both;
+  text-decoration: none;
+  color: inherit;
+}
+.cell--label-bar + .cell--tx-row { border-top:none; }
+a.cell--tx-row:hover,
+.cell--tx-row:hover { background:rgba(123,63,228,0.04); }
+a.cell--tx-row:hover .tx__title { color: var(--glow); }
+a.cell--tx-row:hover .tx__link-cell { color: var(--glow); background:rgba(123,63,228,0.07); }
+a.cell--tx-row:active { background:rgba(123,63,228,0.08); }
+
+/* Even rows: inset from left, reinforced with accent left border */
+.cell--tx-inset {
+  margin-left:5%;
+  border-left:1px solid var(--border2);
+  border-right:1px solid var(--border2);
+}
+
+.tx__index {
+  display:flex; flex-direction:column; justify-content:center;
+  padding:14px 12px; gap:3px;
+  border-right:1px solid var(--border); background:rgba(8,8,16,0.5);
+}
+.tx__id   { font-family:var(--font-mono); font-size:var(--text-label); font-weight:500; color:var(--violet); letter-spacing:1.5px; }
+.tx__kind { font-family:var(--font-mono); font-size:var(--text-meta); letter-spacing:1.2px; color:var(--muted); }
+
+.tx__body  { padding:14px 18px; display:flex; flex-direction:column; justify-content:center; gap:4px; }
+.tx__title { font-family:var(--font-display); font-size:var(--text-h2); font-weight:600; color:var(--white); letter-spacing:0; margin:0; transition:color 0.2s; }
+.tx__desc  { font-family:var(--font-display); font-size:var(--text-body); color:var(--muted); line-height:1.65; margin:0; }
+
+.tx__link-cell {
+  display:flex; align-items:center; justify-content:center;
+  border-left:1px solid var(--border);
+  font-family:var(--font-mono); font-size:var(--text-meta); letter-spacing:1.2px; color:var(--violet);
+  text-transform:uppercase; transition:color 0.2s, background 0.2s;
+  padding:0 10px;
+}
+.tx__link-cell:hover { color:var(--glow); background:rgba(123,63,228,0.07); }
+
+/* ══════════════════════════════════════════════════════════
+   DISPATCH / CONTACT
+   [ LABEL CELL ~140px ] [ TERMINAL fills rest ]
+   ══════════════════════════════════════════════════════════ */
+.cell--dispatch {
+  display:grid; grid-template-columns:140px 1fr;
+}
+.dispatch__label {
+  display:flex; flex-direction:column;
+  justify-content:center; align-items:center; gap:5px;
+  padding:24px 12px; border-right:1px solid var(--border2);
+  background:rgba(8,8,14,0.95);
+}
+.dispatch__sys  { font-family:var(--font-mono); font-size:var(--text-label); font-weight:500; letter-spacing:1.5px; color:var(--violet); }
+.dispatch__node { font-family:var(--font-mono); font-size:var(--text-meta); letter-spacing:1.2px; color:var(--muted); }
+
+.dispatch__term { background:rgba(6,6,14,0.97); }
+.term__bar {
+  border-bottom:1px solid var(--border); padding:7px 16px;
+  display:flex; align-items:center; justify-content:space-between;
+  background:rgba(10,10,22,0.98);
+}
+.term__title  { font-family:var(--font-mono); font-size:var(--text-meta); color:var(--muted); letter-spacing:1.2px; }
+.term__status { font-family:var(--font-mono); font-size:var(--text-meta); color:var(--glow); letter-spacing:1.2px; }
+.term__body   { padding:16px 20px; display:flex; flex-direction:column; gap:5px; }
+.term__actions {
+  display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+  margin-top:12px; padding-top:12px; border-top:1px solid var(--border);
+}
+
+/* ══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  /* Hero: stack, telemetry below */
+  .hp-grid { grid-template-columns:1fr; }
+  .cell--hero-main { grid-column:1; border-right:none; border-bottom:1px solid var(--border2); }
+  .cell--telemetry { grid-column:1; grid-row:2; }
+  .telem-body { flex-direction:row; flex-wrap:wrap; gap:12px; padding:12px; }
+  .telem-metrics { min-width:140px; }
+
+  /* Featured: stack columns */
+  .cell--feat-project { grid-template-columns:90px 1fr; }
+  .feat__visual { display:none; }
+
+  /* Caps: hide category tag, 2-col */
+  .cap__cat { display:none; }
+  .cell--cap { grid-template-columns:64px 1fr; }
+  .cap__num { font-size:22px; padding:18px 6px; }
+
+  /* Dispatch: stack */
+  .cell--dispatch { grid-template-columns:1fr; }
+  .dispatch__label { flex-direction:row; justify-content:flex-start; border-right:none; border-bottom:1px solid var(--border); padding:10px 16px; }
+
+  /* Transmissions */
+  .cell--tx-row { grid-template-columns:90px 1fr 50px; }
+  .tx__link-cell { font-size:11px; padding:0 6px; }
+}
+
+@media (max-width: 640px) {
+  .cell__hero-body { padding:22px 16px 18px; }
+  .cell__foot      { padding:6px 16px; }
+
+  /* Caps: no number col */
+  .cell--cap { grid-template-columns:1fr; }
+  .cap__num  { display:none; }
+  .cap__body { padding:14px 16px; }
+
+  /* Transmissions: full touch card */
+  .cell--tx-row     { grid-template-columns:1fr auto; border-left:none; }
+  .cell--tx-inset   { margin-left:0; border-left:none; border-right:none; }
+  .tx__index {
+    flex-direction:row; justify-content:space-between; align-items:center;
+    padding:8px 16px; border-right:none; border-bottom:1px solid var(--border);
+    grid-column: 1 / -1;
+  }
+  .tx__body { padding:12px 16px; grid-column: 1 / 2; }
+  .tx__link-cell {
+    grid-column: 2 / 3;
+    border-left: none;
+    padding: 0 14px 0 0;
+    font-size: 14px;
   }
 
-  .hero-main-card {
-    background: rgba(13, 13, 26, 0.88);
-    border: 1px solid var(--border2);
-    position: relative;
-    backdrop-filter: blur(4px);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  /* Proj rows */
+  .cell--proj-row { grid-template-columns:1fr; }
+  .proj-row__index {
+    flex-direction:row; justify-content:space-between; align-items:center;
+    padding:8px 16px; border-right:none; border-bottom:1px solid var(--border);
+  }
+  .proj-row__body { padding:12px 16px; }
+  .proj-row__meta {
+    flex-direction:row; justify-content:space-between; align-items:center;
+    padding:8px 16px 12px; border-left:none; border-top:1px solid var(--border);
   }
 
-  .hero-main-card::before {
-    content: '';
-    position: absolute;
-    top: -1px; left: -1px;
-    width: 12px; height: 12px;
-    border-top: 2px solid var(--purple);
-    border-left: 2px solid var(--purple);
+  /* Featured project stacked */
+  .cell--feat-project { grid-template-columns:1fr; }
+  .feat__index {
+    flex-direction:row; justify-content:space-between; align-items:center;
+    padding:8px 16px; border-right:none; border-bottom:1px solid var(--border);
   }
-
-  .hero-header-bar {
-    border-bottom: 1px solid var(--border2);
-    padding: 10px 16px;
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    color: var(--muted);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(8, 8, 16, 0.6);
-  }
-
-  .blink { animation: blinker 1.5s linear infinite; color: var(--violet); }
-  @keyframes blinker { 50% { opacity: 0; } }
-
-  .hero-body {
-    padding: 28px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .hero-title {
-    font-size: clamp(32px, 5.5vw, 56px);
-    line-height: 1.0;
-    letter-spacing: 0.04em;
-    color: var(--white);
-    text-transform: uppercase;
-  }
-  .hero-title .accent {
-    color: var(--violet);
-    text-shadow: 0 0 16px rgba(123, 63, 228, 0.4);
-  }
-
-  .hero-sub {
-    font-size: 15px;
-    color: var(--text);
-    max-width: 620px;
-    line-height: 1.7;
-  }
-
-  .hero-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 8px;
-  }
-
-  .btn--outline {
-    border-color: var(--border2);
-    color: var(--text);
-  }
-  .btn--outline:hover {
-    border-color: var(--purple);
-    color: var(--glow);
-  }
-
-  .hero-card-footer {
-    border-top: 1px solid var(--border);
-    padding: 8px 16px;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    display: flex;
-    justify-content: space-between;
-    background: rgba(8, 8, 16, 0.9);
-  }
-
-  /* ── Hero Telemetry Card ───────────────────────────────── */
-  .hero-telemetry-card {
-    background: rgba(13, 13, 26, 0.88);
-    border: 1px solid var(--border2);
-    position: relative;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .hero-telemetry-card::before {
-    content: '';
-    position: absolute;
-    top: -1px; right: -1px;
-    width: 12px; height: 12px;
-    border-top: 2px solid var(--purple);
-    border-right: 2px solid var(--purple);
-  }
-
-  .telemetry-body {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    height: 100%;
-  }
-
-  .telemetry-item {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .t-label {
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    color: var(--muted);
-    text-transform: uppercase;
-  }
-
-  .t-val { font-size: 13px; font-weight: 700; }
-  .status-active { color: var(--glow); }
-
-  .tags-column {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  .telemetry-metrics-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    border-top: 1px dashed var(--border);
-    border-bottom: 1px dashed var(--border);
-    padding: 12px 0;
-  }
-
-  .metric-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: rgba(16, 16, 31, 0.6);
-    border: 1px solid var(--border);
-    padding: 10px 6px;
-  }
-
-  .m-val {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--glow);
-    line-height: 1;
-  }
-
-  .m-lbl {
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    margin-top: 4px;
-  }
-
-  .clearance-badge {
-    border: 1px solid var(--purple);
-    background: rgba(123, 63, 228, 0.15);
-    color: var(--glow);
-    padding: 6px 10px;
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-align: center;
-    font-weight: 700;
-  }
-
-  /* ── Section Headings & Spacing ────────────────────────── */
-  .landing-section {
-    margin-bottom: 36px;
-  }
-
-  .section-more-link {
-    font-size: 12px;
-    color: var(--violet);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .bento-style-card {
-    background: rgba(13, 13, 26, 0.88);
-    border: 1px solid var(--border2);
-  }
-
-  /* ── Matrix Grid (4 Capabilities) ───────────────────────── */
-  .matrix-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-
-  .matrix-card {
-    background: rgba(13, 13, 26, 0.88);
-    border: 1px solid var(--border2);
-    padding: 20px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-
-  .matrix-card:hover {
-    border-color: var(--purple);
-    box-shadow: 0 0 16px rgba(123, 63, 228, 0.2);
-  }
-
-  .matrix-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .matrix-num {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--purple);
-  }
-
-  .matrix-tag {
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    color: var(--muted);
-    border: 1px solid var(--border2);
-    padding: 2px 6px;
-  }
-
-  .matrix-title {
-    font-size: 16px;
-    color: var(--white);
-    margin: 0;
-  }
-
-  .matrix-desc {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.6;
-    flex: 1;
-  }
-
-  .matrix-footer-tags {
-    font-size: 11px;
-    color: var(--glow);
-    letter-spacing: 0.06em;
-    border-top: 1px dashed var(--border);
-    padding-top: 8px;
-    margin-top: 4px;
-  }
-
-  /* ── Terminal Card Widget ───────────────────────────────── */
-  .terminal-card {
-    background: rgba(8, 8, 18, 0.95);
-    border: 1px solid var(--border2);
-    position: relative;
-  }
-
-  .terminal-head {
-    background: rgba(16, 16, 31, 0.9);
-    border-bottom: 1px solid var(--border2);
-    padding: 8px 14px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 11px;
-  }
-
-  .term-dots {
-    display: flex;
-    gap: 6px;
-  }
-  .term-dots span {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--border2);
-  }
-  .term-dots span:nth-child(1) { background: #ff5f56; }
-  .term-dots span:nth-child(2) { background: #ffbd2e; }
-  .term-dots span:nth-child(3) { background: #27c93f; }
-
-  .term-title {
-    color: var(--text);
-    letter-spacing: 0.1em;
-  }
-
-  .term-status {
-    color: var(--glow);
-    font-weight: 700;
-  }
-
-  .terminal-body {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    font-family: var(--font);
-    font-size: 13px;
-  }
-
-  .term-line {
-    margin: 0;
-    color: var(--text);
-    line-height: 1.6;
-  }
-
-  .prompt { color: var(--purple); font-weight: 700; margin-right: 6px; }
-  .dim-text { color: var(--muted); }
-
-  .terminal-action-bar {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 14px;
-    border-top: 1px dashed var(--border);
-    padding-top: 14px;
-  }
-
-  /* ── Responsive ─────────────────────────────────────────── */
-  @media (max-width: 900px) {
-    .hero-bento { grid-template-columns: 1fr; }
-    .matrix-grid { grid-template-columns: 1fr; }
-  }
+  .feat__info { padding:16px; }
+}
 </style>

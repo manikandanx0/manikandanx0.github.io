@@ -8,31 +8,37 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
 ---
 
 <BaseLayout title="Work" description="Projects and things I've built.">
-  <div class="container page">
+  <div class="container container--wide page">
 
-    <header class="hero anim-up">
+    <!-- Hero: asymmetric — main cols 1-9, meta cols 10-12 offset -->
+    <header class="hero-asymmetric anim-up">
       <div class="hero-main">
-        <p class="hero-id">// COLLECTION · WORK LOG</p>
-        <h1 class="hero-title">WORK</h1>
-        <p class="hero-sub">Things I've built, mostly for myself, occasionally for other people.</p>
-      </div>
-      <div class="hero-meta">
-        <div class="meta-block">
-          <div class="meta-label">Projects</div>
-          <span style="font-size:28px;font-weight:700;color:var(--glow);">{projects.length.toString().padStart(2,'0')}</span>
+        <div class="hero-main-inner">
+          <p class="hero-id">// COLLECTION · WORK LOG</p>
+          <h1 class="hero-title">WORK</h1>
+          <p class="hero-sub">Things I've built, mostly for myself, occasionally for other people.</p>
         </div>
-        <div class="meta-block">
-          <div class="meta-label">Status</div>
-          <span class="tag">Building</span>
+        <div class="hero-footer">
+          <span>PROJECT INDEX</span>
+          <span>{projects.length.toString().padStart(2,'0')} ENTRIES</span>
+        </div>
+      </div>
+      <div class="hero-side">
+        <div class="panel-head">STATUS</div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:10px;">
+          <div style="font-size:9px;letter-spacing:0.14em;color:var(--muted);">PROJECTS</div>
+          <span style="font-size:32px;font-weight:700;color:var(--white);line-height:1;letter-spacing:-0.02em;">{projects.length.toString().padStart(2,'0')}</span>
+          <span class="tag" style="align-self:flex-start;">Building</span>
         </div>
       </div>
     </header>
 
     <div class="section-head anim-up anim-d1">Project Index</div>
 
-    <div class="card-grid">
+    <!-- Asymmetric project listing on 12-col grid -->
+    <div class="projects-grid g12 anim-up anim-d2">
       {projects.length === 0 && (
-        <article class="card anim-up anim-d2">
+        <article class="card proj-card-a">
           <div class="card-head">
             <span>RSP-00</span>
             <span class="card-head-id">EMPTY</span>
@@ -43,24 +49,74 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
           </div>
         </article>
       )}
-      {projects.map((project, i) => (
-        <article class="card" style={`animation-delay:${0.1 + i * 0.06}s`}>
-          <div class="card-head">
-            <span>RSP-{String(i + 1).padStart(2, '0')}</span>
-            <span class="card-head-id">{project.data.date.getFullYear()}</span>
-          </div>
-          <div class="card-preview dot-grid"></div>
-          <div class="card-body">
-            <h2 class="card-title">{project.data.title}</h2>
-            <p class="card-text">{project.data.summary}</p>
-            <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;">
-              {project.data.stack.slice(0,3).map((t: string) => <span class="tag">{t}</span>)}
+      {projects.map((project, i) => {
+        const col = ['proj-card-a','proj-card-b','proj-card-c','proj-card-d'][i % 4];
+        return (
+          <article class={`card ${col}`} style={`animation-delay:${0.1 + i * 0.06}s`}>
+            <div class="card-head">
+              <span>RSP-{String(i + 1).padStart(2, '0')}</span>
+              <span class="card-head-id">{project.data.date.getFullYear()}</span>
             </div>
-            <a class="card-link" href={`/projects/${project.id.replace(/\.md$/, '')}`}>View</a>
-          </div>
-        </article>
-      ))}
+            <div class="card-preview dot-grid"></div>
+            <div class="card-body">
+              <a href={`/projects/${project.id.replace(/\.md$/, '')}`} class="card-title-link">
+                <h2 class="card-title">{project.data.title}</h2>
+              </a>
+              <p class="card-text">{project.data.summary}</p>
+              <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;">
+                {project.data.stack.slice(0,3).map((t: string) => <span class="tag">{t}</span>)}
+              </div>
+              <a class="card-link" href={`/projects/${project.id.replace(/\.md$/, '')}`}>View Operation ↗</a>
+            </div>
+          </article>
+        );
+      })}
     </div>
 
   </div>
 </BaseLayout>
+
+<style>
+  /*
+    Asymmetric project card rhythm — 4 patterns cycling:
+      A: cols 1-8   (wide left, primary)
+      B: cols 4-13  (wide right, offset)
+      C: cols 1-7   (medium left)
+      D: cols 5-13  (medium right, offset down)
+  */
+  .projects-grid { row-gap: 12px; }
+
+  .proj-card-a { grid-column: 1 / 9; }
+  .proj-card-b { grid-column: 4 / 13; margin-top: 28px; }
+  .proj-card-c { grid-column: 1 / 8; }
+  .proj-card-d { grid-column: 5 / 13; margin-top: 24px; }
+
+  .card-title-link {
+    text-decoration: none;
+    color: inherit;
+  }
+  .card-title-link:hover .card-title {
+    color: var(--violet);
+  }
+
+  @media (max-width: 900px) {
+    .projects-grid { grid-template-columns: 1fr 1fr; }
+    .proj-card-a,.proj-card-b,.proj-card-c,.proj-card-d {
+      grid-column: span 1 !important; margin-top: 0 !important;
+    }
+    .proj-card-a { grid-column: 1 / 3 !important; }
+  }
+
+  @media (max-width: 768px) {
+    .projects-grid { grid-template-columns: 1fr !important; }
+    .proj-card-a,.proj-card-b,.proj-card-c,.proj-card-d {
+      grid-column: 1 / -1 !important; margin-top: 0 !important;
+    }
+  }
+
+  @media (max-width: 580px) {
+    .hero-side { margin-top: 0; }
+    .card-body { padding: 14px; }
+    .card-preview { height: 44px; }
+  }
+</style>
