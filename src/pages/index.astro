@@ -13,9 +13,17 @@ const ctf      = (await getCollection('ctf',      ({ data }) => !data.draft)).ma
 const leetcode = (await getCollection('leetcode', ({ data }) => !data.draft)).map((e) => ({ ...e, kind: 'leetcode' }));
 const allWriting    = [...blog, ...ctf, ...leetcode].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const recentWriting = allWriting.slice(0, 4);
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'manikandanx0',
+  url: new URL('/', Astro.site).href,
+  description: 'Personal portfolio & technical dossier - AI, Security Research, and Systems.',
+};
 ---
 
-<BaseLayout title="Home" description="Personal portfolio & technical dossier - AI, Security Research, and Systems.">
+<BaseLayout title="Home" description="Personal portfolio & technical dossier - AI, Security Research, and Systems." schema={websiteSchema}>
 <div class="hp container container--wide page">
 
   <!-- ╔══════════════════════════════════════════════════╗

@@ -35,9 +35,74 @@ export async function getStaticPaths() {
 const { entry, type, ogImage } = Astro.props;
 const { Content } = await render(entry);
 const description = 'excerpt' in entry.data ? (entry.data.excerpt as string) : `${type.toUpperCase()} writeup`;
+
+let headline = entry.data.title;
+if (type === 'ctf') {
+  headline = `[CTF] ${entry.data.title}`;
+} else if (type === 'leetcode' && 'problemNumber' in entry.data) {
+  headline = `[LC-${String((entry.data as any).problemNumber).padStart(4, '0')}] ${entry.data.title}`;
+}
+
+let postDescription = description;
+if (type === 'ctf' && 'event' in entry.data) {
+  postDescription = `${(entry.data as any).event}${(entry.data as any).difficulty ? ` · ${String((entry.data as any).difficulty).toUpperCase()}` : ''}`;
+} else if (type === 'leetcode' && 'difficulty' in entry.data) {
+  postDescription = `${String((entry.data as any).difficulty).toUpperCase()}${(entry.data as any).timeComplexity ? ` · Time: ${(entry.data as any).timeComplexity}` : ''}${(entry.data as any).spaceComplexity ? ` · Space: ${(entry.data as any).spaceComplexity}` : ''}`;
+}
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
+const fullOgImageUrl = new URL(ogImage, Astro.site).href;
+
+const blogPostingSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline,
+  description: postDescription,
+  author: {
+    '@type': 'Person',
+    name: 'Manikandan',
+    url: new URL('/about/', Astro.site).href,
+  },
+  datePublished: entry.data.date.toISOString(),
+  image: fullOgImageUrl,
+  url: canonicalUrl,
+};
+
+const typeLabel = type === 'blog' ? 'Blog' : type === 'ctf' ? 'CTF' : 'LeetCode';
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: new URL('/', Astro.site).href,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Writing',
+      item: new URL('/writing/', Astro.site).href,
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: typeLabel,
+      item: new URL('/writing/', Astro.site).href,
+    },
+    {
+      '@type': 'ListItem',
+      position: 4,
+      name: entry.data.title,
+      item: canonicalUrl,
+    },
+  ],
+};
 ---
 
-<BaseLayout title={entry.data.title} description={description} image={ogImage}>
+<BaseLayout title={entry.data.title} description={description} image={ogImage} schema={[blogPostingSchema, breadcrumbSchema]}>
   <div class="container container--wide page">
 
     <div class="detail-layout g12 anim-up">

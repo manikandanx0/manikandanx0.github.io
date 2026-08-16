@@ -1,10 +1,23 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Manikandan',
+  alternateName: 'manikandanx0',
+  url: new URL('/about/', Astro.site).href,
+  sameAs: [
+    'https://github.com/manikandanx0',
+    'https://linkedin.com/in/manikandannx0',
+  ],
+};
 ---
 
 <BaseLayout
   title="Target Analysis // About"
   description="Target Dossier & Intelligence Analysis for Manikandan - AI & Data Science Student, Systems & Security Research."
+  schema={personSchema}
 >
   <div class="container container--wide page">
     <!-- Target Analysis Bento Grid -->
