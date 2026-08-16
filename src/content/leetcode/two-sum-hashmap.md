@@ -7,7 +7,7 @@ difficulty: easy
 tags: [array, hashmap]
 timeComplexity: O(n)
 spaceComplexity: O(n)
-draft: false
+draft: true
 ---
 
 Use a hash map of value to index while scanning once.
