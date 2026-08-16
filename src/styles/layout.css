@@ -5,13 +5,10 @@
   z-index: 1000;
   width: 100%;
   padding-top: 12px;
-  padding-bottom: 12px;
-  margin-bottom: 24px;
+  padding-bottom: 4px;
+  margin-bottom: 8px;
   pointer-events: none;
-  background: rgba(8, 8, 18, 0.85);
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
-  border-bottom: 1px solid var(--border);
+  background: transparent;
 }
 
 .header-inner {
@@ -21,7 +18,9 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
-  background: rgba(14, 15, 30, 0.95);
+  background: rgba(14, 15, 30, 0.92);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
   border: 1px solid var(--border3);
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.65),
@@ -68,28 +67,40 @@
   }
 }
 
-/* Mobile (< 768px): Full-width edge-to-edge top navbar */
+/* Mobile (< 768px): Tactical floating deck navbar */
 @media (max-width: 767px) {
   .site-header {
     top: 0;
-    margin-bottom: 20px;
+    padding-top: 8px;
+    padding-bottom: 0;
+    margin-bottom: 12px;
     pointer-events: auto;
   }
 
   .header-inner {
+    width: calc(100% - 24px) !important;
     max-width: 100% !important;
-    width: 100% !important;
-    padding: 12px 16px;
-    border-left: none;
-    border-right: none;
-    border-top: none;
-    border-bottom: 1px solid var(--border3);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+    margin: 0 12px !important;
+    padding: 8px 14px;
+    border: 1px solid var(--border3) !important;
+    box-shadow:
+      0 4px 24px rgba(0, 0, 0, 0.65),
+      0 0 16px rgba(110, 85, 214, 0.15);
   }
 
   .header-inner::before,
   .header-inner::after {
-    display: none;
+    display: block !important;
+  }
+
+  .site-nav {
+    gap: 12px;
+    font-size: 0.78rem;
+  }
+
+  .node-mark svg {
+    width: 38px;
+    height: 38px;
   }
 }
 
@@ -196,7 +207,7 @@ main {
 
 /* ── Page wrapper ────────────────────────────────────────── */
 .page {
-  padding: 40px 0 80px;
+  padding: 16px 0 60px;
 }
 
 /* ── Page 12-col layout root ─────────────────────────────── */
