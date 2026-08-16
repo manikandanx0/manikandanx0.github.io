@@ -1,12 +1,17 @@
 /* ── Site header (Floating Deck) ─────────────────────────── */
 .site-header {
   position: sticky;
-  top: 16px;
+  top: 0;
   z-index: 1000;
   width: 100%;
-  padding-inline: 0;
-  margin-bottom: 28px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  margin-bottom: 24px;
   pointer-events: none;
+  background: rgba(8, 8, 18, 0.85);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border-bottom: 1px solid var(--border);
 }
 
 .header-inner {
@@ -15,10 +20,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 20px;
-  background: rgba(14, 15, 30, 0.88);
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  padding: 10px 20px;
+  background: rgba(14, 15, 30, 0.95);
   border: 1px solid var(--border3);
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.65),

@@ -255,6 +255,19 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             <span class="ch-label">DOMAINS</span>
             <span class="ch-val">mani.tech</span>
           </a>
+
+          <div class="comms-pgp">
+            <div class="pgp-lbl">// PGP FINGERPRINT</div>
+            <div class="pgp-key">9B5D F0A9 7B3F E42D 1F5E 3D2A</div>
+          </div>
+
+          <div class="comms-security-node">
+            <div class="node-head">// SYSTEM PROTOCOLS</div>
+            <div class="node-row"><span>ENCRYPTION</span><strong>AES-256-GCM</strong></div>
+            <div class="node-row"><span>DEPLOYMENT</span><strong class="glow">● ACTIVE NODE</strong></div>
+            <div class="node-row"><span>LATENCY</span><strong>14ms</strong></div>
+            <div class="node-row"><span>HANDSHAKE</span><strong>200 OK</strong></div>
+          </div>
         </div>
         <div class="bento-card-footer">
           <span>PATH: C:\CLASSIFIED\SUBJECT_DX\DOSSIER.RAW</span>
@@ -268,22 +281,22 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 <style>
   /* ── Bento Grid System ─────────────────────────────────── */
   /*
-    Asymmetric column assignments:
-    Header:  cols 1-12  (full width anchor)
-    Avatar:  cols 1-4   (narrow left — content-height, NOT forced tall)
-    Brief:   cols 4-12  (wide right — starts where avatar ends, slight overlap)
-    Skills:  cols 2-9   (offset left edge by 1 col)
-    Edu:     cols 9-13  (right panel — different height from skills)
-    Exp:     cols 1-8   (dominant left)
-    Comms:   cols 8-13  (right, starts at exp midpoint)
+    Clean 12-Column Dossier Pairings:
+    Header:  cols 1-12  (Full width hero anchor)
+    Avatar:  cols 1-5   (4 cols)
+    Brief:   cols 5-12  (8 cols)
+    Skills:  cols 1-7   (6 cols)
+    Edu:     cols 7-13  (6 cols)
+    Exp:     cols 1-7   (6 cols)
+    Comms:   cols 7-13  (6 cols)
   */
   .target-bento-grid {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    column-gap: 12px;
-    row-gap: 12px;
+    column-gap: 14px;
+    row-gap: 14px;
     width: 100%;
-    align-items: start; /* content-driven heights — no forced stretching */
+    align-items: stretch; /* equal row heights across paired cards */
   }
 
   /* ── Card Base ────────────────────────────────────────── */
@@ -294,6 +307,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     backdrop-filter: blur(3px);
     display: flex;
     flex-direction: column;
+    height: 100%;
     overflow: hidden;
     transition:
       border-color 0.25s,
@@ -351,29 +365,29 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     font-size: 9px;
   }
 
-  /* ── Asymmetric Column Assignments ─────────────────────── */
+  /* ── 12-Column Grid Pairings ───────────────────────────── */
   .bento-header {
     grid-column: 1 / 13;
-  } /* full width */
+  }
   .bento-avatar {
-    grid-column: 1 / 4;
-  } /* narrow left — 3 cols */
+    grid-column: 1 / 5;
+  }
   .bento-brief {
-    grid-column: 4 / 13;
-  } /* wide right — 9 cols */
+    grid-column: 5 / 13;
+  }
   .bento-skills {
-    grid-column: 2 / 9;
-  } /* offset — starts col 2 */
+    grid-column: 1 / 7;
+  }
   .bento-edu {
-    grid-column: 9 / 13;
-  } /* right column — 4 cols */
+    grid-column: 7 / 13;
+  }
   .bento-exp {
-    grid-column: 1 / 8;
-  } /* dominant left — 7 cols */
+    grid-column: 1 / 7;
+  }
   .bento-comms {
-    grid-column: 8 / 13;
-    margin-top: 24px;
-  } /* right, offset down */
+    grid-column: 7 / 13;
+    margin-top: 0;
+  }
 
   /* ── 1. Bento Header ────────────────────────────────────── */
   .classification {
@@ -772,27 +786,28 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   /* ── 7. Bento Comms ────────────────────────────────────── */
   .comms-body {
-    padding: 12px 14px;
+    padding: 16px 18px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 10px;
     flex: 1;
+    justify-content: space-between;
   }
 
   .comms-channel {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 9px 12px;
+    padding: 11px 14px;
     border: 1px solid var(--border);
-    background: transparent;
+    background: rgba(8, 8, 18, 0.4);
     transition:
       border-color 0.2s,
       background 0.2s;
   }
   .comms-channel:hover {
     border-color: var(--border2);
-    background: rgba(123, 63, 228, 0.05);
+    background: rgba(123, 63, 228, 0.08);
   }
   .ch-label {
     font-family: var(--font-mono);
@@ -810,6 +825,58 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   }
   .comms-channel:hover .ch-val {
     color: var(--glow);
+  }
+
+  .comms-pgp {
+    padding: 10px 14px;
+    border: 1px dashed var(--border2);
+    background: rgba(8, 8, 18, 0.6);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .pgp-lbl {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: 1.5px;
+    color: var(--muted);
+  }
+  .pgp-key {
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    color: var(--violet);
+    letter-spacing: 1px;
+    word-break: break-all;
+  }
+
+  .comms-security-node {
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .node-head {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .node-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    letter-spacing: 1.2px;
+  }
+  .node-row span {
+    color: var(--muted);
+  }
+  .node-row strong {
+    color: var(--text);
+    font-weight: 500;
   }
 
   .bento-card-footer {

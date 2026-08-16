@@ -1,0 +1,255 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const navLinks = [
+  { href: '/', label: 'Home', desc: 'Return to dispatch' },
+  { href: '/projects', label: 'Work', desc: 'Project index' },
+  { href: '/writing', label: 'Writing', desc: 'Transmissions archive' },
+  { href: '/about', label: 'About', desc: 'Target dossier' },
+];
+---
+
+<BaseLayout title="404 — Signal Lost" description="The requested route could not be found.">
+  <div class="container container--wide page">
+    <div class="notfound anim-up">
+      <header class="notfound__hero">
+        <p class="notfound__id">// ERR · ROUTE_NOT_FOUND</p>
+        <h1 class="notfound__code">404</h1>
+        <p class="notfound__title">SIGNAL LOST</p>
+        <p class="notfound__msg">
+          The requested transmission could not be decoded. The route may have
+          been moved, decommissioned, or never existed in this sector.
+        </p>
+        <div class="notfound__path">
+          <span class="notfound__path-label">REQUESTED PATH</span>
+          <code id="requested-path" class="notfound__path-val">—</code>
+        </div>
+      </header>
+
+      <section class="notfound__nav" aria-label="Site navigation">
+        <div class="notfound__nav-head">
+          <span>// RECOVERY ROUTES</span>
+          <span>INTERNAL LINKS</span>
+        </div>
+        <div class="notfound__links">
+          {navLinks.map((link) => (
+            <a href={link.href} class="notfound__link">
+              <span class="notfound__link-label">{link.label}</span>
+              <span class="notfound__link-desc">{link.desc}</span>
+              <span class="notfound__link-arrow">↗</span>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <footer class="notfound__foot">
+        <span>STATUS: OFFLINE</span>
+        <a href="/" class="notfound__home">Return to base ↗</a>
+      </footer>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  const el = document.getElementById('requested-path');
+  if (el && window.location.pathname !== '/404') {
+    el.textContent = window.location.pathname;
+  }
+</script>
+
+<style>
+  .notfound {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .notfound__hero {
+    border: 1px solid var(--border3);
+    background: var(--panel);
+    padding: 32px 28px;
+    position: relative;
+  }
+
+  .notfound__hero::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 12px;
+    height: 12px;
+    border-top: 2px solid var(--purple);
+    border-left: 2px solid var(--purple);
+    pointer-events: none;
+  }
+
+  .notfound__id {
+    font-size: var(--text-meta);
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .notfound__code {
+    font-size: clamp(4rem, 12vw, 6rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .notfound__title {
+    font-size: var(--text-h2);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--purple);
+    margin-bottom: 16px;
+  }
+
+  .notfound__msg {
+    font-size: var(--text-body);
+    color: var(--muted);
+    line-height: 1.65;
+    max-width: 52ch;
+    margin-bottom: 20px;
+  }
+
+  .notfound__path {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    background: rgba(9, 10, 18, 0.6);
+  }
+
+  .notfound__path-label {
+    font-size: var(--text-meta);
+    letter-spacing: 0.12em;
+    color: var(--dim);
+  }
+
+  .notfound__path-val {
+    font-family: var(--font-mono);
+    font-size: var(--text-value);
+    color: var(--violet);
+    word-break: break-all;
+  }
+
+  .notfound__nav {
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .notfound__nav-head {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 16px;
+    font-size: var(--text-meta);
+    letter-spacing: 0.12em;
+    color: var(--dim);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .notfound__links {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .notfound__link {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 18px;
+    text-decoration: none;
+    color: inherit;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s, border-color 0.2s;
+    position: relative;
+  }
+
+  .notfound__link:nth-child(2n) {
+    border-right: none;
+  }
+
+  .notfound__link:nth-last-child(-n + 2) {
+    border-bottom: none;
+  }
+
+  .notfound__link:hover {
+    background: rgba(159, 135, 255, 0.06);
+    border-color: var(--border2);
+  }
+
+  .notfound__link-label {
+    font-size: var(--text-h3);
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0.04em;
+  }
+
+  .notfound__link-desc {
+    font-size: var(--text-meta);
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  .notfound__link-arrow {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: var(--text-nav);
+    color: var(--purple);
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+
+  .notfound__link:hover .notfound__link-arrow {
+    opacity: 1;
+    transform: translate(2px, -2px);
+  }
+
+  .notfound__foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    font-size: var(--text-meta);
+    letter-spacing: 0.1em;
+    color: var(--dim);
+  }
+
+  .notfound__home {
+    color: var(--purple);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .notfound__home:hover {
+    color: var(--violet);
+  }
+
+  @media (max-width: 540px) {
+    .notfound__links {
+      grid-template-columns: 1fr;
+    }
+
+    .notfound__link {
+      border-right: none;
+    }
+
+    .notfound__link:not(:last-child) {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .notfound__foot {
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+    }
+  }
+</style>
