@@ -1,13 +1,16 @@
 ---
-import '../styles/global.css';
-import '../styles/layout.css';
+import "../styles/global.css";
+import "../styles/layout.css";
 
 interface Props {
   title: string;
   description?: string;
 }
 
-const { title, description = "Mani's portfolio — projects, CTF writeups, and DSA solutions." } = Astro.props;
+const {
+  title,
+  description = "Mani's portfolio — projects, CTF writeups, and DSA solutions.",
+} = Astro.props;
 const year = new Date().getFullYear();
 ---
 
@@ -20,14 +23,41 @@ const year = new Date().getFullYear();
     <title>{title} · mani.tech</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/@fontsource/hack@5.0.21/index.css" rel="stylesheet" />
-    <link rel="alternate" type="application/rss+xml" title="mani.tech — Transmissions" href="/rss.xml" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/@fontsource/hack@5.0.21/index.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="mani.tech — Transmissions"
+      href="/rss.xml"
+    />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
   </head>
   <body>
     <header class="site-header">
       <div class="header-inner">
-        <a href="/" class="logo">mani.tech</a>
+        <a href="/" class="logo">
+          <div class="node-mark">
+            <svg viewBox="0 0 36 36" width="48" height="48">
+              <line x1="6" y1="28" x2="18" y2="10" class="edge"></line>
+              <line x1="18" y1="10" x2="30" y2="28" class="edge"></line>
+              <line x1="6" y1="28" x2="30" y2="28" class="edge"></line>
+              <circle cx="6" cy="28" r="3.5" class="node"></circle>
+              <circle cx="18" cy="10" r="3.5" class="node"></circle>
+              <circle cx="30" cy="28" r="3.5" class="node"></circle>
+            </svg>
+          </div>
+        </a>
         <nav class="site-nav">
           <a href="/projects">work</a>
           <a href="/writing">writing</a>
@@ -45,8 +75,16 @@ const year = new Date().getFullYear();
         <div class="footer-inner">
           <span>&copy; {year} mani.tech</span>
           <div class="footer-links">
-            <a href="https://github.com/manikandanx0" target="_blank" rel="noopener">github</a>
-            <a href="https://linkedin.com/in/manikandannx0" target="_blank" rel="noopener">linkedin</a>
+            <a
+              href="https://github.com/manikandanx0"
+              target="_blank"
+              rel="noopener">github</a
+            >
+            <a
+              href="https://linkedin.com/in/manikandannx0"
+              target="_blank"
+              rel="noopener">linkedin</a
+            >
             <a href="mailto:manikandanx0@proton.me">email</a>
           </div>
         </div>
