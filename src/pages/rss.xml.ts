@@ -36,8 +36,8 @@ export async function GET(context: APIContext) {
   );
 
   return rss({
-    title: 'mani.tech — Transmissions',
-    description: 'CTF writeups, DSA logs, and engineering essays from mani.tech',
+    title: 'manikandanx0 — Transmissions',
+    description: 'CTF writeups, DSA logs, and engineering essays from manikandanx0',
     site: context.site!,
     items,
     customData: `<language>en-us</language>`,

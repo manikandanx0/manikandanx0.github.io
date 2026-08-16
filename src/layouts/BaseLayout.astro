@@ -5,13 +5,17 @@ import "../styles/layout.css";
 interface Props {
   title: string;
   description?: string;
+  image?: string;
 }
 
 const {
   title,
   description = "Mani's portfolio — projects, CTF writeups, and DSA solutions.",
+  image,
 } = Astro.props;
 const year = new Date().getFullYear();
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+const ogImageUrl = image ? new URL(image, Astro.site).href : undefined;
 ---
 
 <!doctype html>
@@ -20,7 +24,19 @@ const year = new Date().getFullYear();
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <title>{title} · mani.tech</title>
+    <title>{title} · manikandanx0</title>
+    {ogImageUrl && (
+      <>
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={ogImageUrl} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImageUrl} />
+      </>
+    )}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -34,7 +50,7 @@ const year = new Date().getFullYear();
     <link
       rel="alternate"
       type="application/rss+xml"
-      title="mani.tech — Transmissions"
+      title="manikandanx0 — Transmissions"
       href="/rss.xml"
     />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -73,7 +89,7 @@ const year = new Date().getFullYear();
     <footer class="site-footer">
       <div class="container">
         <div class="footer-inner">
-          <span>&copy; {year} mani.tech</span>
+          <span>&copy; {year} manikandanx0</span>
           <div class="footer-links">
             <a
               href="https://github.com/manikandanx0"

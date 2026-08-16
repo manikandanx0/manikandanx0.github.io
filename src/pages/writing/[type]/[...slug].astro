@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { generateOgImage } from '../../../lib/generateOgImage';
 
 export async function getStaticPaths() {
   const collections = ['blog', 'ctf', 'leetcode'] as const;
@@ -9,9 +10,21 @@ export async function getStaticPaths() {
   for (const type of collections) {
     const entries = await getCollection(type, ({ data }) => !data.draft);
     for (const entry of entries) {
+      const slug = entry.id.replace(/\.md$/, '');
+      const ogImageRel = `/og/writing/${type}/${slug}.png`;
+      const ogImagePath = `public${ogImageRel}`;
+      const subtitle = 'excerpt' in entry.data ? (entry.data.excerpt as string) : ('event' in entry.data ? (entry.data.event as string) : undefined);
+
+      await generateOgImage({
+        title: entry.data.title,
+        type,
+        subtitle,
+        outputPath: ogImagePath,
+      });
+
       paths.push({
-        params: { type, slug: entry.id.replace(/\.md$/, '') },
-        props: { entry, type },
+        params: { type, slug },
+        props: { entry, type, ogImage: ogImageRel },
       });
     }
   }
@@ -19,11 +32,12 @@ export async function getStaticPaths() {
   return paths;
 }
 
-const { entry, type } = Astro.props;
+const { entry, type, ogImage } = Astro.props;
 const { Content } = await render(entry);
+const description = 'excerpt' in entry.data ? (entry.data.excerpt as string) : `${type.toUpperCase()} writeup`;
 ---
 
-<BaseLayout title={entry.data.title} description={entry.data.excerpt ?? `${type} writeup`}>
+<BaseLayout title={entry.data.title} description={description} image={ogImage}>
   <div class="container container--wide page">
 
     <div class="detail-layout g12 anim-up">
