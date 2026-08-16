@@ -3,7 +3,7 @@ title: Grid Layout Notes
 date: 2026-08-08
 excerpt: Notes on building a modular dotted-grid layout in Astro.
 tags: [astro, css, ui]
-draft: false
+draft: true
 ---
 
 I wanted a layout that feels like graph paper without becoming noisy.

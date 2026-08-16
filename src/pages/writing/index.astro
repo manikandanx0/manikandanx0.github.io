@@ -5,43 +5,43 @@ import { getCollection } from "astro:content";
 const blog = (await getCollection("blog", ({ data }) => !data.draft)).map(
   (e) => ({ ...e, kind: "blog" }),
 );
-const ctf = (await getCollection("ctf", ({ data }) => !data.draft)).map(
-  (e) => ({ ...e, kind: "ctf" }),
-);
 const leetcode = (
   await getCollection("leetcode", ({ data }) => !data.draft)
 ).map((e) => ({ ...e, kind: "leetcode" }));
+const ctf = (await getCollection("ctf", ({ data }) => !data.draft)).map(
+  (e) => ({ ...e, kind: "ctf" }),
+);
 
-const allWriting = [...blog, ...ctf, ...leetcode];
+const allWriting = [...blog, ...leetcode, ...ctf];
 
 // Sector tag sets
-const ctfTags = Array.from(
-  new Set(ctf.flatMap((e) => e.data.tags || [])),
+const blogTags = Array.from(
+  new Set(blog.flatMap((e) => e.data.tags || [])),
 ).sort();
 const leetcodeTags = Array.from(
   new Set(leetcode.flatMap((e) => e.data.tags || [])),
 ).sort();
-const blogTags = Array.from(
-  new Set(blog.flatMap((e) => e.data.tags || [])),
+const ctfTags = Array.from(
+  new Set(ctf.flatMap((e) => e.data.tags || [])),
 ).sort();
 
 // Map unique tags with associated sectors
 const allTagObjects = Array.from(
-  new Set([...ctfTags, ...leetcodeTags, ...blogTags]),
+  new Set([...blogTags, ...leetcodeTags, ...ctfTags]),
 )
   .sort()
   .map((tag) => {
     const sectors: string[] = [];
-    if (ctfTags.includes(tag)) sectors.push("ctf");
-    if (leetcodeTags.includes(tag)) sectors.push("leetcode");
     if (blogTags.includes(tag)) sectors.push("blog");
+    if (leetcodeTags.includes(tag)) sectors.push("leetcode");
+    if (ctfTags.includes(tag)) sectors.push("ctf");
     return { tag, sectors: sectors.join(" ") };
   });
 ---
 
 <BaseLayout
   title="Writing Hub"
-  description="Archive of CTF writeups, Interview Prep Code Logs, and Personal Blog posts."
+  description="Archive of Blog posts, Interview Prep Code Logs, and CTF writeups."
 >
   <div class="container container--wide page">
     <!-- Header & Telemetry -->
@@ -50,17 +50,18 @@ const allTagObjects = Array.from(
         <p class="hero-tag">// TRANSMISSION HUB · KNOWLEDGE MATRIX</p>
         <h1 class="hero-title">WRITING &amp; LOGS</h1>
         <p class="hero-sub">
-          Centralized archive of security challenge writeups, algorithmic
-          problem-solving logs for interview preparation, and technical research
-          essays.
+          Centralized archive of technical research essays, algorithmic
+          problem-solving logs for interview preparation, and security challenge
+          writeups.
         </p>
       </div>
 
       <!-- Sector Counters Telemetry -->
       <div class="telemetry-bar">
         <div class="sector-stat">
-          <span class="stat-lbl">CTF WRITEUPS</span>
-          <span class="stat-num">{ctf.length.toString().padStart(2, "0")}</span>
+          <span class="stat-lbl">BLOGS</span>
+          <span class="stat-num">{blog.length.toString().padStart(2, "0")}</span
+          >
         </div>
         <div class="sector-stat">
           <span class="stat-lbl">CODE LOGS (DSA)</span>
@@ -69,9 +70,8 @@ const allTagObjects = Array.from(
           >
         </div>
         <div class="sector-stat">
-          <span class="stat-lbl">PERSONAL BLOG</span>
-          <span class="stat-num">{blog.length.toString().padStart(2, "0")}</span
-          >
+          <span class="stat-lbl">CTF WRITEUPS</span>
+          <span class="stat-num">{ctf.length.toString().padStart(2, "0")}</span>
         </div>
       </div>
     </header>
@@ -84,14 +84,14 @@ const allTagObjects = Array.from(
           <button class="filter-btn sector-btn active" data-sector-filter="all"
             >ALL TRANSMISSIONS ({allWriting.length})</button
           >
-          <button class="filter-btn sector-btn" data-sector-filter="ctf"
-            >CTF WRITEUPS ({ctf.length})</button
+          <button class="filter-btn sector-btn" data-sector-filter="blog"
+            >BLOGS ({blog.length})</button
           >
           <button class="filter-btn sector-btn" data-sector-filter="leetcode"
             >CODE LOGS ({leetcode.length})</button
           >
-          <button class="filter-btn sector-btn" data-sector-filter="blog"
-            >PERSONAL BLOG ({blog.length})</button
+          <button class="filter-btn sector-btn" data-sector-filter="ctf"
+            >CTF WRITEUPS ({ctf.length})</button
           >
         </div>
       </div>
@@ -106,7 +106,7 @@ const allTagObjects = Array.from(
           <button
             class="filter-btn tag-btn active"
             data-tag-filter="all"
-            data-tag-sectors="ctf leetcode blog">ALL TAGS</button
+            data-tag-sectors="blog leetcode ctf">ALL TAGS</button
           >
           {
             allTagObjects.map((item) => (
@@ -119,112 +119,81 @@ const allTagObjects = Array.from(
               </button>
             ))
           }
-
-          {
-            allTagObjects.length === 0 && (
-              <>
-                <button
-                  class="filter-btn tag-btn"
-                  data-tag-filter="web"
-                  data-tag-sectors="ctf"
-                >
-                  WEB
-                </button>
-                <button
-                  class="filter-btn tag-btn"
-                  data-tag-filter="hashmap"
-                  data-tag-sectors="leetcode"
-                >
-                  HASH MAP
-                </button>
-                <button
-                  class="filter-btn tag-btn"
-                  data-tag-filter="systems"
-                  data-tag-sectors="blog"
-                >
-                  SYSTEMS
-                </button>
-              </>
-            )
-          }
         </div>
       </div>
     </div>
 
-    <!-- SECTOR 01: CTF WRITEUPS -->
-    <section class="writing-sector anim-up anim-d2" data-sector="ctf">
+    <!-- SECTOR 01: BLOGS & ESSAYS -->
+    <section
+      class="writing-sector anim-up anim-d2"
+      data-sector="blog"
+      data-empty={blog.length === 0 ? "true" : "false"}
+    >
       <div class="sector-header">
         <div class="sector-title-group">
           <span class="sector-badge">SECTOR 01</span>
-          <h2>CTF WRITEUPS &amp; SECURITY LABS</h2>
+          <h2>BLOGS &amp; RESEARCH ESSAYS</h2>
         </div>
         <span class="sector-desc"
-          >Exploit walkthroughs, CTF challenges, reverse engineering, and web
-          vulnerability analysis.</span
+          >Notes on systems architecture, AI research, engineering philosophy,
+          and personal logs.</span
         >
       </div>
 
       <div class="sector-grid">
         {
-          ctf.length === 0 && (
-            <article class="card sector-card" data-tags="web easy ctf">
+          blog.length === 0 && (
+            <article class="card sector-card empty-card" data-tags="">
               <div class="card-head">
-                <span>CTF-00 // LOG_SLOT</span>
-                <span class="card-head-id">PLACEHOLDER</span>
+                <span>BLOG-00 // ESSAY</span>
+                <span class="card-head-id">PENDING</span>
               </div>
               <div class="sector-card-body">
-                <h3 class="card-title">WARMUP WEB CHALLENGE WRITEUP</h3>
+                <h3 class="card-title" style="color: var(--muted); opacity: 0.75;">
+                  [ TRANSMISSION PENDING ]
+                </h3>
                 <p class="card-text">
-                  Detailed analysis of web sinks, memory corruptions, and binary
-                  exploitation flags.
+                  Technical essays, systems architecture notes, and personal logs are currently in progress.
                 </p>
                 <div class="sector-meta-bar">
-                  <span class="tag tag--filled">EASY</span>
-                  <span class="tag">WEB</span>
-                  <span class="tag">XSS</span>
+                  <span class="tag" style="opacity:0.6;">COMING SOON</span>
                 </div>
-                <a class="card-link" href="#">
-                  Read Writeup ↗
-                </a>
               </div>
             </article>
           )
         }
 
         {
-          ctf.map((post, i) => (
+          blog.map((post, i) => (
             <article
               class="card sector-card"
               data-tags={(post.data.tags || []).join(" ").toLowerCase()}
               style={`animation-delay:${0.1 + i * 0.06}s`}
             >
               <div class="card-head">
-                <span>CTF-{String(i + 1).padStart(2, "0")} // WRITEUP</span>
+                <span>BLOG-{String(i + 1).padStart(2, "0")} // ESSAY</span>
                 <span class="card-head-id">
-                  {post.data.event || "SECURITY"}
+                  {post.data.date.toLocaleDateString("en-US", {
+                    month: "short",
+                    year: "numeric",
+                  })}
                 </span>
               </div>
               <div class="sector-card-body">
                 <h3 class="card-title">{post.data.title}</h3>
                 <p class="card-text">
-                  {post.data.excerpt ||
-                    "Security incident writeup and flag analysis."}
+                  {post.data.excerpt || "Personal engineering essay."}
                 </p>
                 <div class="sector-meta-bar">
-                  {post.data.difficulty && (
-                    <span class="tag tag--filled">
-                      {post.data.difficulty.toUpperCase()}
-                    </span>
-                  )}
                   {post.data.tags?.map((t: string) => (
                     <span class="tag">{t}</span>
                   ))}
                 </div>
                 <a
                   class="card-link"
-                  href={`/writing/ctf/${post.id.replace(/\.md$/, "")}`}
+                  href={`/writing/blog/${post.id.replace(/\.md$/, "")}`}
                 >
-                  Read Writeup ↗
+                  Read Post ↗
                 </a>
               </div>
             </article>
@@ -234,7 +203,11 @@ const allTagObjects = Array.from(
     </section>
 
     <!-- SECTOR 02: CODE LOGS / INTERVIEW PREP (DSA) -->
-    <section class="writing-sector anim-up anim-d3" data-sector="leetcode">
+    <section
+      class="writing-sector anim-up anim-d3"
+      data-sector="leetcode"
+      data-empty={leetcode.length === 0 ? "true" : "false"}
+    >
       <div class="sector-header">
         <div class="sector-title-group">
           <span class="sector-badge">SECTOR 02</span>
@@ -249,30 +222,21 @@ const allTagObjects = Array.from(
       <div class="sector-grid">
         {
           leetcode.length === 0 && (
-            <article
-              class="card sector-card"
-              data-tags="hashmap arrays easy dsa"
-            >
+            <article class="card sector-card empty-card" data-tags="">
               <div class="card-head">
-                <span>LC-001 // LOG_SLOT</span>
-                <span class="card-head-id">EASY</span>
+                <span>LC-000 // LOG_SLOT</span>
+                <span class="card-head-id">PENDING</span>
               </div>
               <div class="sector-card-body">
-                <h3 class="card-title">TWO SUM - HASH MAP</h3>
-                <div class="complexity-bar">
-                  <span class="comp-badge">TIME: O(N)</span>
-                  <span class="comp-badge">SPACE: O(N)</span>
-                </div>
+                <h3 class="card-title" style="color: var(--muted); opacity: 0.75;">
+                  [ TRANSMISSION PENDING ]
+                </h3>
                 <p class="card-text">
-                  Algorithmic approach and problem solution.
+                  Algorithmic code logs and interview prep breakdowns are currently in progress.
                 </p>
                 <div class="sector-meta-bar">
-                  <span class="tag">ARRAY</span>
-                  <span class="tag">HASHMAP</span>
+                  <span class="tag" style="opacity:0.6;">COMING SOON</span>
                 </div>
-                <a class="card-link" href="#">
-                  Inspect Solution ↗
-                </a>
               </div>
             </article>
           )
@@ -335,76 +299,80 @@ const allTagObjects = Array.from(
       </div>
     </section>
 
-    <!-- SECTOR 03: PERSONAL BLOG & ESSAYS -->
-    <section class="writing-sector anim-up anim-d4" data-sector="blog">
+    <!-- SECTOR 03: CTF WRITEUPS & SECURITY LABS -->
+    <section
+      class="writing-sector anim-up anim-d4"
+      data-sector="ctf"
+      data-empty={ctf.length === 0 ? "true" : "false"}
+    >
       <div class="sector-header">
         <div class="sector-title-group">
           <span class="sector-badge">SECTOR 03</span>
-          <h2>PERSONAL BLOG &amp; RESEARCH ESSAYS</h2>
+          <h2>CTF WRITEUPS &amp; SECURITY LABS</h2>
         </div>
         <span class="sector-desc"
-          >Notes on systems architecture, AI research, engineering philosophy,
-          and personal logs.</span
+          >Exploit walkthroughs, CTF challenges, reverse engineering, and web
+          vulnerability analysis.</span
         >
       </div>
 
       <div class="sector-grid">
         {
-          blog.length === 0 && (
-            <article class="card sector-card" data-tags="systems astro blog">
+          ctf.length === 0 && (
+            <article class="card sector-card empty-card" data-tags="">
               <div class="card-head">
-                <span>BLOG-01 // ESSAY</span>
-                <span class="card-head-id">AUG 2026</span>
+                <span>CTF-00 // LOG_SLOT</span>
+                <span class="card-head-id">PENDING</span>
               </div>
               <div class="sector-card-body">
-                <h3 class="card-title">GRID LAYOUT NOTES IN ASTRO</h3>
+                <h3 class="card-title" style="color: var(--muted); opacity: 0.75;">
+                  [ TRANSMISSION PENDING ]
+                </h3>
                 <p class="card-text">
-                  Design considerations for building zero-JS fast static sites
-                  with CSS grid systems.
+                  Security research and CTF challenge writeups are currently in progress.
                 </p>
                 <div class="sector-meta-bar">
-                  <span class="tag">SYSTEMS</span>
-                  <span class="tag">ASTRO</span>
+                  <span class="tag" style="opacity:0.6;">COMING SOON</span>
                 </div>
-                <a class="card-link" href="#">
-                  Read Post ↗
-                </a>
               </div>
             </article>
           )
         }
 
         {
-          blog.map((post, i) => (
+          ctf.map((post, i) => (
             <article
               class="card sector-card"
               data-tags={(post.data.tags || []).join(" ").toLowerCase()}
               style={`animation-delay:${0.1 + i * 0.06}s`}
             >
               <div class="card-head">
-                <span>BLOG-{String(i + 1).padStart(2, "0")} // ESSAY</span>
+                <span>CTF-{String(i + 1).padStart(2, "0")} // WRITEUP</span>
                 <span class="card-head-id">
-                  {post.data.date.toLocaleDateString("en-US", {
-                    month: "short",
-                    year: "numeric",
-                  })}
+                  {post.data.event || "SECURITY"}
                 </span>
               </div>
               <div class="sector-card-body">
                 <h3 class="card-title">{post.data.title}</h3>
                 <p class="card-text">
-                  {post.data.excerpt || "Personal engineering essay."}
+                  {post.data.excerpt ||
+                    "Security incident writeup and flag analysis."}
                 </p>
                 <div class="sector-meta-bar">
+                  {post.data.difficulty && (
+                    <span class="tag tag--filled">
+                      {post.data.difficulty.toUpperCase()}
+                    </span>
+                  )}
                   {post.data.tags?.map((t: string) => (
                     <span class="tag">{t}</span>
                   ))}
                 </div>
                 <a
                   class="card-link"
-                  href={`/writing/blog/${post.id.replace(/\.md$/, "")}`}
+                  href={`/writing/ctf/${post.id.replace(/\.md$/, "")}`}
                 >
-                  Read Post ↗
+                  Read Writeup ↗
                 </a>
               </div>
             </article>
@@ -687,10 +655,21 @@ const allTagObjects = Array.from(
       sectors.forEach((sec) => {
         const secName = sec.getAttribute("data-sector");
         const secHeader = sec.querySelector(".sector-header");
-        if (activeSector === "all" || activeSector === secName) {
+        const isEmptySector = sec.getAttribute("data-empty") === "true";
+
+        if (activeSector === "all") {
+          if (isEmptySector) {
+            sec.style.display = "none";
+          } else {
+            sec.style.display = "block";
+            if (secHeader) {
+              secHeader.style.display = "none";
+            }
+          }
+        } else if (activeSector === secName) {
           sec.style.display = "block";
           if (secHeader) {
-            secHeader.style.display = activeSector === "all" ? "none" : "flex";
+            secHeader.style.display = "flex";
           }
         } else {
           sec.style.display = "none";
@@ -699,6 +678,12 @@ const allTagObjects = Array.from(
 
       // Tag filter logic
       cards.forEach((card) => {
+        const isEmptyCard = card.classList.contains("empty-card");
+        if (isEmptyCard) {
+          card.style.display = activeSector === "all" ? "none" : "flex";
+          return;
+        }
+
         const cardTags = card.getAttribute("data-tags") || "";
         if (activeTag === "all" || cardTags.includes(activeTag)) {
           card.style.display = "flex";

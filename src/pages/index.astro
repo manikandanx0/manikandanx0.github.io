@@ -1,306 +1,393 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
 
-const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-);
+const projects = (
+  await getCollection("projects", ({ data }) => !data.draft)
+).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const featuredProjects = projects.filter((p) => p.data.featured);
-const displayProjects  = featuredProjects.length > 0 ? featuredProjects : projects;
+const displayProjects =
+  featuredProjects.length > 0 ? featuredProjects : projects;
 
-const blog     = (await getCollection('blog',     ({ data }) => !data.draft)).map((e) => ({ ...e, kind: 'blog'     }));
-const ctf      = (await getCollection('ctf',      ({ data }) => !data.draft)).map((e) => ({ ...e, kind: 'ctf'      }));
-const leetcode = (await getCollection('leetcode', ({ data }) => !data.draft)).map((e) => ({ ...e, kind: 'leetcode' }));
-const allWriting    = [...blog, ...ctf, ...leetcode].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const blog = (await getCollection("blog", ({ data }) => !data.draft)).map(
+  (e) => ({ ...e, kind: "blog" }),
+);
+const leetcode = (
+  await getCollection("leetcode", ({ data }) => !data.draft)
+).map((e) => ({ ...e, kind: "leetcode" }));
+const ctf = (await getCollection("ctf", ({ data }) => !data.draft)).map(
+  (e) => ({ ...e, kind: "ctf" }),
+);
+const allWriting = [...blog, ...leetcode, ...ctf].sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
 const recentWriting = allWriting.slice(0, 4);
 
 const websiteSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: 'manikandanx0',
-  url: new URL('/', Astro.site).href,
-  description: 'Personal portfolio & technical dossier - AI, Security Research, and Systems.',
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "manikandanx0",
+  url: new URL("/", Astro.site).href,
+  description:
+    "Personal portfolio & technical dossier - AI, Security Research, and Systems.",
 };
 ---
 
-<BaseLayout title="Home" description="Personal portfolio & technical dossier - AI, Security Research, and Systems." schema={websiteSchema}>
-<div class="hp container container--wide page">
-
-  <!-- ╔══════════════════════════════════════════════════╗
+<BaseLayout
+  title="Home"
+  description="Personal portfolio & technical dossier - AI, Security Research, and Systems."
+  schema={websiteSchema}
+>
+  <div class="hp container container--wide page">
+    <!-- ╔══════════════════════════════════════════════════╗
        ║  ROW 1 — HERO                                    ║
        ║  [  MAIN (cols 1-9)  ] [ TELEMETRY (cols 10-12) ]║
        ╚══════════════════════════════════════════════════╝ -->
-  <div class="hp-grid anim-up">
-
-    <!-- Hero main -->
-    <div class="cell cell--hero-main">
-      <div class="cell__bar">
-        <span>// SYS_ID: MANI-2026-DX</span>
-        <span><span class="blink">●</span>&thinsp;ONLINE // DISPATCH READY</span>
-      </div>
-      <div class="cell__hero-body">
-        <h1 class="hero-display">
-          BUILDING<br>
-          <span class="accent">THINGS.</span><br>
-          BREAKING<br>
-          <span class="accent">THINGS.</span>
-        </h1>
-        <p class="hero-sub">
-          AI &amp; Data Science student specializing in practical machine learning,
-          systems architecture, and security research. Building resilient software
-          and breaking code at the boundaries.
-        </p>
-        <div class="hero-cta">
-          <a href="/projects"                         class="btn btn--primary">View Work ↗</a>
-          <a href="/writing"                          class="btn">Read Transmissions ↗</a>
-          <a href="mailto:manikandanx0@proton.me"     class="btn--ghost">Contact Dispatch ↗</a>
+    <div class="hp-grid anim-up">
+      <!-- Hero main -->
+      <div class="cell cell--hero-main">
+        <div class="cell__bar">
+          <span>// SYS_ID: MANI-2026-DX</span>
+          <span
+            ><span class="blink">●</span>&thinsp;ONLINE // DISPATCH READY</span
+          >
         </div>
-      </div>
-      <div class="cell__foot">
-        <span>LOCATION: CHENNAI, IN</span>
-        <span>13.0827° N / 80.2707° E</span>
-      </div>
-    </div>
-
-    <!-- Telemetry column — shares left border with hero-main -->
-    <div class="cell cell--telemetry">
-      <div class="cell__bar">TELEMETRY</div>
-      <div class="telem-body">
-        <div class="telem-row">
-          <span class="tl">STATUS</span>
-          <span class="status-dot"><span class="blink">●</span>&thinsp;ACTIVE</span>
-        </div>
-        <div class="telem-row">
-          <span class="tl">DOMAINS</span>
-          <div class="telem-tags">
-            <span class="tag tag--filled">AI / ML</span>
-            <span class="tag">Security</span>
-            <span class="tag">Systems</span>
+        <div class="cell__hero-body">
+          <h1 class="hero-display">
+            BUILDING<br />
+            <span class="accent">THINGS.</span><br />
+            BREAKING<br />
+            <span class="accent">THINGS.</span>
+          </h1>
+          <p class="hero-sub">
+            AI &amp; Data Science student specializing in building resilient
+            software and breaking code at the boundaries.
+          </p>
+          <div class="hero-cta">
+            <a href="/projects" class="btn btn--primary">View Work ↗</a>
+            <a href="/writing" class="btn">Read Transmissions ↗</a>
+            <a href="mailto:manikandanx0@proton.me" class="btn--ghost"
+              >Contact Dispatch ↗</a
+            >
           </div>
         </div>
-        <div class="telem-metrics">
-          <div class="telem-metric">
-            <span class="tm-val">{projects.length.toString().padStart(2,'0')}</span>
-            <span class="tm-lbl">PROJECTS</span>
-          </div>
-          <div class="telem-metric">
-            <span class="tm-val">{allWriting.length.toString().padStart(2,'0')}</span>
-            <span class="tm-lbl">LOGS</span>
-          </div>
-        </div>
-        <div class="telem-row" style="margin-top:auto">
-          <span class="tl">CLEARANCE</span>
-          <div class="clearance">LEVEL 3 // AUTHORIZED</div>
+        <div class="cell__foot">
+          <span>LOCATION: CHENNAI, IN</span>
+          <span>13.27° N / 80.07° E</span>
         </div>
       </div>
-    </div>
 
+      <!-- Telemetry column — shares left border with hero-main -->
+      <div class="cell cell--telemetry">
+        <div class="cell__bar">TELEMETRY</div>
+        <div class="telem-body">
+          <div class="telem-row">
+            <span class="tl">STATUS</span>
+            <span class="status-dot"
+              ><span class="blink">●</span>&thinsp;ACTIVE</span
+            >
+          </div>
+          <div class="telem-row">
+            <span class="tl">DOMAINS</span>
+            <div class="telem-tags">
+              <span class="tag tag--filled">AI / DS</span>
+              <span class="tag">Security</span>
+              <span class="tag">Systems</span>
+            </div>
+          </div>
+          <div class="telem-metrics">
+            <div class="telem-metric">
+              <span class="tm-val"
+                >{projects.length.toString().padStart(2, "0")}</span
+              >
+              <span class="tm-lbl">PROJECTS</span>
+            </div>
+            <div class="telem-metric">
+              <span class="tm-val"
+                >{allWriting.length.toString().padStart(2, "0")}</span
+              >
+              <span class="tm-lbl">LOGS</span>
+            </div>
+          </div>
+          <div class="telem-row" style="margin-top:auto">
+            <span class="tl">CLEARANCE</span>
+            <div class="clearance">LEVEL 3 // AUTHORIZED</div>
+          </div>
+        </div>
+      </div>
 
-    <!-- ╔══════════════════════════════════════════════════╗
+      <!-- ╔══════════════════════════════════════════════════╗
          ║  ROW 2 — SECTION LABEL BAR (full width)          ║
          ╚══════════════════════════════════════════════════╝ -->
-    <div class="cell cell--label-bar">
-      <span class="label-bar__text">// FEATURED OPERATIONS</span>
-      <a href="/projects" class="label-bar__link">VIEW ALL WORK ↗</a>
-    </div>
+      <div class="cell cell--label-bar">
+        <span class="label-bar__text">// FEATURED OPERATIONS</span>
+        <a href="/projects" class="label-bar__link">VIEW ALL WORK ↗</a>
+      </div>
 
-    <!-- ╔══════════════════════════════════════════════════╗
+      <!-- ╔══════════════════════════════════════════════════╗
          ║  ROW 3 — FEATURED PROJECT (full-width module)    ║
          ║  [ INDEX ] [ DOT-FIELD VISUAL ] [ INFO          ]║
          ╚══════════════════════════════════════════════════╝ -->
-    {displayProjects.length === 0 ? (
-      <div class="cell cell--feat-project">
-        <div class="feat__index">
-          <span class="feat__num">OP-01</span>
-          <span class="feat__year">—</span>
-        </div>
-        <div class="feat__visual dot-grid"></div>
-        <div class="feat__info">
-          <h2 class="feat__title">PROJECT TITLE PLACEHOLDER</h2>
-          <p class="feat__desc">Add markdown project entries under src/content/projects to populate this section.</p>
-          <div class="feat__tags">
-            <span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">FastAPI</span>
+      {
+        displayProjects.length === 0 ? (
+          <div class="cell cell--feat-project empty-card">
+            <div class="feat__index">
+              <span class="feat__num">OP-00</span>
+              <span class="feat__year">—</span>
+            </div>
+            <div class="feat__visual dot-grid" />
+            <div class="feat__info">
+              <h2 class="feat__title" style="color: var(--muted); opacity: 0.75;">[ COMING SOON ]</h2>
+              <p class="feat__desc">
+                Engineering operations and projects are currently in development.
+              </p>
+              <div class="feat__tags">
+                <span class="tag" style="opacity:0.6;">PENDING</span>
+              </div>
+              <a class="feat__link" href="/projects">
+                Inspect Operations ↗
+              </a>
+            </div>
           </div>
-          <a class="feat__link" href="/projects">Inspect Operations ↗</a>
-        </div>
-      </div>
-    ) : displayProjects.slice(0,1).map((project) => (
-      <div class="cell cell--feat-project">
-        <div class="feat__index">
-          <span class="feat__num">OP-01</span>
-          <span class="feat__year">{project.data.date.getFullYear()}</span>
-        </div>
-        <div class="feat__visual dot-grid"></div>
-        <div class="feat__info">
-          <h2 class="feat__title">{project.data.title}</h2>
-          <p class="feat__desc">{project.data.summary}</p>
-          <div class="feat__tags">
-            {project.data.stack.slice(0,4).map((t:string) => <span class="tag">{t}</span>)}
-          </div>
-          <a class="feat__link" href={`/projects/${project.id.replace(/\.md$/,'')}`}>View Operation ↗</a>
-        </div>
-      </div>
-    ))}
+        ) : (
+          displayProjects.slice(0, 1).map((project) => (
+            <div class="cell cell--feat-project">
+              <div class="feat__index">
+                <span class="feat__num">OP-01</span>
+                <span class="feat__year">
+                  {project.data.date.getFullYear()}
+                </span>
+              </div>
+              <div class="feat__visual dot-grid" />
+              <div class="feat__info">
+                <h2 class="feat__title">{project.data.title}</h2>
+                <p class="feat__desc">{project.data.summary}</p>
+                <div class="feat__tags">
+                  {project.data.stack.slice(0, 4).map((t: string) => (
+                    <span class="tag">{t}</span>
+                  ))}
+                </div>
+                <a
+                  class="feat__link"
+                  href={`/projects/${project.id.replace(/\.md$/, "")}`}
+                >
+                  View Operation ↗
+                </a>
+              </div>
+            </div>
+          ))
+        )
+      }
 
-    <!-- Additional projects as rows (if more than 1) -->
-    {displayProjects.slice(1).map((project, i) => (
-      <a href={`/projects/${project.id.replace(/\.md$/,'')}`} class="cell cell--proj-row">
-        <div class="proj-row__index">
-          <span class="feat__num">OP-{String(i+2).padStart(2,'0')}</span>
-          <span class="feat__year">{project.data.date.getFullYear()}</span>
-        </div>
-        <div class="proj-row__body">
-          <h3 class="proj-row__title">{project.data.title}</h3>
-          <p class="proj-row__desc">{project.data.summary}</p>
-        </div>
-        <div class="proj-row__meta">
-          {project.data.stack.slice(0,3).map((t:string) => <span class="tag">{t}</span>)}
-          <span class="card-link">View</span>
-        </div>
-      </a>
-    ))}
+      <!-- Additional projects as rows (if more than 1) -->
+      {
+        displayProjects.slice(1).map((project, i) => (
+          <a
+            href={`/projects/${project.id.replace(/\.md$/, "")}`}
+            class="cell cell--proj-row"
+          >
+            <div class="proj-row__index">
+              <span class="feat__num">OP-{String(i + 2).padStart(2, "0")}</span>
+              <span class="feat__year">{project.data.date.getFullYear()}</span>
+            </div>
+            <div class="proj-row__body">
+              <h3 class="proj-row__title">{project.data.title}</h3>
+              <p class="proj-row__desc">{project.data.summary}</p>
+            </div>
+            <div class="proj-row__meta">
+              {project.data.stack.slice(0, 3).map((t: string) => (
+                <span class="tag">{t}</span>
+              ))}
+              <span class="card-link">View</span>
+            </div>
+          </a>
+        ))
+      }
 
-    <!-- ╔══════════════════════════════════════════════════╗
+      <!-- ╔══════════════════════════════════════════════════╗
          ║  ROW 4 — CAPABILITIES LABEL BAR                  ║
          ╚══════════════════════════════════════════════════╝ -->
-    <div class="cell cell--label-bar">
-      <span class="label-bar__text">// SYSTEM ARCHITECTURE &amp; CAPABILITIES</span>
-    </div>
+      <div class="cell cell--label-bar">
+        <span class="label-bar__text"
+          >// SYSTEM ARCHITECTURE &amp; CAPABILITIES</span
+        >
+      </div>
 
-    <!-- ╔══════════════════════════════════════════════════╗
+      <!-- ╔══════════════════════════════════════════════════╗
          ║  ROW 5–8 — CAPABILITIES TABLE                    ║
          ║  [ NUM ] [ TITLE + DESC ] [ CATEGORY ]           ║
          ║  Four rows share borders — one table system      ║
          ╚══════════════════════════════════════════════════╝ -->
-    <div class="cell cell--cap">
-      <div class="cap__num">01</div>
-      <div class="cap__body">
-        <h3 class="cap__title">Artificial Intelligence</h3>
-        <p class="cap__desc">Model development, dataset processing, neural network architectures, and PyTorch workflows.</p>
-        <span class="cap__stack">PyTorch · FastAPI · Python</span>
+      <div class="cell cell--cap">
+        <div class="cap__num">01</div>
+        <div class="cap__body">
+          <h3 class="cap__title">Artificial Intelligence</h3>
+          <p class="cap__desc">
+            Model development, dataset processing, neural network architectures,
+            and PyTorch workflows.
+          </p>
+          <span class="cap__stack">PyTorch · FastAPI · Python</span>
+        </div>
+        <div class="cap__cat">AI / ML</div>
       </div>
-      <div class="cap__cat">AI / ML</div>
-    </div>
 
-    <div class="cell cell--cap">
-      <div class="cap__num">02</div>
-      <div class="cap__body">
-        <h3 class="cap__title">Offensive Security &amp; CTF</h3>
-        <p class="cap__desc">Web application vulnerability analysis, reverse engineering, x86/ARM binary analysis, and CTF writeups.</p>
-        <span class="cap__stack">Ghidra · Linux · BurpSuite</span>
+      <div class="cell cell--cap">
+        <div class="cap__num">02</div>
+        <div class="cap__body">
+          <h3 class="cap__title">Offensive Security &amp; CTF</h3>
+          <p class="cap__desc">
+            Web application vulnerability analysis, reverse engineering, x86/ARM
+            binary analysis, and CTF writeups.
+          </p>
+          <span class="cap__stack">Ghidra · Linux · BurpSuite</span>
+        </div>
+        <div class="cap__cat">SECURITY</div>
       </div>
-      <div class="cap__cat">SECURITY</div>
-    </div>
 
-    <div class="cell cell--cap">
-      <div class="cap__num">03</div>
-      <div class="cap__body">
-        <h3 class="cap__title">Systems &amp; Low-Level</h3>
-        <p class="cap__desc">Operating system internals, memory management, C programming, Docker containerization, and CLI tooling.</p>
-        <span class="cap__stack">C · Rust · Docker · Git</span>
+      <div class="cell cell--cap">
+        <div class="cap__num">03</div>
+        <div class="cap__body">
+          <h3 class="cap__title">Systems &amp; Low-Level</h3>
+          <p class="cap__desc">
+            Operating system internals, memory management, C programming, Docker
+            containerization, and CLI tooling.
+          </p>
+          <span class="cap__stack">C · Rust · Docker · Git</span>
+        </div>
+        <div class="cap__cat">SYSTEMS</div>
       </div>
-      <div class="cap__cat">SYSTEMS</div>
-    </div>
 
-    <div class="cell cell--cap cell--cap-last">
-      <div class="cap__num">04</div>
-      <div class="cap__body">
-        <h3 class="cap__title">Web &amp; UI Engineering</h3>
-        <p class="cap__desc">Performant web architectures, Astro SSG builds, modular CSS design systems, and responsive layouts.</p>
-        <span class="cap__stack">Astro · JavaScript · Vanilla CSS</span>
+      <div class="cell cell--cap cell--cap-last">
+        <div class="cap__num">04</div>
+        <div class="cap__body">
+          <h3 class="cap__title">Web &amp; UI Engineering</h3>
+          <p class="cap__desc">
+            Performant web architectures, Astro SSG builds, modular CSS design
+            systems, and responsive layouts.
+          </p>
+          <span class="cap__stack">Astro · JavaScript · Vanilla CSS</span>
+        </div>
+        <div class="cap__cat">WEB</div>
       </div>
-      <div class="cap__cat">WEB</div>
-    </div>
 
-
-    <!-- ╔══════════════════════════════════════════════════╗
+      <!-- ╔══════════════════════════════════════════════════╗
          ║  ROW 9 — TRANSMISSIONS LABEL BAR                 ║
          ╚══════════════════════════════════════════════════╝ -->
-    <div class="cell cell--label-bar">
-      <span class="label-bar__text">// RECENT TRANSMISSIONS</span>
-      <a href="/writing" class="label-bar__link">ALL TRANSMISSIONS ↗</a>
-    </div>
+      <div class="cell cell--label-bar">
+        <span class="label-bar__text">// RECENT TRANSMISSIONS</span>
+        <a href="/writing" class="label-bar__link">ALL TRANSMISSIONS ↗</a>
+      </div>
 
-    <!-- ╔══════════════════════════════════════════════════╗
+      <!-- ╔══════════════════════════════════════════════════╗
          ║  ROW 10–13 — TRANSMISSION ROWS                   ║
          ║  [ LOG-ID / KIND ] [ TITLE + EXCERPT ] [ LINK ]  ║
          ║  Odd rows: full width                            ║
          ║  Even rows: 5% left inset — editorial stagger    ║
          ╚══════════════════════════════════════════════════╝ -->
-    {recentWriting.length === 0 ? (
-      <div class="cell cell--tx-row">
-        <div class="tx__index">
-          <span class="tx__id">LOG-00</span>
-          <span class="tx__kind">—</span>
-        </div>
-        <div class="tx__body">
-          <h3 class="tx__title">No transmissions published yet</h3>
-          <p class="tx__desc">Markdown writeups added under src/content/blog, ctf, or leetcode will appear here automatically.</p>
-        </div>
-        <div class="tx__link-cell">—</div>
-      </div>
-    ) : recentWriting.map((entry, i) => (
-      <a
-        href={`/writing/${entry.data.type ?? entry.kind}/${entry.id.replace(/\.md$/,'')}`}
-        class={`cell cell--tx-row${i % 2 === 1 ? ' cell--tx-inset' : ''}`}
-        style={`animation-delay:${0.08 + i * 0.06}s`}
-      >
-        <div class="tx__index">
-          <span class="tx__id">LOG-{String(i+1).padStart(2,'0')}</span>
-          <span class="tx__kind">{entry.kind.toUpperCase()}</span>
-        </div>
-        <div class="tx__body">
-          <h3 class="tx__title">{entry.data.title}</h3>
-          <p class="tx__desc">{entry.data.excerpt ?? ''}</p>
-        </div>
-        <div class="tx__link-cell">
-          READ ↗
-        </div>
-      </a>
-    ))}
+      {
+        recentWriting.length === 0 ? (
+          <div class="cell cell--tx-row empty-card">
+            <div class="tx__index">
+              <span class="tx__id">LOG-00</span>
+              <span class="tx__kind">PENDING</span>
+            </div>
+            <div class="tx__body">
+              <h3 class="tx__title" style="color: var(--muted); opacity: 0.75;">[ COMING SOON ]</h3>
+              <p class="tx__desc">
+                Technical writeups and transmissions are currently in progress.
+              </p>
+            </div>
+            <div class="tx__link-cell">—</div>
+          </div>
+        ) : (
+          recentWriting.map((entry, i) => (
+            <a
+              href={`/writing/${entry.data.type ?? entry.kind}/${entry.id.replace(/\.md$/, "")}`}
+              class={`cell cell--tx-row${i % 2 === 1 ? " cell--tx-inset" : ""}`}
+              style={`animation-delay:${0.08 + i * 0.06}s`}
+            >
+              <div class="tx__index">
+                <span class="tx__id">LOG-{String(i + 1).padStart(2, "0")}</span>
+                <span class="tx__kind">{entry.kind.toUpperCase()}</span>
+              </div>
+              <div class="tx__body">
+                <h3 class="tx__title">{entry.data.title}</h3>
+                <p class="tx__desc">{entry.data.excerpt ?? ""}</p>
+              </div>
+              <div class="tx__link-cell">READ ↗</div>
+            </a>
+          ))
+        )
+      }
 
-    <!-- ╔══════════════════════════════════════════════════╗
+      <!-- ╔══════════════════════════════════════════════════╗
          ║  ROW 14 — DISPATCH LABEL BAR                     ║
          ╚══════════════════════════════════════════════════╝ -->
-    <div class="cell cell--label-bar">
-      <span class="label-bar__text">// SIGNAL DISPATCH · CONTACT MODULE</span>
-    </div>
+      <div class="cell cell--label-bar">
+        <span class="label-bar__text">// SIGNAL DISPATCH · CONTACT MODULE</span>
+      </div>
 
-    <!-- ╔══════════════════════════════════════════════════╗
+      <!-- ╔══════════════════════════════════════════════════╗
          ║  ROW 15 — CONTACT / DISPATCH                     ║
          ║  [ LABEL CELL ] [ TERMINAL CELL ]                ║
          ╚══════════════════════════════════════════════════╝ -->
-    <div class="cell cell--dispatch">
-      <div class="dispatch__label">
-        <span class="dispatch__sys">DISPATCH</span>
-        <span class="dispatch__node">NODE ACTIVE</span>
-      </div>
-      <div class="dispatch__term">
-        <div class="term__bar">
-          <span class="term-dots"><span></span><span></span><span></span></span>
-          <span class="term__title">DISPATCH_TERMINAL.SH</span>
-          <span class="term__status">ONLINE</span>
+      <div class="cell cell--dispatch">
+        <div class="dispatch__label">
+          <span class="dispatch__sys">DISPATCH</span>
+          <span class="dispatch__node">NODE ACTIVE</span>
         </div>
-        <div class="term__body">
-          <p class="term-line"><span class="prompt">$</span> init --session=guest_user</p>
-          <p class="term-line"><span class="prompt">&gt;</span> Tunnel: <span class="glow">manikandanx0@proton.me</span></p>
-          <p class="term-line"><span class="prompt">&gt;</span> PGP: <span class="dim-text">9B5D F0A9 7B3F E42D 1F5E 3D2A</span></p>
-          <p class="term-line"><span class="prompt">&gt;</span> Status: Listening for inquiries, collaborations, and CTF challenges.</p>
-          <div class="term__actions">
-            <a href="mailto:manikandanx0@proton.me"                          class="btn btn--primary">Send Message ↗</a>
-            <a href="https://github.com/manikandanx0"    target="_blank" rel="noopener" class="btn">GitHub ↗</a>
-            <a href="https://linkedin.com/in/manikandannx0" target="_blank" rel="noopener" class="btn">LinkedIn ↗</a>
+        <div class="dispatch__term">
+          <div class="term__bar">
+            <span class="term-dots"
+              ><span></span><span></span><span></span></span
+            >
+            <span class="term__title">DISPATCH_TERMINAL.SH</span>
+            <span class="term__status">ONLINE</span>
+          </div>
+          <div class="term__body">
+            <p class="term-line">
+              <span class="prompt">$</span> init --session=guest_user
+            </p>
+            <p class="term-line">
+              <span class="prompt">&gt;</span> Tunnel: <span class="glow"
+                >manikandanx0@proton.me</span
+              >
+            </p>
+            <p class="term-line">
+              <span class="prompt">&gt;</span> PGP: <span class="dim-text"
+                >9B5D F0A9 7B3F E42D 1F5E 3D2A</span
+              >
+            </p>
+            <p class="term-line">
+              <span class="prompt">&gt;</span> Status: Listening for inquiries, collaborations,
+              and CTF challenges.
+            </p>
+            <div class="term__actions">
+              <a href="mailto:manikandanx0@proton.me" class="btn btn--primary"
+                >Send Message ↗</a
+              >
+              <a
+                href="https://github.com/manikandanx0"
+                target="_blank"
+                rel="noopener"
+                class="btn">GitHub ↗</a
+              >
+              <a
+                href="https://linkedin.com/in/manikandannx0"
+                target="_blank"
+                rel="noopener"
+                class="btn">LinkedIn ↗</a
+              >
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
-  </div><!-- /.hp-grid -->
-</div><!-- /.hp -->
+    </div><!-- /.hp-grid -->
+  </div><!-- /.hp -->
 </BaseLayout>
 
 <style>
-/* ══════════════════════════════════════════════════════════
+  /* ══════════════════════════════════════════════════════════
    HOMEPAGE — MODULAR TABLE GRID
    ──────────────────────────────────────────────────────────
    Borrowed from references:
@@ -312,502 +399,953 @@ const websiteSchema = {
    • Asymmetry = different column widths, not scattered positions
    ══════════════════════════════════════════════════════════ */
 
-/* ── Shared utilities ───────────────────────────────────── */
-.blink  { display:inline-block; color:var(--violet); animation:pulse-dot 2s ease-in-out infinite; }
-.prompt { color:var(--purple); margin-right:8px; }
-.dim-text { color:var(--muted); }
-.term-line { margin:0; color:var(--text); line-height:1.7; font-size:13px; }
-.term-dots { display:flex; gap:5px; }
-.term-dots span { width:6px; height:6px; border-radius:50%; }
-.term-dots span:nth-child(1){background:rgba(255,95,86,0.55)}
-.term-dots span:nth-child(2){background:rgba(255,189,46,0.55)}
-.term-dots span:nth-child(3){background:rgba(39,201,63,0.55)}
-.status-dot { font-size:12px; font-weight:700; color:var(--glow); }
-.tl  { font-family:var(--font-mono); font-size:var(--text-label); letter-spacing:1.5px; color:var(--muted); text-transform:uppercase; }
-.btn--ghost {
-  background:none; border:none; color:var(--muted);
-  font-family:var(--font-mono); font-size:var(--text-nav); font-weight:500; letter-spacing:1.5px;
-  text-transform:uppercase; cursor:pointer; padding:0;
-  transition:color 0.2s; display:inline-flex; align-items:center; gap:4px;
-}
-.btn--ghost:hover { color:var(--violet); }
+  /* ── Shared utilities ───────────────────────────────────── */
+  .blink {
+    display: inline-block;
+    color: var(--violet);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+  .prompt {
+    color: var(--purple);
+    margin-right: 8px;
+  }
+  .dim-text {
+    color: var(--muted);
+  }
+  .term-line {
+    margin: 0;
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 13px;
+  }
+  .term-dots {
+    display: flex;
+    gap: 5px;
+  }
+  .term-dots span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+  .term-dots span:nth-child(1) {
+    background: rgba(255, 95, 86, 0.55);
+  }
+  .term-dots span:nth-child(2) {
+    background: rgba(255, 189, 46, 0.55);
+  }
+  .term-dots span:nth-child(3) {
+    background: rgba(39, 201, 63, 0.55);
+  }
+  .status-dot {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--glow);
+  }
+  .tl {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .btn--ghost {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-nav);
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .btn--ghost:hover {
+    color: var(--violet);
+  }
 
-/* ── Outer grid wrapper ─────────────────────────────────── */
-/*
+  /* ── Outer grid wrapper ─────────────────────────────────── */
+  /*
   One outer border. Every cell's border is INTERNAL.
   This is the BRUT structural principle — the page is
   one system, not a collection of boxes.
 */
-.hp-grid {
-  border:1px solid var(--border3);
-  position:relative;
-  animation:fadeUp 0.45s ease both;
-}
-/* top-left corner accent */
-.hp-grid::before {
-  content:''; position:absolute; top:-1px; left:-1px;
-  width:20px; height:20px;
-  border-top:2px solid var(--purple); border-left:2px solid var(--purple);
-  pointer-events:none; z-index:2;
-}
+  .hp-grid {
+    border: 1px solid var(--border3);
+    position: relative;
+    animation: fadeUp 0.45s ease both;
+  }
+  /* top-left corner accent */
+  .hp-grid::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 20px;
+    height: 20px;
+    border-top: 2px solid var(--purple);
+    border-left: 2px solid var(--purple);
+    pointer-events: none;
+    z-index: 2;
+  }
 
-/* ── Cell base ──────────────────────────────────────────── */
-/*
+  /* ── Cell base ──────────────────────────────────────────── */
+  /*
   Every module is a .cell.
   Cells separate via border-top (horizontal dividers)
   and internal left-borders on sub-columns.
   NO margin, NO padding between cells.
 */
-.cell {
-  background:rgba(10,10,20,0.92);
-  border-top:1px solid var(--border2);
-  position:relative;
-}
-.cell:first-child { border-top:none; }
+  .cell {
+    background: rgba(10, 10, 20, 0.92);
+    border-top: 1px solid var(--border2);
+    position: relative;
+  }
+  .cell:first-child {
+    border-top: none;
+  }
 
-/* shared bar style used across cells */
-.cell__bar {
-  border-bottom:1px solid var(--border);
-  padding:6px 18px; font-family:var(--font-mono); font-size:var(--text-label); letter-spacing:1.5px; color:var(--muted);
-  display:flex; justify-content:space-between; align-items:center;
-}
+  /* shared bar style used across cells */
+  .cell__bar {
+    border-bottom: 1px solid var(--border);
+    padding: 6px 18px;
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-/* ══════════════════════════════════════════════════════════
+  /* ══════════════════════════════════════════════════════════
    HERO CELLS — side-by-side in one row
    Uses CSS grid on .hp-grid for the first two cells.
    All other cells are full-width (default block).
    ══════════════════════════════════════════════════════════ */
-.hp-grid {
-  display:grid;
-  /* 12-col: hero-main spans 1-9, telemetry spans 10-12 */
-  grid-template-columns: 1fr 240px;
-  /* All non-hero rows collapse to full width */
-  grid-template-rows: auto;
-}
+  .hp-grid {
+    display: grid;
+    /* 12-col: hero-main spans 1-9, telemetry spans 10-12 */
+    grid-template-columns: 1fr 240px;
+    /* All non-hero rows collapse to full width */
+    grid-template-rows: auto;
+  }
 
-/* Hero main — cols 1-9 */
-.cell--hero-main {
-  grid-column: 1 / 2;
-  grid-row: 1;
-  border-top:none;
-  border-right:1px solid var(--border2);
-}
-/* Telemetry — cols 10-12, slightly taller offset via padding */
-.cell--telemetry {
-  grid-column: 2 / 3;
-  grid-row: 1;
-  border-top:none;
-  border-left:none; /* already separated by hero-main's border-right */
-  background:rgba(8,8,18,0.97);
-  display:flex; flex-direction:column;
-}
+  /* Hero main — cols 1-9 */
+  .cell--hero-main {
+    grid-column: 1 / 2;
+    grid-row: 1;
+    border-top: none;
+    border-right: 1px solid var(--border2);
+  }
+  /* Telemetry — cols 10-12, slightly taller offset via padding */
+  .cell--telemetry {
+    grid-column: 2 / 3;
+    grid-row: 1;
+    border-top: none;
+    border-left: none; /* already separated by hero-main's border-right */
+    background: rgba(8, 8, 18, 0.97);
+    display: flex;
+    flex-direction: column;
+  }
 
-/* All other cells span full grid width */
-.cell--label-bar,
-.cell--feat-project,
-.cell--proj-row,
-.cell--cap,
-.cell--cap-last,
-.cell--tx-row,
-.cell--dispatch { grid-column: 1 / -1; }
+  /* All other cells span full grid width */
+  .cell--label-bar,
+  .cell--feat-project,
+  .cell--proj-row,
+  .cell--cap,
+  .cell--cap-last,
+  .cell--tx-row,
+  .cell--dispatch {
+    grid-column: 1 / -1;
+  }
 
-/* ── Hero main interior ─────────────────────────────────── */
-.cell__hero-body  { padding:36px 32px 24px; display:flex; flex-direction:column; flex:1; }
+  /* ── Hero main interior ─────────────────────────────────── */
+  .cell__hero-body {
+    padding: 36px 32px 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
 
-.hero-display {
-  font-family:var(--font-display); font-size:var(--text-hero); font-weight:700;
-  letter-spacing:-0.5px; color:var(--white); line-height:1.1;
-  text-transform:uppercase; margin-bottom:24px;
-}
-.hero-display .accent { color:var(--violet); }
+  .hero-display {
+    font-family: var(--font-display);
+    font-size: var(--text-hero);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--white);
+    line-height: 1.1;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .hero-display .accent {
+    color: var(--violet);
+  }
 
-.hero-sub {
-  font-family:var(--font-display); font-size:var(--text-body); color:var(--muted); max-width:440px;
-  line-height:1.8; margin-bottom:28px;
-}
-.hero-cta { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top:auto; }
+  .hero-sub {
+    font-family: var(--font-display);
+    font-size: var(--text-body);
+    color: var(--muted);
+    max-width: 440px;
+    line-height: 1.8;
+    margin-bottom: 28px;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: auto;
+  }
 
-.cell__foot {
-  border-top:1px solid var(--border); padding:6px 32px;
-  font-family:var(--font-mono); font-size:var(--text-meta); letter-spacing:1.2px; color:var(--muted);
-  display:flex; justify-content:space-between; opacity:0.6;
-}
+  .cell__foot {
+    border-top: 1px solid var(--border);
+    padding: 6px 32px;
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    letter-spacing: 1.2px;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    opacity: 0.6;
+  }
 
-/* ── Telemetry interior ─────────────────────────────────── */
-.telem-body  { padding:14px 12px; display:flex; flex-direction:column; gap:12px; flex:1; }
-.telem-row   { display:flex; flex-direction:column; gap:4px; }
-.telem-tags  { display:flex; flex-direction:column; gap:3px; margin-top:2px; }
-.telem-metrics {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:1px; background:var(--border); border:1px solid var(--border);
-}
-.telem-metric {
-  display:flex; flex-direction:column; align-items:center;
-  background:rgba(8,8,18,0.96); padding:10px 4px; gap:2px;
-}
-.tm-val { font-family:var(--font-mono); font-size:22px; font-weight:700; color:var(--white); line-height:1; letter-spacing:-0.02em; }
-.tm-lbl { font-family:var(--font-mono); font-size:var(--text-label); letter-spacing:1.5px; color:var(--muted); }
-.clearance {
-  border:1px solid var(--border2); background:rgba(123,63,228,0.07);
-  color:var(--violet); padding:4px 8px; font-family:var(--font-mono); font-size:var(--text-meta); letter-spacing:1.2px; text-align:center;
-}
+  /* ── Telemetry interior ─────────────────────────────────── */
+  .telem-body {
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+  }
+  .telem-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .telem-tags {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-top: 2px;
+  }
+  .telem-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .telem-metric {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(8, 8, 18, 0.96);
+    padding: 10px 4px;
+    gap: 2px;
+  }
+  .tm-val {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .tm-lbl {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: 1.5px;
+    color: var(--muted);
+  }
+  .clearance {
+    border: 1px solid var(--border2);
+    background: rgba(123, 63, 228, 0.07);
+    color: var(--violet);
+    padding: 4px 8px;
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    letter-spacing: 1.2px;
+    text-align: center;
+  }
 
-/* ══════════════════════════════════════════════════════════
+  /* ══════════════════════════════════════════════════════════
    LABEL BARS — section dividers inside the grid
    Full-width row. Stronger top border signals new section.
    ══════════════════════════════════════════════════════════ */
-.cell--label-bar {
-  border-top:1px solid var(--border3);  /* primary — clearly visible */
-  padding:6px 18px;
-  display:flex; justify-content:space-between; align-items:center;
-  background:rgba(8,8,16,0.97);
-}
-.label-bar__text {
-  font-family:var(--font-mono); font-size:var(--text-label); letter-spacing:1.5px; color:var(--muted); text-transform:uppercase;
-}
-.label-bar__link {
-  font-family:var(--font-mono); font-size:var(--text-label); letter-spacing:1.5px; color:var(--muted);
-  transition:color 0.2s; text-transform:uppercase;
-}
-.label-bar__link:hover { color:var(--violet); text-shadow:none; }
+  .cell--label-bar {
+    border-top: 1px solid var(--border3); /* primary — clearly visible */
+    padding: 6px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(8, 8, 16, 0.97);
+  }
+  .label-bar__text {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .label-bar__link {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    transition: color 0.2s;
+    text-transform: uppercase;
+  }
+  .label-bar__link:hover {
+    color: var(--violet);
+    text-shadow: none;
+  }
 
-/* ══════════════════════════════════════════════════════════
+  /* ══════════════════════════════════════════════════════════
    FEATURED PROJECT — editorial feature module
    [ INDEX ~120px ] [ VISUAL ~35% ] [ INFO fills rest ]
    ══════════════════════════════════════════════════════════ */
-.cell--feat-project {
-  display:grid;
-  grid-template-columns:120px 1fr 1fr;
-  min-height:180px;
-}
-.feat__index {
-  display:flex; flex-direction:column; justify-content:space-between;
-  padding:20px 16px; border-right:1px solid var(--border2);
-  background:rgba(8,8,16,0.8);
-}
-.feat__num  { font-family:var(--font-mono); font-size:var(--text-label); font-weight:500; letter-spacing:1.5px; color:var(--violet); }
-.feat__year { font-family:var(--font-mono); font-size:var(--text-meta); letter-spacing:1.2px; color:var(--muted); }
+  .cell--feat-project {
+    display: grid;
+    grid-template-columns: 120px 1fr 1fr;
+    min-height: 180px;
+  }
+  .feat__index {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 16px;
+    border-right: 1px solid var(--border2);
+    background: rgba(8, 8, 16, 0.8);
+  }
+  .feat__num {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    color: var(--violet);
+  }
+  .feat__year {
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    letter-spacing: 1.2px;
+    color: var(--muted);
+  }
 
-.feat__visual {
-  border-right:1px solid var(--border);
-  background-image:radial-gradient(circle,var(--dim) 1px,transparent 1px);
-  background-size:14px 14px; position:relative; overflow:hidden;
-  min-height:140px;
-}
-.feat__visual::after {
-  content:''; position:absolute; inset:0;
-  background:linear-gradient(135deg,rgba(123,63,228,0.08),transparent 60%);
-  pointer-events:none;
-}
+  .feat__visual {
+    border-right: 1px solid var(--border);
+    background-image: radial-gradient(circle, var(--dim) 1px, transparent 1px);
+    background-size: 14px 14px;
+    position: relative;
+    overflow: hidden;
+    min-height: 140px;
+  }
+  .feat__visual::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(123, 63, 228, 0.08),
+      transparent 60%
+    );
+    pointer-events: none;
+  }
 
-.feat__info    { padding:20px 22px; display:flex; flex-direction:column; gap:8px; }
-.feat__title   { font-family:var(--font-display); font-size:clamp(1.2rem,2vw,1.6rem); font-weight:600; color:var(--white); margin:0; letter-spacing:0; }
-.feat__desc    { font-family:var(--font-display); font-size:var(--text-body); color:var(--muted); line-height:1.65; margin:0; flex:1; }
-.feat__tags    { display:flex; flex-wrap:wrap; gap:5px; }
-.feat__link    {
-  font-family:var(--font-mono); font-size:var(--text-nav); font-weight:500; letter-spacing:1.5px; text-transform:uppercase;
-  color:var(--violet); display:inline-flex; align-items:center; gap:4px;
-  transition:color 0.2s; margin-top:auto;
-}
-.feat__link:hover { color:var(--glow); text-shadow:none; }
+  .feat__info {
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .feat__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
+    font-weight: 600;
+    color: var(--white);
+    margin: 0;
+    letter-spacing: 0;
+  }
+  .feat__desc {
+    font-family: var(--font-display);
+    font-size: var(--text-body);
+    color: var(--muted);
+    line-height: 1.65;
+    margin: 0;
+    flex: 1;
+  }
+  .feat__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .feat__link {
+    font-family: var(--font-mono);
+    font-size: var(--text-nav);
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--violet);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.2s;
+    margin-top: auto;
+  }
+  .feat__link:hover {
+    color: var(--glow);
+    text-shadow: none;
+  }
 
-/* Additional project rows */
-a.cell--proj-row,
-.cell--proj-row {
-  display:grid; grid-template-columns:120px 1fr auto;
-  border-top:1px solid var(--border);
-  transition:background 0.2s, border-color 0.2s;
-  text-decoration: none;
-  color: inherit;
-}
-a.cell--proj-row:hover,
-.cell--proj-row:hover { background:rgba(123,63,228,0.04); }
-a.cell--proj-row:active { background:rgba(123,63,228,0.08); }
+  /* Additional project rows */
+  a.cell--proj-row,
+  .cell--proj-row {
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    border-top: 1px solid var(--border);
+    transition:
+      background 0.2s,
+      border-color 0.2s;
+    text-decoration: none;
+    color: inherit;
+  }
+  a.cell--proj-row:hover,
+  .cell--proj-row:hover {
+    background: rgba(123, 63, 228, 0.04);
+  }
+  a.cell--proj-row:active {
+    background: rgba(123, 63, 228, 0.08);
+  }
 
-.proj-row__index {
-  display:flex; flex-direction:column; justify-content:center;
-  padding:12px 16px; gap:3px; border-right:1px solid var(--border);
-  background:rgba(8,8,16,0.5);
-}
-.proj-row__body  { padding:12px 18px; display:flex; flex-direction:column; justify-content:center; gap:4px; }
-.proj-row__title { font-family:var(--font-display); font-size:var(--text-h2); font-weight:600; color:var(--white); margin:0; letter-spacing:0; }
-.proj-row__desc  { font-family:var(--font-display); font-size:var(--text-body); color:var(--muted); line-height:1.65; margin:0; }
-.proj-row__meta  {
-  padding:12px 14px; display:flex; flex-direction:column;
-  justify-content:center; align-items:flex-end; gap:4px;
-  border-left:1px solid var(--border); min-width:110px;
-}
+  .proj-row__index {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 12px 16px;
+    gap: 3px;
+    border-right: 1px solid var(--border);
+    background: rgba(8, 8, 16, 0.5);
+  }
+  .proj-row__body {
+    padding: 12px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+  }
+  .proj-row__title {
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    font-weight: 600;
+    color: var(--white);
+    margin: 0;
+    letter-spacing: 0;
+  }
+  .proj-row__desc {
+    font-family: var(--font-display);
+    font-size: var(--text-body);
+    color: var(--muted);
+    line-height: 1.65;
+    margin: 0;
+  }
+  .proj-row__meta {
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 4px;
+    border-left: 1px solid var(--border);
+    min-width: 110px;
+  }
 
-/* ══════════════════════════════════════════════════════════
+  /* ══════════════════════════════════════════════════════════
    CAPABILITIES TABLE
    Pure 3-col rows. Large numbers as anchors.
    Reference: BRUT services section (01/02/03/04 rows).
    ══════════════════════════════════════════════════════════ */
-.cell--cap {
-  display:grid; grid-template-columns:80px 1fr 88px;
-  border-top:1px solid var(--border);
-  transition:background 0.2s;
-}
-.cell--cap:hover { background:rgba(123,63,228,0.02); }
+  .cell--cap {
+    display: grid;
+    grid-template-columns: 80px 1fr 88px;
+    border-top: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .cell--cap:hover {
+    background: rgba(123, 63, 228, 0.02);
+  }
 
-/* First cap row gets primary top border (label bar is above) */
-.cell--label-bar + .cell--cap { border-top:none; }
+  /* First cap row gets primary top border (label bar is above) */
+  .cell--label-bar + .cell--cap {
+    border-top: none;
+  }
 
-.cap__num {
-  display:flex; align-items:center; justify-content:center;
-  font-family:var(--font-display); font-size:30px; font-weight:700; color:var(--dim);
-  letter-spacing:-0.03em; line-height:1;
-  border-right:1px solid var(--border); padding:22px 8px;
-  transition:color 0.25s;
-  /* The large number is structural — not decorative */
-}
-.cell--cap:hover .cap__num { color:var(--border3); }
+  .cap__num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--dim);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    border-right: 1px solid var(--border);
+    padding: 22px 8px;
+    transition: color 0.25s;
+    /* The large number is structural — not decorative */
+  }
+  .cell--cap:hover .cap__num {
+    color: var(--border3);
+  }
 
-.cap__body  { padding:18px 20px; }
-.cap__title { font-family:var(--font-display); font-size:var(--text-h2); font-weight:600; color:var(--white); margin:0 0 5px; letter-spacing:0; text-transform:uppercase; }
-.cap__desc  { font-family:var(--font-display); font-size:var(--text-body); color:var(--muted); line-height:1.65; margin:0 0 6px; }
-.cap__stack { font-family:var(--font-mono); font-size:var(--text-meta); color:var(--muted); letter-spacing:1.2px; opacity:0.75; }
+  .cap__body {
+    padding: 18px 20px;
+  }
+  .cap__title {
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    font-weight: 600;
+    color: var(--white);
+    margin: 0 0 5px;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+  .cap__desc {
+    font-family: var(--font-display);
+    font-size: var(--text-body);
+    color: var(--muted);
+    line-height: 1.65;
+    margin: 0 0 6px;
+  }
+  .cap__stack {
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    color: var(--muted);
+    letter-spacing: 1.2px;
+    opacity: 0.75;
+  }
 
-.cap__cat {
-  display:flex; align-items:center; justify-content:center;
-  border-left:1px solid var(--border); padding:0 8px;
-  font-family:var(--font-mono); font-size:var(--text-label); letter-spacing:1.5px; color:var(--purple);
-  text-transform:uppercase; opacity:0.65;
-  writing-mode:vertical-rl; transform:rotate(180deg);
-  transition:opacity 0.2s;
-}
-.cell--cap:hover .cap__cat { opacity:1; }
+  .cap__cat {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid var(--border);
+    padding: 0 8px;
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: 1.5px;
+    color: var(--purple);
+    text-transform: uppercase;
+    opacity: 0.65;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    transition: opacity 0.2s;
+  }
+  .cell--cap:hover .cap__cat {
+    opacity: 1;
+  }
 
-/* ══════════════════════════════════════════════════════════
+  /* ══════════════════════════════════════════════════════════
    TRANSMISSION ROWS
    Reference 1 (Marvel) editorial list rhythm.
    [ LOG-ID / TYPE ] [ TITLE + EXCERPT ] [ READ LINK ]
    Even rows inset 5% — controlled stagger in corridor.
    ══════════════════════════════════════════════════════════ */
-a.cell--tx-row,
-.cell--tx-row {
-  display:grid; grid-template-columns:100px 1fr 70px;
-  border-top:1px solid var(--border);
-  transition:background 0.2s;
-  animation:fadeUp 0.45s ease both;
-  text-decoration: none;
-  color: inherit;
-}
-.cell--label-bar + .cell--tx-row { border-top:none; }
-a.cell--tx-row:hover,
-.cell--tx-row:hover { background:rgba(123,63,228,0.04); }
-a.cell--tx-row:hover .tx__title { color: var(--glow); }
-a.cell--tx-row:hover .tx__link-cell { color: var(--glow); background:rgba(123,63,228,0.07); }
-a.cell--tx-row:active { background:rgba(123,63,228,0.08); }
+  a.cell--tx-row,
+  .cell--tx-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 70px;
+    border-top: 1px solid var(--border);
+    transition: background 0.2s;
+    animation: fadeUp 0.45s ease both;
+    text-decoration: none;
+    color: inherit;
+  }
+  .cell--label-bar + .cell--tx-row {
+    border-top: none;
+  }
+  a.cell--tx-row:hover,
+  .cell--tx-row:hover {
+    background: rgba(123, 63, 228, 0.04);
+  }
+  a.cell--tx-row:hover .tx__title {
+    color: var(--glow);
+  }
+  a.cell--tx-row:hover .tx__link-cell {
+    color: var(--glow);
+    background: rgba(123, 63, 228, 0.07);
+  }
+  a.cell--tx-row:active {
+    background: rgba(123, 63, 228, 0.08);
+  }
 
-/* Even rows: inset from left, reinforced with accent left border */
-.cell--tx-inset {
-  margin-left:5%;
-  border-left:1px solid var(--border2);
-  border-right:1px solid var(--border2);
-}
+  /* Even rows: inset from left, reinforced with accent left border */
+  .cell--tx-inset {
+    margin-left: 5%;
+    border-left: 1px solid var(--border2);
+    border-right: 1px solid var(--border2);
+  }
 
-.tx__index {
-  display:flex; flex-direction:column; justify-content:center;
-  padding:14px 12px; gap:3px;
-  border-right:1px solid var(--border); background:rgba(8,8,16,0.5);
-}
-.tx__id   { font-family:var(--font-mono); font-size:var(--text-label); font-weight:500; color:var(--violet); letter-spacing:1.5px; }
-.tx__kind { font-family:var(--font-mono); font-size:var(--text-meta); letter-spacing:1.2px; color:var(--muted); }
+  .tx__index {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 14px 12px;
+    gap: 3px;
+    border-right: 1px solid var(--border);
+    background: rgba(8, 8, 16, 0.5);
+  }
+  .tx__id {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: 500;
+    color: var(--violet);
+    letter-spacing: 1.5px;
+  }
+  .tx__kind {
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    letter-spacing: 1.2px;
+    color: var(--muted);
+  }
 
-.tx__body  { padding:14px 18px; display:flex; flex-direction:column; justify-content:center; gap:4px; }
-.tx__title { font-family:var(--font-display); font-size:var(--text-h2); font-weight:600; color:var(--white); letter-spacing:0; margin:0; transition:color 0.2s; }
-.tx__desc  { font-family:var(--font-display); font-size:var(--text-body); color:var(--muted); line-height:1.65; margin:0; }
+  .tx__body {
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+  }
+  .tx__title {
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0;
+    margin: 0;
+    transition: color 0.2s;
+  }
+  .tx__desc {
+    font-family: var(--font-display);
+    font-size: var(--text-body);
+    color: var(--muted);
+    line-height: 1.65;
+    margin: 0;
+  }
 
-.tx__link-cell {
-  display:flex; align-items:center; justify-content:center;
-  border-left:1px solid var(--border);
-  font-family:var(--font-mono); font-size:var(--text-meta); letter-spacing:1.2px; color:var(--violet);
-  text-transform:uppercase; transition:color 0.2s, background 0.2s;
-  padding:0 10px;
-}
-.tx__link-cell:hover { color:var(--glow); background:rgba(123,63,228,0.07); }
+  .tx__link-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    letter-spacing: 1.2px;
+    color: var(--violet);
+    text-transform: uppercase;
+    transition:
+      color 0.2s,
+      background 0.2s;
+    padding: 0 10px;
+  }
+  .tx__link-cell:hover {
+    color: var(--glow);
+    background: rgba(123, 63, 228, 0.07);
+  }
 
-/* ══════════════════════════════════════════════════════════
+  /* ══════════════════════════════════════════════════════════
    DISPATCH / CONTACT
    [ LABEL CELL ~140px ] [ TERMINAL fills rest ]
    ══════════════════════════════════════════════════════════ */
-.cell--dispatch {
-  display:grid; grid-template-columns:140px 1fr;
-}
-.dispatch__label {
-  display:flex; flex-direction:column;
-  justify-content:center; align-items:center; gap:5px;
-  padding:24px 12px; border-right:1px solid var(--border2);
-  background:rgba(8,8,14,0.95);
-}
-.dispatch__sys  { font-family:var(--font-mono); font-size:var(--text-label); font-weight:500; letter-spacing:1.5px; color:var(--violet); }
-.dispatch__node { font-family:var(--font-mono); font-size:var(--text-meta); letter-spacing:1.2px; color:var(--muted); }
-
-.dispatch__term { background:rgba(6,6,14,0.97); }
-.term__bar {
-  border-bottom:1px solid var(--border); padding:7px 16px;
-  display:flex; align-items:center; justify-content:space-between;
-  background:rgba(10,10,22,0.98);
-}
-.term__title  { font-family:var(--font-mono); font-size:var(--text-meta); color:var(--muted); letter-spacing:1.2px; }
-.term__status { font-family:var(--font-mono); font-size:var(--text-meta); color:var(--glow); letter-spacing:1.2px; }
-.term__body   { padding:16px 20px; display:flex; flex-direction:column; gap:5px; }
-.term__actions {
-  display:flex; gap:8px; flex-wrap:wrap; align-items:center;
-  margin-top:12px; padding-top:12px; border-top:1px solid var(--border);
-}
-
-/* ══════════════════════════════════════════════════════════
-   RESPONSIVE (Mobile & Tablet)
-   ══════════════════════════════════════════════════════════ */
-@media (max-width: 900px) {
-  /* Hero: stack, telemetry below */
-  .hp-grid { grid-template-columns: 1fr; }
-  .cell--hero-main { grid-column: 1; border-right: none; border-bottom: 1px solid var(--border2); }
-  .cell--telemetry { grid-column: 1; grid-row: 2; width: 100%; }
-
-  .telem-body {
+  .cell--dispatch {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    padding: 16px;
+    grid-template-columns: 140px 1fr;
   }
-  .telem-row { flex-direction: column; gap: 4px; margin-top: 0 !important; }
-  .telem-tags { flex-direction: row; flex-wrap: wrap; gap: 4px; }
-  .telem-metrics { grid-template-columns: 1fr 1fr; width: 100%; }
-
-  /* Dispatch: stack label and terminal */
-  .cell--dispatch { grid-template-columns: 1fr; }
   .dispatch__label {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-    padding: 10px 16px;
-  }
-
-  /* Transmissions: Clean vertical stack */
-  a.cell--tx-row,
-  .cell--tx-row {
     display: flex;
     flex-direction: column;
-    grid-template-columns: none;
-    width: 100%;
-  }
-  .cell--tx-inset {
-    margin-left: 0;
-    border-left: none;
-    border-right: none;
-  }
-  .tx__index {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 16px;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-    width: 100%;
-  }
-  .tx__body {
-    padding: 14px 16px 8px;
-    width: 100%;
-  }
-  .tx__title {
-    font-size: 1.15rem;
-    line-height: 1.3;
-    margin-bottom: 4px;
-    word-break: break-word;
-  }
-  .tx__desc {
-    font-size: 0.95rem;
-    line-height: 1.6;
-    word-break: break-word;
-  }
-  .tx__link-cell {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 6px 16px 12px;
-    border-left: none;
-    font-size: 12px;
-    color: var(--violet);
-    width: 100%;
-  }
-}
-
-@media (max-width: 640px) {
-  .cell__hero-body { padding: 22px 16px 18px; }
-  .cell__foot      { padding: 8px 16px; flex-direction: column; gap: 4px; opacity: 0.8; }
-  .hero-cta { flex-direction: column; align-items: stretch; gap: 8px; }
-  .hero-cta .btn,
-  .hero-cta .btn--primary,
-  .hero-cta .btn--ghost {
-    width: 100%;
     justify-content: center;
-    text-align: center;
+    align-items: center;
+    gap: 5px;
+    padding: 24px 12px;
+    border-right: 1px solid var(--border2);
+    background: rgba(8, 8, 14, 0.95);
+  }
+  .dispatch__sys {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    color: var(--violet);
+  }
+  .dispatch__node {
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    letter-spacing: 1.2px;
+    color: var(--muted);
   }
 
-  /* Telemetry on small mobile */
-  .telem-body { grid-template-columns: 1fr; }
-
-  /* Capabilities: 1-column layout */
-  .cell--cap { display: flex; flex-direction: column; grid-template-columns: none; }
-  .cap__num  { display: none; }
-  .cap__cat  { display: none; }
-  .cap__body { padding: 16px; width: 100%; }
-
-  /* Proj rows */
-  .cell--proj-row { display: flex; flex-direction: column; grid-template-columns: none; }
-  .proj-row__index {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 16px;
-    border-right: none;
+  .dispatch__term {
+    background: rgba(6, 6, 14, 0.97);
+  }
+  .term__bar {
     border-bottom: 1px solid var(--border);
-  }
-  .proj-row__body { padding: 14px 16px; width: 100%; }
-  .proj-row__meta {
+    padding: 7px 16px;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     align-items: center;
-    padding: 8px 16px 12px;
-    border-left: none;
-    border-top: 1px solid var(--border);
-    width: 100%;
+    justify-content: space-between;
+    background: rgba(10, 10, 22, 0.98);
   }
-
-  /* Featured project stacked */
-  .cell--feat-project { display: flex; flex-direction: column; grid-template-columns: none; }
-  .feat__index {
+  .term__title {
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    color: var(--muted);
+    letter-spacing: 1.2px;
+  }
+  .term__status {
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    color: var(--glow);
+    letter-spacing: 1.2px;
+  }
+  .term__body {
+    padding: 16px 20px;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 16px;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
+    flex-direction: column;
+    gap: 5px;
   }
-  .feat__visual { display: none; }
-  .feat__info { padding: 16px; width: 100%; }
-
-  /* Dispatch Terminal */
-  .term__body { padding: 14px 16px; }
-  .term-line { word-break: break-word; overflow-wrap: anywhere; }
   .term__actions {
     display: flex;
-    flex-direction: column;
-    width: 100%;
     gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
   }
-  .term__actions .btn {
-    width: 100%;
-    justify-content: center;
+
+  /* ══════════════════════════════════════════════════════════
+   RESPONSIVE (Mobile & Tablet)
+   ══════════════════════════════════════════════════════════ */
+  @media (max-width: 900px) {
+    /* Hero: stack, telemetry below */
+    .hp-grid {
+      grid-template-columns: 1fr;
+    }
+    .cell--hero-main {
+      grid-column: 1;
+      border-right: none;
+      border-bottom: 1px solid var(--border2);
+    }
+    .cell--telemetry {
+      grid-column: 1;
+      grid-row: 2;
+      width: 100%;
+    }
+
+    .telem-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 16px;
+    }
+    .telem-row {
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 0 !important;
+    }
+    .telem-tags {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .telem-metrics {
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+    }
+
+    /* Dispatch: stack label and terminal */
+    .cell--dispatch {
+      grid-template-columns: 1fr;
+    }
+    .dispatch__label {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+    }
+
+    /* Transmissions: Clean vertical stack */
+    a.cell--tx-row,
+    .cell--tx-row {
+      display: flex;
+      flex-direction: column;
+      grid-template-columns: none;
+      width: 100%;
+    }
+    .cell--tx-inset {
+      margin-left: 0;
+      border-left: none;
+      border-right: none;
+    }
+    .tx__index {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 16px;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      width: 100%;
+    }
+    .tx__body {
+      padding: 14px 16px 8px;
+      width: 100%;
+    }
+    .tx__title {
+      font-size: 1.15rem;
+      line-height: 1.3;
+      margin-bottom: 4px;
+      word-break: break-word;
+    }
+    .tx__desc {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      word-break: break-word;
+    }
+    .tx__link-cell {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 6px 16px 12px;
+      border-left: none;
+      font-size: 12px;
+      color: var(--violet);
+      width: 100%;
+    }
   }
-}
+
+  @media (max-width: 640px) {
+    .cell__hero-body {
+      padding: 22px 16px 18px;
+    }
+    .cell__foot {
+      padding: 8px 16px;
+      flex-direction: column;
+      gap: 4px;
+      opacity: 0.8;
+    }
+    .hero-cta {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+    }
+    .hero-cta .btn,
+    .hero-cta .btn--primary,
+    .hero-cta .btn--ghost {
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+    }
+
+    /* Telemetry on small mobile */
+    .telem-body {
+      grid-template-columns: 1fr;
+    }
+
+    /* Capabilities: 1-column layout */
+    .cell--cap {
+      display: flex;
+      flex-direction: column;
+      grid-template-columns: none;
+    }
+    .cap__num {
+      display: none;
+    }
+    .cap__cat {
+      display: none;
+    }
+    .cap__body {
+      padding: 16px;
+      width: 100%;
+    }
+
+    /* Proj rows */
+    .cell--proj-row {
+      display: flex;
+      flex-direction: column;
+      grid-template-columns: none;
+    }
+    .proj-row__index {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 16px;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
+    .proj-row__body {
+      padding: 14px 16px;
+      width: 100%;
+    }
+    .proj-row__meta {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 16px 12px;
+      border-left: none;
+      border-top: 1px solid var(--border);
+      width: 100%;
+    }
+
+    /* Featured project stacked */
+    .cell--feat-project {
+      display: flex;
+      flex-direction: column;
+      grid-template-columns: none;
+    }
+    .feat__index {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 16px;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
+    .feat__visual {
+      display: none;
+    }
+    .feat__info {
+      padding: 16px;
+      width: 100%;
+    }
+
+    /* Dispatch Terminal */
+    .term__body {
+      padding: 14px 16px;
+    }
+    .term-line {
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+    .term__actions {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 8px;
+    }
+    .term__actions .btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
 </style>

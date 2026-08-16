@@ -2,14 +2,14 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const personSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Manikandan',
-  alternateName: 'manikandanx0',
-  url: new URL('/about/', Astro.site).href,
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Manikandan",
+  alternateName: "manikandanx0",
+  url: new URL("/about/", Astro.site).href,
   sameAs: [
-    'https://github.com/manikandanx0',
-    'https://linkedin.com/in/manikandannx0',
+    "https://github.com/manikandanx0",
+    "https://linkedin.com/in/manikandannx0",
   ],
 };
 ---
@@ -68,9 +68,6 @@ const personSchema = {
             <div class="crosshair ch-tr">+</div>
             <div class="crosshair ch-bl">+</div>
             <div class="crosshair ch-br">+</div>
-            <div class="avatar-overlay-badge">
-              <span class="scan-status">[ SUBJECT MATCH 99.4% ]</span>
-            </div>
           </div>
           <div class="avatar-metadata">
             <div class="meta-row">
@@ -93,7 +90,7 @@ const personSchema = {
           <div class="brief-fields-grid">
             <div class="brief-field">
               <span class="field-lbl">NAME</span>
-              <span class="field-val">Manikandan</span>
+              <span class="field-val">Manikandan V</span>
             </div>
             <div class="brief-field">
               <span class="field-lbl">LOCATION</span>
@@ -118,7 +115,7 @@ const personSchema = {
           <div class="brief-tags">
             <span class="tag tag--filled">Systems Thinking</span>
             <span class="tag">Security Research</span>
-            <span class="tag">Machine Learning</span>
+            <span class="tag">Buildng pipelines</span>
           </div>
         </div>
       </div>
@@ -131,7 +128,7 @@ const personSchema = {
             <div class="cat-head">LANGUAGES</div>
             <div class="tags-row">
               <span class="tag tag--filled">Python</span>
-              <span class="tag">C</span>
+              <span class="tag">Java</span>
               <span class="tag">JavaScript</span>
               <span class="tag">SQL</span>
             </div>
@@ -139,8 +136,9 @@ const personSchema = {
           <div class="skill-category">
             <div class="cat-head">FRAMEWORKS &amp; STACK</div>
             <div class="tags-row">
-              <span class="tag">PyTorch</span>
-              <span class="tag">FastAPI</span>
+              <span class="tag">Django</span>
+              <span class="tag">React</span>
+              <span class="tag">Next JS</span>
               <span class="tag tag--filled">Astro</span>
             </div>
           </div>
@@ -150,7 +148,7 @@ const personSchema = {
               <span class="tag">Linux</span>
               <span class="tag">Docker</span>
               <span class="tag">Git</span>
-              <span class="tag">Ghidra</span>
+              <span class="tag">Nmap</span>
             </div>
           </div>
           <div class="skill-category">
@@ -158,8 +156,9 @@ const personSchema = {
               <span class="comment">&lt;!-- active research --&gt;</span>
             </div>
             <div class="tags-row">
-              <span class="tag tag--learning">Rust</span>
+              <span class="tag tag--learning">ML</span>
               <span class="tag tag--learning">x86 ASM</span>
+              <span class="tag tag--learning">DSA</span>
             </div>
           </div>
         </div>
@@ -180,8 +179,7 @@ const personSchema = {
             <h3 class="edu-heading">CTF &amp; Vulnerability Analysis</h3>
             <p class="edu-sub">Ongoing Practice</p>
             <div class="tags-row" style="margin-top: 8px;">
-              <span class="tag">HackTheBox</span>
-              <span class="tag">PicoCTF</span>
+              <span class="tag">PWN.College</span>
               <span class="tag">TryHackMe</span>
             </div>
           </div>
@@ -276,10 +274,18 @@ const personSchema = {
 
           <div class="comms-security-node">
             <div class="node-head">// SYSTEM PROTOCOLS</div>
-            <div class="node-row"><span>ENCRYPTION</span><strong>AES-256-GCM</strong></div>
-            <div class="node-row"><span>DEPLOYMENT</span><strong class="glow">● ACTIVE NODE</strong></div>
-            <div class="node-row"><span>LATENCY</span><strong>14ms</strong></div>
-            <div class="node-row"><span>HANDSHAKE</span><strong>200 OK</strong></div>
+            <div class="node-row">
+              <span>ENCRYPTION</span><strong>AES-256-GCM</strong>
+            </div>
+            <div class="node-row">
+              <span>DEPLOYMENT</span><strong class="glow">● ACTIVE NODE</strong>
+            </div>
+            <div class="node-row">
+              <span>LATENCY</span><strong>14ms</strong>
+            </div>
+            <div class="node-row">
+              <span>HANDSHAKE</span><strong>200 OK</strong>
+            </div>
           </div>
         </div>
         <div class="bento-card-footer">

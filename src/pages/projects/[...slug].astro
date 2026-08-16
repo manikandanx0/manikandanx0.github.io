@@ -63,9 +63,16 @@ const breadcrumbSchema = {
   <div class="container container--wide page">
 
     <div class="detail-layout g12 anim-up">
-      <!-- post-hero: cols 1-9, primary border -->
+      <!-- post-hero: full width matching navbar -->
       <header class="post-hero">
-        <p class="post-type">// PROJECT FILE</p>
+        <div class="post-hero-head">
+          <p class="post-type">// PROJECT FILE</p>
+          <div class="post-hero-tags">
+            {entry.data.stack.map((t: string) => <span class="tag">{t}</span>)}
+            {entry.data.repoUrl && <a href={entry.data.repoUrl} target="_blank" rel="noopener" class="tag">source ↗</a>}
+            {entry.data.liveUrl && <a href={entry.data.liveUrl} target="_blank" rel="noopener" class="tag tag--filled">live ↗</a>}
+          </div>
+        </div>
         <h1 class="post-title">{entry.data.title}</h1>
         <p class="post-date">
           {entry.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
@@ -73,14 +80,7 @@ const breadcrumbSchema = {
         {entry.data.summary && <p class="post-summary">{entry.data.summary}</p>}
       </header>
 
-      <!-- meta aside: cols 10-12, offset down -->
-      <aside class="post-meta-aside anim-up anim-d1">
-        {entry.data.stack.map((t: string) => <span class="tag">{t}</span>)}
-        {entry.data.repoUrl && <a href={entry.data.repoUrl} target="_blank" rel="noopener" class="tag">source ↗</a>}
-        {entry.data.liveUrl && <a href={entry.data.liveUrl} target="_blank" rel="noopener" class="tag tag--filled">live ↗</a>}
-      </aside>
-
-      <!-- content: cols 1-9, aligned with header -->
+      <!-- content: full width matching navbar -->
       <div class="content-panel anim-up anim-d1">
         <div class="panel-head">Content</div>
         <div class="content-inner prose">

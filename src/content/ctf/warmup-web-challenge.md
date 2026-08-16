@@ -4,7 +4,7 @@ date: 2026-08-07
 event: MiniCTF 2026
 difficulty: easy
 tags: [web, xss, beginner]
-draft: false
+draft: true
 ---
 
 This challenge had a reflected XSS sink hidden behind a weak input filter.

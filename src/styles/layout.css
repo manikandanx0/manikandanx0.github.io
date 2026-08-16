@@ -58,7 +58,7 @@
 /* Match container width tiers on Desktop/Tablet for floating deck */
 @media (min-width: 1025px) {
   .header-inner {
-    max-width: 1104px;
+    max-width: 1232px;
   }
 }
 
@@ -625,8 +625,7 @@ main {
 
 /* ── Post / detail page ──────────────────────────────────── */
 .post-hero {
-  grid-column: 1 / 10;
-  /* cols 1-9, asymmetric */
+  grid-column: 1 / -1;
   border: 1px solid var(--border3);
   background: rgba(10, 10, 20, 0.9);
   padding: 32px;
@@ -646,14 +645,28 @@ main {
   pointer-events: none;
 }
 
-.post-meta-aside {
-  grid-column: 10 / 13;
-  /* cols 10-12, offset */
-  margin-top: 24px;
+.post-hero-head {
   display: flex;
-  flex-direction: column;
-  gap: 5px;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.post-hero-tags {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.post-meta-aside {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
 }
 
 .post-type {
@@ -692,7 +705,7 @@ main {
   color: var(--muted);
   margin-top: 12px;
   line-height: 1.65;
-  max-width: 540px;
+  max-width: 720px;
 }
 
 .post-tags {
@@ -702,8 +715,7 @@ main {
 }
 
 .content-panel {
-  grid-column: 1 / 10;
-  /* same col span as post-hero */
+  grid-column: 1 / -1;
   border: 1px solid var(--border2);
   background: rgba(10, 10, 20, 0.88);
   position: relative;

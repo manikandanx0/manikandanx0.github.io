@@ -243,12 +243,10 @@ a:hover {
   width: 100%;
 }
 
-/* Desktop Tier (> 1024px) — T = 48px */
+/* Desktop Tier (> 1024px) */
 .container--wide {
-  max-width: 1152px;
-  /* 24 x 48px: C/2 = 576px = 12 x 48px */
+  max-width: 1280px;
   padding-inline: 24px;
-  /* Fixed outer boundary padding */
 }
 
 .container {
@@ -815,6 +813,8 @@ a:hover {
   font-size: 15px;
   line-height: 1.9;
   color: var(--text);
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .prose h1,
@@ -851,6 +851,120 @@ a:hover {
 
 .prose a:hover {
   border-color: var(--violet);
+}
+
+/* Linked images & SVGs — remove standard link underline/border */
+.prose a:has(img),
+.prose a:has(svg),
+.prose a > img,
+.prose a > svg {
+  border-bottom: none !important;
+  text-decoration: none !important;
+}
+
+.prose a:has(img),
+.prose a:has(svg) {
+  display: inline-block;
+  max-width: 100%;
+}
+
+.prose a:has(img):hover img,
+.prose a:has(svg):hover svg,
+.prose a > img:hover,
+.prose a > svg:hover {
+  border-color: var(--purple) !important;
+  box-shadow: 0 0 16px rgba(159, 135, 255, 0.35);
+}
+
+/* Media: Images, SVGs, Videos, Pictures, IFrames */
+.prose img,
+.prose svg,
+.prose video,
+.prose iframe,
+.prose picture {
+  max-width: 100%;
+  height: auto;
+  box-sizing: border-box;
+}
+
+.prose img,
+.prose video,
+.prose picture {
+  display: block;
+  margin: 20px 0;
+  border: 1px solid var(--border2);
+  background: rgba(14, 15, 30, 0.6);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.prose svg {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.prose > svg,
+.prose p > svg,
+.prose figure > svg {
+  display: block;
+  margin: 20px 0;
+  max-width: 100%;
+}
+
+/* Figures & Captions */
+.prose figure {
+  margin: 24px 0;
+  max-width: 100%;
+}
+
+.prose figure img,
+.prose figure svg {
+  margin-bottom: 8px;
+}
+
+.prose figcaption,
+.prose p > em,
+.prose p > i {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  color: var(--muted);
+  margin-top: -10px;
+  margin-bottom: 20px;
+  font-style: normal;
+  letter-spacing: 0.5px;
+  opacity: 0.9;
+}
+
+.prose figcaption::before,
+.prose p > em::before,
+.prose p > i::before {
+  content: '▲ ';
+  color: var(--purple);
+  font-size: 0.75em;
+}
+
+/* Tables */
+.prose table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  display: block;
+  overflow-x: auto;
+}
+
+.prose th,
+.prose td {
+  border: 1px solid var(--border2);
+  padding: 8px 12px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.prose th {
+  background: rgba(19, 20, 39, 0.9);
+  color: var(--white);
+  text-align: left;
 }
 
 .prose code {

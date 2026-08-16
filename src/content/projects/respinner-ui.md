@@ -6,7 +6,7 @@ stack: [Astro, TypeScript, CSS]
 repoUrl: https://github.com/manikandanx0/respinner-ui
 liveUrl: https://example.com/respinner-ui
 featured: true
-draft: false
+draft: true
 ---
 
 Respinner UI is a small component showcase with strict visual rhythm.

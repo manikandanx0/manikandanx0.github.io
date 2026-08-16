@@ -38,14 +38,15 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
     <!-- Asymmetric project listing on 12-col grid -->
     <div class="projects-grid g12 anim-up anim-d2">
       {projects.length === 0 && (
-        <article class="card proj-card-a">
+        <article class="card proj-card-a empty-card">
           <div class="card-head">
-            <span>RSP-00</span>
-            <span class="card-head-id">EMPTY</span>
+            <span>RSP-00 // OPERATION</span>
+            <span class="card-head-id">PENDING</span>
           </div>
           <div class="card-preview dot-grid"></div>
           <div class="card-body">
-            <h2 class="card-title">No projects published yet</h2>
+            <h2 class="card-title" style="color: var(--muted); opacity: 0.75;">[ COMING SOON ]</h2>
+            <p class="card-text">No project operations published yet. Engineering projects in progress.</p>
           </div>
         </article>
       )}
