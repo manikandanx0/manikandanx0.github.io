@@ -921,9 +921,7 @@ a:hover {
   margin-bottom: 8px;
 }
 
-.prose figcaption,
-.prose p > em,
-.prose p > i {
+.prose figcaption{
   display: block;
   font-family: var(--font-mono);
   font-size: var(--text-meta);
@@ -934,13 +932,18 @@ a:hover {
   letter-spacing: 0.5px;
   opacity: 0.9;
 }
-
+.
 .prose figcaption::before,
 .prose p > em::before,
 .prose p > i::before {
   content: '▲ ';
   color: var(--purple);
   font-size: 0.75em;
+}
+
+.prose p > em,
+.prose p > i{
+  color: var(--purple);
 }
 
 /* Tables */
