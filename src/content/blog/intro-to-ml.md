@@ -3,7 +3,7 @@ draft: false
 tags:
   - ml
   - basics
-excerpt: A brief introduction to m by google.
+excerpt: A brief introduction to machine learning by google.
 date: 2026-08-17
 title: Intro To Machine Learning
 ---
