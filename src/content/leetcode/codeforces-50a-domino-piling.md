@@ -1,7 +1,7 @@
 ---
 title: Domino piling
 date: 2026-08-25
-problemNumber: 50A
+problemNumber: 
 problemUrl: https://codeforces.com/problemset/problem/50/A
 difficulty: easy
 tags: [greedy, math]
